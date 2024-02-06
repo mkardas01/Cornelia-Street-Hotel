@@ -5,24 +5,19 @@ import {createBrowserRouter, Router, RouterProvider} from 'react-router-dom'
 
 import './index.css'
 
-import HomePage from './components/HomePage'
-import About from './components/About'
-import NotFoundPage from './NotFoundPage'
+import NavBar from './components/NavBar'
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <HomePage />,
-    errorElement: <NotFoundPage />
+    element: <h1> test</h1>
   },
-  {
-    path: '/about',
-    element: <About />,
-  }
+
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
+    <NavBar />
     <RouterProvider router={router} />
   </React.StrictMode>,
 )
