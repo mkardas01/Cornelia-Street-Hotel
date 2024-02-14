@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import { useSpring, animated  } from "@react-spring/web";
 
-import mainPic from "../assets/main.jpg";
-
+import mainPic from "../../public/assets/main.jpg";
+import RoomList from './RoomList';
 
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -12,13 +12,10 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import SendIcon from '@mui/icons-material/Send';
 
 
-
-
 import dayjs from "dayjs";
-
 import "dayjs/locale/pl";
 
-  
+import axios from 'axios';
 
 export default function Home() {
     const [windowHeight, setWindowHeight] = useState(window.innerHeight);
@@ -27,9 +24,12 @@ export default function Home() {
     const [departureDate, setDepartureDate] = useState(dayjs().add(1, 'day'));
 
     const [loading, setLoading] = useState(false);
+    const [rooms, setRooms] = useState([]);
 
     const scrollDownDiv = useRef(null);
- 
+
+    const BASE_URL = "http://localhost:8080/api/";
+
     useEffect(() => {
         const handleResize = () => {
             setWindowHeight(window.innerHeight);
@@ -50,12 +50,24 @@ export default function Home() {
         scrollDownDiv.current?.scrollIntoView({behavior: 'smooth'});
     }
 
-    function handleClick() {
+    const getAvailableRooms = async (startDate, endDate) => {
         setLoading(true);
-        setTimeout(()=>{
-            setLoading(false)
-        }, 2500);
+        try {
+            const response = await axios.get(`${BASE_URL}room/find`, {
+                params: {
+                    startDate: dayjs(startDate).format("YYYY-MM-DD"),
+                    endDate: dayjs(endDate).format("YYYY-MM-DD")
+                }
+            });
+            setRooms(response.data);
+            console.log(response.data);
+        } catch (error) {
+            console.error('Błąd podczas pobierania danych:', error);
+        } finally {
+            setLoading(false);
+        }
     }
+
 
     return (
         <>
@@ -73,69 +85,76 @@ export default function Home() {
 
             </div>
 
-            <div className="bg-gray-100 ">
-                <div className="flex flex-col justify-center items-center text-center py-20 ">
+            {rooms.length === 0 &&
+                <div className="bg-gray-100 ">
+                    <div className="flex flex-col justify-center items-center text-center py-20 ">
 
-                    <div className="space-y-3 px-10 mx-4">
-                        <h1 className="text-5xl font-serif">WITAMY W CORNELIA STREET HOTEL</h1>
-                        <h2 style={{color: '#a29010'}} className="text-xl">gdzie zachwycające słońce Kalifornii spotyka się z niepowtarzalnym stylem i atmosferą. </h2> 
+                        <div className="space-y-3 px-10 mx-4">
+                            <h1 className="text-5xl font-serif">WITAMY W CORNELIA STREET HOTEL</h1>
+                            <h2 style={{color: '#a29010'}} className="text-xl">gdzie zachwycające słońce Kalifornii spotyka się z niepowtarzalnym stylem i atmosferą. </h2>
+                        </div>
+                        <br></br> <br></br>
+
+
+                        <div className=" mx-20 text-center text-xl md:mx-36">
+                            Nasz hotel zaprasza Cię do odkrycia harmonii pomiędzy nowoczesnością a relaksem, oferując unikalne doświadczenia w każdym detalu.
+                        </div>
+
+
                     </div>
-                    <br></br> <br></br>
-                
-                    
-                    <div className=" mx-20 text-center text-xl md:mx-36">
-                        Nasz hotel zaprasza Cię do odkrycia harmonii pomiędzy nowoczesnością a relaksem, oferując unikalne doświadczenia w każdym detalu. 
+
+                    <div className="flex flex-col justify-start items-center space-y-6 text-center px-8 pb-20">
+
+                        <h1 className="text-xl">Zaplanuj swój pobyt razem z nami</h1>
+
+                        <div ref={scrollDownDiv} className="flex flex-col space-y-6 md:flex-row md:space-x-6 md:space-y-0" >
+                            <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pl">
+
+                                <DatePicker
+                                    label="Dzień przyjazdu"
+                                    format="DD/MM/YYYY"
+                                    defaultValue={arrivalDate}
+                                    onChange={(newValue) => setArrivalDate(newValue)}
+                                    disabled={loading}
+                                    disablePast
+                                />
+
+                                <DatePicker
+                                    label="Dzień wyjazdu"
+                                    format="DD/MM/YYYY"
+                                    defaultValue={departureDate}
+                                    value={dayjs(arrivalDate).isAfter(departureDate) ? dayjs(arrivalDate).add(1, 'day') : departureDate}
+                                    minDate={dayjs(arrivalDate).add(1, 'day')}
+                                    onChange={(newValue) => setDepartureDate(newValue)}
+                                    disabled={loading}
+                                    disablePast
+                                />
+
+
+                            </LocalizationProvider>
+
+
+                            <LoadingButton
+                                onClick={() => getAvailableRooms(arrivalDate, departureDate)}
+                                endIcon={<SendIcon />}
+                                loading={loading}
+                                loadingPosition="end"
+                                variant="filled"
+                            >
+                                <span>Wyszukaj</span>
+                            </LoadingButton>
+
+
+                        </div>
+
                     </div>
-
-
                 </div>
+            }
 
-                <div className="flex flex-col justify-start items-center space-y-6 text-center px-8 pb-20">
+            {rooms.length > 0 &&
+                <RoomList rooms={rooms} />
+            }
 
-                    <h1 className="text-xl">Zaplanuj swój pobyt razem z nami</h1>
-
-                    <div ref={scrollDownDiv} className="flex flex-col space-y-6 md:flex-row md:space-x-6 md:space-y-0" >
-                        <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pl">
-
-                            <DatePicker 
-                                label="Dzień przyjazdu" 
-                                format="DD/MM/YYYY" 
-                                defaultValue={arrivalDate}
-                                onChange={(newValue) => setArrivalDate(newValue)}
-                                disabled={loading}
-                                disablePast 
-                            />
-
-                            <DatePicker 
-                                label="Dzień wyjazdu" 
-                                format="DD/MM/YYYY" 
-                                defaultValue={departureDate}
-                                value={dayjs(arrivalDate).isAfter(departureDate) ? dayjs(arrivalDate).add(1, 'day') : departureDate}
-                                minDate={dayjs(arrivalDate).add(1, 'day')}
-                                onChange={(newValue) => setDepartureDate(newValue)}
-                                disabled={loading}
-                                disablePast 
-                            />
-
-
-                        </LocalizationProvider>
-
-
-                        <LoadingButton
-                            onClick={handleClick}
-                            endIcon={<SendIcon />}
-                            loading={loading}
-                            loadingPosition="end"
-                            variant="filled"
-                        >
-                            <span>Wyszukaj</span>
-                        </LoadingButton>
-
-                    
-                    </div>
-                
-                </div>
-            </div>
 
         </>
     );
