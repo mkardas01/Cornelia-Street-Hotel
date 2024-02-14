@@ -10,11 +10,12 @@ import './index.css'
 
 import NavBar from './components/NavBar'
 import Home from './components/Home'
+import RoomList from "./components/RoomList.jsx";
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Home />
+    element: <RoomList />
   },
 
 ]);
