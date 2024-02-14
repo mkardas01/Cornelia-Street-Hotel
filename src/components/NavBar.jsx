@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { useTransition,useSpring, animated } from "@react-spring/web";
-import logo from "../assets/logo.jpg";
+import { useTransition,useSpring, animated, config } from "@react-spring/web";
+import { duration } from "@mui/material";
 
 function AnimatedSpan ({children, action}) {
     const [props, set] = useSpring(() => ({
@@ -23,10 +23,14 @@ function AnimatedSpan ({children, action}) {
 };
 
 
+
+
+
 export default function NavBar() {
 
     const [isOpen, setIsOpen] = useState(false);
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 820);
+    const [navBarColor, setNavBarColor] = useState(window.scrollY > window.innerHeight ? "#2d2d33" : "transparent");
 
     const options = ['O nas', 'Twoje rezerwacje', 'Kontakt']
 
@@ -40,7 +44,24 @@ export default function NavBar() {
         leave: { x: 0, y: -200, opacity: 0, borderRadius: '10%'},
         config: {duration: 500}
     });
+
+    const AnimatedNavbarColor = useSpring({
+        backgroundColor: navBarColor,
+        config: {duration: 400},
+        });
+
     
+    useEffect(() => {
+        const handleResizeY = () => {
+            let color = window.scrollY >= window.innerHeight-100 ? "#2d2d33" : "transparent";
+            setNavBarColor(color);
+
+        };
+    
+        window.addEventListener("scroll", handleResizeY);
+        return () => window.removeEventListener("scroll", handleResizeY);
+    
+    }, []);
     
 
     useEffect(() => {
@@ -54,6 +75,8 @@ export default function NavBar() {
             window.removeEventListener("resize", handleResize);
         };
     }, []);
+
+   
 
     return (
         <>
@@ -87,7 +110,7 @@ export default function NavBar() {
             )}
 
             {!isMobile && (
-                <div style={{}} className="text-white h-20 fixed top-0 w-full z-10">
+                <animated.div style={{...AnimatedNavbarColor}} className="text-white h-20 fixed top-0 w-full z-10">
                         <div className="h-full flex justify-end items-center space-x-6 font-bold mx-8">
                             {options.map((option, index) => (
                                 <AnimatedSpan key={index}>
@@ -95,7 +118,7 @@ export default function NavBar() {
                                 </AnimatedSpan>
                             ))}
                         </div>
-                </div>
+                </animated.div>
             )}
 
         </>
