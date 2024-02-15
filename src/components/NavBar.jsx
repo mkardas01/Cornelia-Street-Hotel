@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { useTransition,useSpring, animated, config } from "@react-spring/web";
-import { duration } from "@mui/material";
 
 function AnimatedSpan ({children, action}) {
     const [props, set] = useSpring(() => ({
@@ -20,10 +19,7 @@ function AnimatedSpan ({children, action}) {
             {children}
         </animated.span>
     );
-};
-
-
-
+}
 
 
 export default function NavBar() {

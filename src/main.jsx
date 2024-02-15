@@ -15,7 +15,7 @@ import RoomList from "./components/RoomList.jsx";
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <RoomList />
+    element: <Home />
   },
 
 ]);
