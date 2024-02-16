@@ -10,12 +10,12 @@ export default function RoomList({rooms, setShowRoom, setShowDatePicker, days}) 
             {
                 rooms.map(room => (
                         <div  key={room.id}
-                                      className="mx-auto flex flex-col justify-center w-3/4 h-fit md:flex-row mt-20 md:max-h-72">
+                                      className="mx-auto flex flex-col justify-center w-3/4 h-fit mt-20 mb-20 md:flex-row  md:max-h-72">
                             {/*img*/}
                             <div className="md:w-1/2">
                                 <img
                                     className="h-64 w-full object-cover rounded-t-3xl md:h-full md:rounded-tr-none md:rounded-l-3xl"
-                                    src={'../public/assets/' + room.picPath} alt="image"/>
+                                    src={'assets/' + room.picPath} alt="image"/>
                             </div>
 
                             <div
