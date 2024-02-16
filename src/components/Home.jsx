@@ -16,7 +16,8 @@ import dayjs from "dayjs";
 import "dayjs/locale/pl";
 
 import axios from 'axios';
-import ErrorBar from "./ErrorBar.jsx";
+import NotificationBar from "./NotificationBar.jsx";
+
 
 export default function Home() {
     const [windowHeight, setWindowHeight] = useState(window.innerHeight);
@@ -24,19 +25,23 @@ export default function Home() {
     const [arrivalDate, setArrivalDate] = useState(dayjs());
     const [departureDate, setDepartureDate] = useState(dayjs().add(1, 'day'));
 
-    const [loading, setLoading] = useState(false);
     const [rooms, setRooms] = useState([]);
     const [showRoom, setShowRoom] = useState(false);
+    
     const [showDatePicker, setShowDatePicker] = useState(true);
+    
     const [days, setDays] = useState(0);
-    const [errorMessage, setErrorMessage] = useState("");
+    
+    const [notificationMessage, setNotificationMessage] = useState("");
+    const [notificationType, setNotificationType] = useState("error");
+    const [openNotificationBar, setOpenNotificationBar] = useState(false);
+
+    const [loading, setLoading] = useState(false);
+    const [disableButton, setDisableButton] = useState(false);
 
     const scrollDownDiv = useRef(null);
 
     const BASE_URL = "http://localhost:8080/api/";
-
-
-    const [openErrorBar, setOpenErrorBar] = useState(false);
 
     useEffect(() => {
         const handleResize = () => {
@@ -46,6 +51,33 @@ export default function Home() {
         return () => window.removeEventListener("resize", handleResize);
     }, []);
 
+    useEffect(() => {
+
+        if(arrivalDate.isAfter(departureDate)){
+            
+            setNotificationMessage("Data przyjazdu musi być wcześniejsza niż data wyjazdu");
+            setNotificationType("error");
+            setOpenNotificationBar(true);
+            setDisableButton(true);
+
+        }else if (arrivalDate.startOf('day').isBefore(dayjs().startOf('day'))) {
+            setNotificationMessage("Data nie może być z przeszłości");
+            setNotificationType("error");
+            setOpenNotificationBar(true);
+            setDisableButton(true);
+        }else if(!arrivalDate.isValid() || !departureDate.isValid()){
+            setNotificationMessage("Wprowadzono niepoprawny format day");
+            setNotificationType("error");
+            setOpenNotificationBar(true);
+            setDisableButton(true);
+        }
+        else{
+            setDisableButton(false);
+        }
+
+
+
+    }, [arrivalDate, departureDate]);
 
     const arrowAnimation = useSpring({
         loop: {reverse:true},
@@ -59,7 +91,7 @@ export default function Home() {
     }
 
     const getAvailableRooms = async (startDate, endDate) => {
-        setLoading(true);
+
         try {
             const response = await axios.get(`${BASE_URL}room/find`, {
                 params: {
@@ -67,19 +99,24 @@ export default function Home() {
                     endDate: dayjs(endDate).format("YYYY-MM-DD")
                 }
             });
+
             if (response.data.length !== 0 ){
                 setRooms(response.data);
                 setShowRoom(true);
                 setShowDatePicker(false)
                 setDays(dayjs(endDate).diff(startDate, 'days'))
+                setNotificationType("success");
+                setNotificationMessage("Znaleźliśmy dla Państwa ofertę");
+                setOpenNotificationBar(true);
             }else{
-                setOpenErrorBar(true)
-                setErrorMessage("Brak dostępnych pokoi w tym terminie");
+                setNotificationType("error");
+                setNotificationMessage("Brak dostępnych pokoi w tym terminie");
+                setOpenNotificationBar(true);
             }
 
         } catch (error) {
-            setOpenErrorBar(true);
-            setErrorMessage("Bład w czasie pobierania danych. Spróbuj ponownie później");
+            setOpenNotificationBar(true);
+            setNotificationMessage(error.response.data.message);
         } finally {
             setLoading(false);
         }
@@ -103,7 +140,7 @@ export default function Home() {
     return (
         <>
 
-            <ErrorBar errorMessage={errorMessage} open={openErrorBar} setOpen={setOpenErrorBar}/>
+            <NotificationBar type={notificationType} notificationMessage={notificationMessage} open={openNotificationBar} setOpen={setOpenNotificationBar}/>
 
             <div  style={{ height: windowHeight, backgroundImage: `url(${mainPic})`, backgroundSize: 'cover',  }} 
                 className="flex justify-center items-center " >
@@ -149,7 +186,12 @@ export default function Home() {
                                             label="Dzień przyjazdu"
                                             format="DD/MM/YYYY"
                                             defaultValue={arrivalDate}
-                                            onChange={(newValue) => setArrivalDate(newValue)}
+                                            onChange={(newValue) => {
+                                                setArrivalDate(newValue);
+                                                if (newValue.isAfter(departureDate)) {
+                                                    setDepartureDate(newValue.add(1, 'day'));
+                                                }
+                                            }}
                                             disabled={loading}
                                             disablePast
                                         />
@@ -158,7 +200,7 @@ export default function Home() {
                                             label="Dzień wyjazdu"
                                             format="DD/MM/YYYY"
                                             defaultValue={departureDate}
-                                            value={dayjs(arrivalDate).isAfter(departureDate) ? dayjs(arrivalDate).add(1, 'day') : departureDate}
+                                            value={departureDate}
                                             minDate={dayjs(arrivalDate).add(1, 'day')}
                                             onChange={(newValue) => setDepartureDate(newValue)}
                                             disabled={loading}
@@ -175,6 +217,7 @@ export default function Home() {
                                         loading={loading}
                                         loadingPosition="end"
                                         variant="filled"
+                                        disabled={disableButton}
                                     >
                                         <span>Wyszukaj</span>
                                     </LoadingButton>
