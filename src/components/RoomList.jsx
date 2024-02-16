@@ -1,6 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {faArrowLeft, faArrowRight, faDoorOpen, faTag, faUser} from "@fortawesome/free-solid-svg-icons";
 import {Button} from "@mui/material";
+import {Link} from "react-router-dom";
 
 // eslint-disable-next-line react/prop-types
 export default function RoomList({rooms, setShowRoom, setShowDatePicker, days}) {
@@ -36,9 +37,12 @@ export default function RoomList({rooms, setShowRoom, setShowDatePicker, days}) 
                                     </div>
                                     {/* przycisk */}
                                     <div className="flex justify-center">
-                                        <Button variant="filled" endIcon={<FontAwesomeIcon icon={faArrowRight}/>}>
-                                            Wybierz
-                                        </Button>
+
+                                        <Link to={{ pathname: '/bookRoom/'+room.id }}>
+                                            <Button variant="filled" endIcon={<FontAwesomeIcon icon={faArrowRight}/>}>
+                                                Wybierz
+                                            </Button>
+                                        </Link>
                                     </div>
                                 </div>
                             </div>
