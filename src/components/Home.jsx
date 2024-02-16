@@ -91,7 +91,7 @@ export default function Home() {
     }
 
     const getAvailableRooms = async (startDate, endDate) => {
-
+        setLoading(true);
         try {
             const response = await axios.get(`${BASE_URL}room/find`, {
                 params: {
@@ -116,7 +116,8 @@ export default function Home() {
 
         } catch (error) {
             setOpenNotificationBar(true);
-            setNotificationMessage(error.response.data.message);
+            setNotificationMessage(error?.response?.data?.message ? error.response.data.message : "Przepraszamy wystąpił błąd w trakcie komunikacji z serwerem");
+
         } finally {
             setLoading(false);
         }
