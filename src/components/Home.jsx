@@ -143,9 +143,9 @@ export default function Home() {
 
             <NotificationBar type={notificationType} notificationMessage={notificationMessage} open={openNotificationBar} setOpen={setOpenNotificationBar}/>
 
-            <div  style={{ height: windowHeight, backgroundImage: `url(${mainPic})`, backgroundSize: 'cover',  }} 
+            <div  style={{ height: windowHeight, backgroundImage: `url(${mainPic})`, backgroundSize: 'cover',  }}
                 className="flex justify-center items-center " >
-                <h1 className="text-white  text-center font-serif drop-shadow-2xl p-10 w-full text-6xl md:text-8xl" style={{backdropFilter: "brightness(60%)"}} >Cornelia Street Hotel</h1>
+                <h1 className="text-white text-center font-serif drop-shadow-2xl p-10 w-full text-6xl md:text-8xl" style={{backdropFilter: "brightness(60%)"}} >Cornelia Street Hotel</h1>
 
                 <animated.div style={arrowAnimation} className="absolute bottom-0 flex justify-center cursor-pointer p-12" onClick={scrollDown}>
                     <div className="w-1 h-8 absolute  bottom-0 mr-5 border-solid border-2 border-gray-500 -rotate-45"></div>

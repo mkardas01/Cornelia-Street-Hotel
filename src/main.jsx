@@ -10,7 +10,6 @@ import './index.css'
 
 import NavBar from './components/NavBar'
 import Home from './components/Home'
-import RoomList from "./components/RoomList.jsx";
 import BookRoom from "./components/BookRoom.jsx";
 const router = createBrowserRouter([
   {
@@ -18,7 +17,7 @@ const router = createBrowserRouter([
     element: <Home />
   },
   {
-    path: '/bookRoom',
+    path: '/bookRoom/:id',
     element: <BookRoom />
   }
 
