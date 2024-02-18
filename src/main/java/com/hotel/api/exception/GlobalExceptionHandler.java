@@ -15,7 +15,7 @@ import java.util.Map;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler({BookRoomDateException.class, ReservationException.class, ReservationDateException.class})
-    public ResponseEntity<ErrorObject> handleException(BookRoomDateException ex){
+    public ResponseEntity<ErrorObject> handleException(Exception ex){
         ErrorObject errorObject = new ErrorObject();
 
         errorObject.setStatusCode(HttpStatus.BAD_REQUEST.value());
