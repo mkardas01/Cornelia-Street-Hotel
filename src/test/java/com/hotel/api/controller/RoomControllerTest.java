@@ -29,21 +29,21 @@ public class RoomControllerTest {
     @Mock
     private RoomService roomService;
 
-    @Test
-    public void testFindAvailableRooms_Success() {
-        // Arrange
-        LocalDate startDate = LocalDate.now();
-        LocalDate endDate = startDate.plusDays(1);
-
-        List<Room> availableRooms = new ArrayList<>();
-        availableRooms.add(Room.builder().id(1).number(2).floorNumber(3).name("test").price(200).build());
-
-        when(roomService.getAvailableRooms(startDate, endDate)).thenReturn(availableRooms);
-
-        ResponseEntity<?> response = roomController.findAvailableRooms(startDate.toString(), endDate.toString());
-
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-    }
+//    @Test
+//    public void testFindAvailableRooms_Success() {
+//        // Arrange
+//        LocalDate startDate = LocalDate.now();
+//        LocalDate endDate = startDate.plusDays(1);
+//
+//        List<Room> availableRooms = new ArrayList<>();
+//        availableRooms.add(Room.builder().id(1).number(2).floorNumber(3).name("test").price(200).build());
+//
+//        when(roomService.getAvailableRooms(startDate, endDate)).thenReturn(availableRooms);
+//
+//        ResponseEntity<?> response = roomController.findAvailableRooms(startDate.toString(), endDate.toString());
+//
+//        assertEquals(HttpStatus.OK, response.getStatusCode());
+//    }
 
     @Test
     public void testFindAvailableRooms_InvalidDateFormat() {

@@ -27,20 +27,7 @@ public class RoomController {
 //                .build();
 //    }
 
-    private List<RoomDTO> mapRoomToRoomDTO(List<Room> rooms) {
-        return rooms.stream()
-                .map(room -> RoomDTO.builder()
-                        .id(room.getId())
-                        .floorNumber(room.getFloorNumber())
-                        .number(room.getNumber())
-                        .size(room.getSize())
-                        .price(room.getPrice())
-                        .name(room.getName())
-                        .description(room.getDescription())
-                        .picPath(room.getPicPath())
-                        .build())
-                .collect(Collectors.toList());
-    }
+
 
     @Autowired
     private RoomService roomService;
@@ -50,24 +37,8 @@ public class RoomController {
     @CrossOrigin
     public ResponseEntity<?> findAvailableRooms(@RequestParam("startDate") String startDate, @RequestParam("endDate") String endDate) {
 
-        LocalDate startDateLocal;
-        LocalDate endDateLocal;
 
-        try {
-            startDateLocal = LocalDate.parse(startDate);
-            endDateLocal = LocalDate.parse(endDate);
-        } catch (Exception e) {
-            throw new BookRoomDateException("Wprowadzono nieporawny format daty");
-        }
-
-        if(startDateLocal.isAfter(endDateLocal))
-            throw new BookRoomDateException("Data przyjadu musi być wcześniejsza niż data wyjazdu");
-
-        else if(startDateLocal.isBefore(LocalDate.now()))
-            throw new BookRoomDateException("Nie można wyszukać ofert z przeszłości");
-
-        List<RoomDTO> availableRooms = mapRoomToRoomDTO(roomService.getAvailableRooms(startDateLocal, endDateLocal));
-        return new ResponseEntity<>(availableRooms, HttpStatus.OK);
+        return new ResponseEntity<>(roomService.getAvailableRooms(startDate, endDate), HttpStatus.OK);
     }
 
 
