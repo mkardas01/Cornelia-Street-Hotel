@@ -6,14 +6,12 @@ import com.hotel.api.exception.BookRoomDateException;
 import com.hotel.api.model.Room;
 import com.hotel.api.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.core.Local;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,15 +19,15 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/room")
 public class RoomController {
 
-    private Room mapToPost(NewRoomDTO roomDTO){
-        return Room.builder()
-                .floorNumber(roomDTO.getFloorNumber())
-                .size(roomDTO.getSize())
-                .number(roomDTO.getNumber())
-                .build();
-    }
+//    private Room mapNewRoomDTOToRoom(NewRoomDTO roomDTO){
+//        return Room.builder()
+//                .floorNumber(roomDTO.getFloorNumber())
+//                .size(roomDTO.getSize())
+//                .number(roomDTO.getNumber())
+//                .build();
+//    }
 
-    private List<RoomDTO> mapToPostDTO(List<Room> rooms) {
+    private List<RoomDTO> mapRoomToRoomDTO(List<Room> rooms) {
         return rooms.stream()
                 .map(room -> RoomDTO.builder()
                         .id(room.getId())
@@ -65,18 +63,20 @@ public class RoomController {
         if(startDateLocal.isAfter(endDateLocal))
             throw new BookRoomDateException("Data przyjadu musi być wcześniejsza niż data wyjazdu");
 
-        if(startDateLocal.isBefore(LocalDate.now()))
+        else if(startDateLocal.isBefore(LocalDate.now()))
             throw new BookRoomDateException("Nie można wyszukać ofert z przeszłości");
 
-        List<RoomDTO> availableRooms = mapToPostDTO(roomService.getAvailableRooms(startDateLocal, endDateLocal));
+        List<RoomDTO> availableRooms = mapRoomToRoomDTO(roomService.getAvailableRooms(startDateLocal, endDateLocal));
         return new ResponseEntity<>(availableRooms, HttpStatus.OK);
     }
 
-    @PostMapping("/add")
-    public ResponseEntity<?> addNewRoom(@Valid @RequestBody NewRoomDTO roomDTO){
 
-        return new ResponseEntity<>(roomService.createRoom(mapToPost(roomDTO)), HttpStatus.CREATED);
-    }
+//
+//    @PostMapping("/add")
+//    public ResponseEntity<?> addNewRoom(@Valid @RequestBody NewRoomDTO roomDTO){
+//
+//        return new ResponseEntity<>(roomService.createRoom(mapNewRoomDTOToRoom(roomDTO)), HttpStatus.CREATED);
+//    }
 
 
 }
