@@ -43,6 +43,8 @@ export default function Home() {
 
     const BASE_URL = "http://localhost:8080/api/";
 
+    dayjs.locale('pl');
+
     useEffect(() => {
         const handleResize = () => {
             setWindowHeight(window.innerHeight);
@@ -234,7 +236,7 @@ export default function Home() {
                 {transitionRooms(
                     (styles, item) => item &&
                         <animated.div style={styles} >
-                            <RoomList rooms={rooms} showRoom={showRoom} setShowRoom={setShowRoom} setShowDatePicker={setShowDatePicker} days={days}/>
+                            <RoomList rooms={rooms} showRoom={showRoom} setShowRoom={setShowRoom} setShowDatePicker={setShowDatePicker} days={days} startDate={arrivalDate} endDate={departureDate}/>
                         </animated.div>
                 )}
             </div>

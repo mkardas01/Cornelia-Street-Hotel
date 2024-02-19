@@ -1,5 +1,12 @@
 import { useState, useEffect } from "react";
 import { useTransition,useSpring, animated} from "@react-spring/web";
+import PropTypes from 'prop-types';
+
+
+AnimatedSpan.propTypes = {
+    children: PropTypes.node.isRequired,
+    action: PropTypes.func,
+};
 
 function AnimatedSpan ({children, action}) {
     const [props, set] = useSpring(() => ({

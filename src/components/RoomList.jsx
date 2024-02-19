@@ -1,10 +1,31 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {faArrowLeft, faArrowRight, faDoorOpen, faTag, faUser} from "@fortawesome/free-solid-svg-icons";
 import {Button} from "@mui/material";
-import {Link} from "react-router-dom";
+import {NavLink} from 'react-router-dom';
+import PropTypes from 'prop-types';
 
-// eslint-disable-next-line react/prop-types
-export default function RoomList({rooms, setShowRoom, setShowDatePicker, days}) {
+RoomList.propTypes = {
+    rooms: PropTypes.arrayOf(
+        PropTypes.shape({
+            id: PropTypes.number.isRequired,
+            picPath: PropTypes.string.isRequired,
+            name: PropTypes.string.isRequired,
+            description: PropTypes.string.isRequired,
+            size: PropTypes.number.isRequired,
+            number: PropTypes.number.isRequired,
+            price: PropTypes.number.isRequired,
+        })
+    ).isRequired,
+    setShowRoom: PropTypes.func.isRequired,
+    setShowDatePicker: PropTypes.func.isRequired,
+    days: PropTypes.number.isRequired,
+    startDate: PropTypes.object.isRequired,
+    endDate: PropTypes.object.isRequired
+};
+
+
+export default function RoomList({rooms, setShowRoom, setShowDatePicker, days, startDate, endDate}) {
+
 
     return (
         <>
@@ -38,11 +59,11 @@ export default function RoomList({rooms, setShowRoom, setShowDatePicker, days}) 
                                     {/* przycisk */}
                                     <div className="flex justify-center">
 
-                                        <Link to={{ pathname: '/bookRoom/'+room.id }}>
+                                        <NavLink to={{ pathname: '/bookRoom/'+room.id}} state={{room, startDate, endDate, days}}>
                                             <Button variant="filled" endIcon={<FontAwesomeIcon icon={faArrowRight}/>}>
                                                 Wybierz
                                             </Button>
-                                        </Link>
+                                        </NavLink>
                                     </div>
                                 </div>
                             </div>
