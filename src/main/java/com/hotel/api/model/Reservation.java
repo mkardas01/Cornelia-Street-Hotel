@@ -29,6 +29,9 @@ public class Reservation {
     private String email;
 
     @Column(nullable = false)
+    private String phone;
+
+    @Column(nullable = false)
     private LocalDate startDate;
 
     @Column(nullable = false)
