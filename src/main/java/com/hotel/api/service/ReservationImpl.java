@@ -43,6 +43,10 @@ public class ReservationImpl implements ReservationService{
             throw new ReservationException("Wystąpił błąd w czasie rezerwacji");
         }
 
+        if(reservationDTO.getPhone().charAt(0) == '0'){
+            throw new ReservationException("Wprowadzono nieprawidłowy numer telefonu");
+        }
+
         LocalDate startDate;
         LocalDate endDate;
 
@@ -68,6 +72,7 @@ public class ReservationImpl implements ReservationService{
                     .name(reservationDTO.getName())
                     .surname(reservationDTO.getSurname())
                     .email(reservationDTO.getEmail())
+                    .phone(reservationDTO.getPhone())
                     .startDate(startDate)
                     .endDate(endDate)
                     .reservationNumber(UUID.randomUUID().toString().substring(0, 6))
