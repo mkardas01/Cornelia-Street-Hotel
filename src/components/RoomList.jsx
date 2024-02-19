@@ -76,8 +76,7 @@ export default function RoomList({rooms, setShowRoom, setShowDatePicker, days, s
                  onClick={() => {
                      setShowRoom(false)
                      setShowDatePicker(true)
-                 }}
-            >
+                 }}>
                     <span className="space-y-2 text-5xl" >
                         <FontAwesomeIcon icon={faArrowLeft} style={{color: "#ffffff"}} />
                     </span>

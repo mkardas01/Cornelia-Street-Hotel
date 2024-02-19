@@ -117,6 +117,7 @@ export default function Home() {
             }
 
         } catch (error) {
+            setNotificationType("error");
             setOpenNotificationBar(true);
             setNotificationMessage(error?.response?.data?.message ? error.response.data.message : "Przepraszamy wystąpił błąd w trakcie komunikacji z serwerem");
 
