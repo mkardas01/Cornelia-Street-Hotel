@@ -11,6 +11,7 @@ import './index.css'
 import NavBar from './components/NavBar'
 import Home from './components/Home'
 import BookRoom from "./components/BookRoom.jsx";
+
 const router = createBrowserRouter([
   {
     path: '/',
@@ -28,4 +29,5 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <NavBar />
     <RouterProvider router={router} />
   </React.StrictMode>,
+
 )
