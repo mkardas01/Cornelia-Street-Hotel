@@ -1,10 +1,10 @@
 import mainPic from "/assets/bookRoom.jpg";
 import {TextField, Checkbox, FormControlLabel, FormHelperText } from "@mui/material";
 import {useState} from "react";
-import {NavLink} from 'react-router-dom';
 import SendIcon from "@mui/icons-material/Send.js";
 import LoadingButton from "@mui/lab/LoadingButton";
 
+import {BackHome} from "./BackHome.jsx";
 import {motion} from "framer-motion";
 
 import {useLocation, useParams} from 'react-router-dom';
@@ -324,14 +324,8 @@ export default function BookRoom( props ) {
                 }
 
             </div>
-            <NavLink to={{pathname: '/'}} >
-                <div style={{backgroundColor: '#2d2d33'}} className="flex flex-col justify-center items-center rounded-full w-12 h-12
-                                                                     p-10 fixed bottom-2 right-2 z-10 hover:cursor-pointer">
-                    <span className="space-y-2 text-5xl" >
-                        <FontAwesomeIcon icon={faArrowLeft} style={{color: "#ffffff"}}/>
-                    </span>
-                </div>
-            </NavLink>
+
+                <BackHome />
 
             </motion.div>
         </>
