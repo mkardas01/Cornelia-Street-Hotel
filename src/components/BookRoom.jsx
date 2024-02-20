@@ -29,7 +29,7 @@ export default function BookRoom( props ) {
     const startDate = useLocation().state.startDate;
     const endDate = useLocation().state.endDate;
     const days = useLocation().state.days;
-
+    console.log(room, startDate, endDate, days);
     dayjs.locale('pl');
 
     const [name, setName] = useState('');
@@ -71,8 +71,8 @@ export default function BookRoom( props ) {
                     email: email,
                     phone: phone,
                     roomID: parseInt(id),
-                    startDate: startDate.format("YYYY-MM-DD"),
-                    endDate: endDate.format("YYYY-MM-DD")
+                    startDate: startDate,
+                    endDate: dendDate
                 },
                 {
                     headers: {
@@ -227,9 +227,9 @@ export default function BookRoom( props ) {
 
                             <div>
                                 <p className="font-semibold flex justify-between">
-                                    <span>{startDate.format("DD MMM YYYY")}</span>
+                                    <span>{dayjs(startDate).format("DD MMM YYYY")}</span>
                                     <span><FontAwesomeIcon icon={faArrowRight}/></span>
-                                    <span>{endDate.format("DD MMM YYYY")}</span>
+                                    <span>{dayjs(endDate).format("DD MMM YYYY")}</span>
                                 </p>
                             </div>
 
