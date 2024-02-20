@@ -5,6 +5,8 @@ import {NavLink} from 'react-router-dom';
 import SendIcon from "@mui/icons-material/Send.js";
 import LoadingButton from "@mui/lab/LoadingButton";
 
+import {motion} from "framer-motion";
+
 import {useLocation, useParams} from 'react-router-dom';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -140,9 +142,14 @@ export default function BookRoom( props ) {
             <NotificationBar type={notificationType} notificationMessage={notificationMessage}
                              open={openNotificationBar} setOpen={setOpenNotificationBar}/>
 
+            <motion.div
+                initial={{opacity:0}}
+                animate={{opacity:1}}
+                transition={{duration: 0.8, ease: "easeIn", delay: 0.2}}
+            >
 
             <div style={{backgroundImage: `url(${mainPic})`}}
-                 className="flex flex-col justify-center items-center bg-cover bg-center w-full h-screen">
+                 className="flex flex-col justify-center items-center bg-cover bg-center w-full h-fit md:h-screen">
                 {!bookingResults &&
                     <div
                         className="flex flex-col justify-center items-center my-32 space-y-5 w-screen h-fit md:flex-row md:space-x-5 md:space-y-0">
@@ -165,7 +172,7 @@ export default function BookRoom( props ) {
                                 />
 
                                 <TextField
-                                    id="outlined-basic"
+                                    id="fSurName"
                                     onChange={(e) => {
                                         setSurname(e.target.value);
                                         setSurnameError('')
@@ -179,7 +186,7 @@ export default function BookRoom( props ) {
 
 
                                 <TextField
-                                    id="outlined-basic"
+                                    id="fEmail"
                                     onChange={(e) => {
                                         setEmail(e.target.value);
                                         setEmailError('')
@@ -192,7 +199,7 @@ export default function BookRoom( props ) {
                                 />
 
                                 <TextField
-                                    id="outlined-basic"
+                                    id="fPhone"
                                     onChange={(e) => handlePhoneNumber(e)}
                                     value={phone}
                                     label="Telefon"
@@ -264,8 +271,12 @@ export default function BookRoom( props ) {
                     </div>
                 }
                 {bookingResults &&
-                    <div
-                        className="flex flex-col justify-center items-center my-32 space-y-5 w-screen h-fit md:flex-row md:space-x-5 md:space-y-0">
+                    <motion.div
+                        className="flex flex-col justify-center items-center my-32 space-y-5 w-screen h-fit md:flex-row md:space-x-5 md:space-y-0"
+                        initial={{opacity:0}}
+                        animate={{opacity:1}}
+                        transition={{duration: 0.8, ease: "easeIn", delay: 0.2}}
+                    >
 
                         <div
                             className="flex flex-col bg-white w-3/4 space-y-2 rounded-3xl p-10 md:w-1/2  min-h-full">
@@ -308,7 +319,7 @@ export default function BookRoom( props ) {
                                 powyżej danych prosimy o kontakt</h2>
                         </div>
 
-                    </div>
+                    </motion.div>
 
                 }
 
@@ -322,6 +333,7 @@ export default function BookRoom( props ) {
                 </div>
             </NavLink>
 
+            </motion.div>
         </>
 
     );
