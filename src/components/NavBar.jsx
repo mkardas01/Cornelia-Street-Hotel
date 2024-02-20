@@ -35,7 +35,7 @@ export default function NavBar() {
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 820);
     const [navBarColor, setNavBarColor] = useState(window.scrollY > window.innerHeight ? "#2d2d33" : "transparent");
 
-    const options = ['O nas', 'Twoje rezerwacje', 'Kontakt']
+    const options = ['O nas', 'Twoje rezerwacje', 'Zaloguj się']
 
     const toggleNavbar = () => {
         setIsOpen(!isOpen);

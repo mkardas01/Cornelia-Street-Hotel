@@ -45,7 +45,6 @@ function Arrow({ scrollDown }) {
 
 
 export default function Home() {
-    const [windowHeight, setWindowHeight] = useState(window.innerHeight);
 
     const [arrivalDate, setArrivalDate] = useState(dayjs());
     const [departureDate, setDepartureDate] = useState(dayjs().add(1, 'day'));
@@ -70,14 +69,6 @@ export default function Home() {
     const BASE_URL = "http://localhost:8080/api/";
 
     dayjs.locale('pl');
-
-    useEffect(() => {
-        const handleResize = () => {
-            setWindowHeight(window.innerHeight);
-        };
-        window.addEventListener("resize", handleResize);
-        return () => window.removeEventListener("resize", handleResize);
-    }, []);
 
     useEffect(() => {
 
@@ -158,9 +149,9 @@ export default function Home() {
                 transition={{duration: 1, ease: "easeIn"}}
             >
 
+                <div style={{backgroundImage: `url(${mainPic})`, backgroundSize: 'cover',}}
 
-                <div style={{height: windowHeight, backgroundImage: `url(${mainPic})`, backgroundSize: 'cover',}}
-                     className="flex justify-center items-center ">
+                     className="flex justify-center items-center h-screen">
 
                     <h1 className="text-white text-center font-serif drop-shadow-2xl p-10 w-full text-6xl md:text-8xl"
                         style={{backdropFilter: "brightness(60%)"}}>Cornelia Street Hotel</h1>
