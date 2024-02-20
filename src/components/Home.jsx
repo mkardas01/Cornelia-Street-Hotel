@@ -1,10 +1,9 @@
 import { useState, useEffect, useRef } from "react";
-import {animated, useTransition} from "@react-spring/web";
 
 import mainPic from "/assets/main.jpg";
 import RoomList from './RoomList';
 
-import {animationControls, motion, useAnimation, useInView} from "framer-motion";
+import { motion} from "framer-motion";
 
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
