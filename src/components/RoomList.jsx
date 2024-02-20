@@ -1,21 +1,43 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {faArrowLeft, faArrowRight, faDoorOpen, faTag, faUser} from "@fortawesome/free-solid-svg-icons";
 import {Button} from "@mui/material";
+import {NavLink} from 'react-router-dom';
+import PropTypes from 'prop-types';
 
-// eslint-disable-next-line react/prop-types
-export default function RoomList({rooms, setShowRoom, setShowDatePicker, days}) {
+RoomList.propTypes = {
+    rooms: PropTypes.arrayOf(
+        PropTypes.shape({
+            id: PropTypes.number.isRequired,
+            picPath: PropTypes.string.isRequired,
+            name: PropTypes.string.isRequired,
+            description: PropTypes.string.isRequired,
+            size: PropTypes.number.isRequired,
+            number: PropTypes.number.isRequired,
+            price: PropTypes.number.isRequired,
+        })
+    ).isRequired,
+    setShowRoom: PropTypes.func.isRequired,
+    setShowDatePicker: PropTypes.func.isRequired,
+    days: PropTypes.number.isRequired,
+    startDate: PropTypes.object.isRequired,
+    endDate: PropTypes.object.isRequired
+};
+
+
+export default function RoomList({rooms, setShowRoom, setShowDatePicker, days, startDate, endDate}) {
+
 
     return (
         <>
             {
                 rooms.map(room => (
                         <div  key={room.id}
-                                      className="mx-auto flex flex-col justify-center w-3/4 h-fit md:flex-row mt-20 md:max-h-72">
+                                      className="mx-auto flex flex-col justify-center w-3/4 h-fit mt-20 mb-20 md:flex-row  md:max-h-72">
                             {/*img*/}
                             <div className="md:w-1/2">
                                 <img
                                     className="h-64 w-full object-cover rounded-t-3xl md:h-full md:rounded-tr-none md:rounded-l-3xl"
-                                    src={'../public/assets/' + room.picPath} alt="image"/>
+                                    src={'assets/' + room.picPath} alt="image"/>
                             </div>
 
                             <div
@@ -36,9 +58,12 @@ export default function RoomList({rooms, setShowRoom, setShowDatePicker, days}) 
                                     </div>
                                     {/* przycisk */}
                                     <div className="flex justify-center">
-                                        <Button variant="filled" endIcon={<FontAwesomeIcon icon={faArrowRight}/>}>
-                                            Wybierz
-                                        </Button>
+
+                                        <NavLink to={{ pathname: '/bookRoom/'+room.id}} state={{room, startDate, endDate, days}}>
+                                            <Button variant="filled" endIcon={<FontAwesomeIcon icon={faArrowRight}/>}>
+                                                Wybierz
+                                            </Button>
+                                        </NavLink>
                                     </div>
                                 </div>
                             </div>
@@ -51,8 +76,7 @@ export default function RoomList({rooms, setShowRoom, setShowDatePicker, days}) 
                  onClick={() => {
                      setShowRoom(false)
                      setShowDatePicker(true)
-                 }}
-            >
+                 }}>
                     <span className="space-y-2 text-5xl" >
                         <FontAwesomeIcon icon={faArrowLeft} style={{color: "#ffffff"}} />
                     </span>
