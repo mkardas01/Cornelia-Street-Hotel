@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {faArrowLeft, faArrowRight, faDoorOpen, faTag, faUser} from "@fortawesome/free-solid-svg-icons";
 import {Button} from "@mui/material";
-import {Link, NavLink} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 RoomList.propTypes = {
