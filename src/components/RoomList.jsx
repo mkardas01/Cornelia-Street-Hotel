@@ -19,8 +19,8 @@ RoomList.propTypes = {
     setShowRoom: PropTypes.func.isRequired,
     setShowDatePicker: PropTypes.func.isRequired,
     days: PropTypes.number.isRequired,
-    startDate: PropTypes.object.isRequired,
-    endDate: PropTypes.object.isRequired
+    startDate: PropTypes.string.isRequired,
+    endDate: PropTypes.string.isRequired
 };
 
 
@@ -48,7 +48,6 @@ export default function RoomList({rooms, setShowRoom, setShowDatePicker, days, s
                                     <p className="overflow-hidden line-clamp-3">{room.description}</p>
                                 </div>
                                 <div className="flex flex-col h-2/5 justify-between">
-                                    {/* informacje techniczne */}
                                     <div className="flex flex-col">
                                     <span className="grid grid-cols-3 gap-2 text-l p-2 text-center">
                                         <span><FontAwesomeIcon icon={faUser}/> {room.size}</span>
@@ -56,7 +55,6 @@ export default function RoomList({rooms, setShowRoom, setShowDatePicker, days, s
                                         <span><FontAwesomeIcon icon={faTag}/> {days * room.price} zł</span>
                                     </span>
                                     </div>
-                                    {/* przycisk */}
                                     <div className="flex justify-center">
 
                                         <Link to={{ pathname: '/bookRoom/'+room.id}} state={{room, startDate, endDate, days}}>

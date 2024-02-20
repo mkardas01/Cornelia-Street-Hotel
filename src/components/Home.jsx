@@ -244,13 +244,14 @@ export default function Home() {
 
                 {!showDatePicker &&
                     <motion.div
-                    initial={{opacity:0}}
-                    animate={{opacity:1}}
-                    transition={{duration: 0.8, ease: "easeIn", delay: 0.2}}
+                        className="overflow-hidden origin-center"
+                        initial={{opacity:0, scaleX:0}}
+                        animate={{opacity:1, scaleX:1}}
+                        transition={{duration: 0.4, ease: "easeIn"}}
                     >
                         <RoomList rooms={rooms} showRoom={showRoom} setShowRoom={setShowRoom}
-                                  setShowDatePicker={setShowDatePicker} days={days} startDate={arrivalDate}
-                                  endDate={departureDate}/>
+                                  setShowDatePicker={setShowDatePicker} days={days} startDate={arrivalDate.format("YYYY-MM-DD")}
+                                  endDate={departureDate.format("YYYY-MM-DD")}/>
                     </motion.div>
                 }
 

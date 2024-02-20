@@ -8,9 +8,9 @@ function AnimatedDiv({ Child }) {
         <>
             <motion.div
                 className="flex flex-col justify-center items-center overflow-hidden"
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: "fit-content"}}
-                transition={{ duration: 0.8, ease: "easeInOut" }}
+                initial={{ opacity: 0, height: 0}}
+                animate={{ opacity: 1, height: "100%"}}
+                transition={{ duration: 1.5, ease: "easeIn" }}
                 style={{ transformOrigin: "top" }}
             >
                 <Child />
@@ -26,13 +26,13 @@ export default function Login_Register(props) {
         <>
             <div className="flex h-screen">
                 <motion.div style={{backgroundImage: `url(${mainPic})`, backgroundSize: 'cover', backgroundPosition: 'left', transformOrigin:"top"}}
-                            className="w-1/2  h-full"
-                            initial={{ opacity: 0, height: 0 }}
-                            animate={{ opacity: 1, height:"100%"}}
-                            transition={{ duration: 0.8, ease: "easeInOut" }}
+                            className="h-full overflow-hidden"
+                            initial={{ opacity: 0, width: 0 }}
+                            animate={{ opacity: 1, width:"66%"}}
+                            transition={{ duration: 0.8, ease: "easeIn" }}
                 >
                 </motion.div>
-                <div className="flex flex-col justify-center items-center px-8 text-center bg-gray-50 w-1/2 h-full ">
+                <div className="flex flex-col justify-center items-center px-8 text-center bg-gray-50 w-3/4 h-full md:w-1/3 ">
                     {type === "login" &&
                         <AnimatedDiv Child={() => AuthForm(
                             {
