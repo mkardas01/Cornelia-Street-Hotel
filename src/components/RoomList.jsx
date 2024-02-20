@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {faArrowLeft, faArrowRight, faDoorOpen, faTag, faUser} from "@fortawesome/free-solid-svg-icons";
 import {Button} from "@mui/material";
-import {NavLink} from 'react-router-dom';
+import {Link, NavLink} from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 RoomList.propTypes = {
@@ -59,11 +59,11 @@ export default function RoomList({rooms, setShowRoom, setShowDatePicker, days, s
                                     {/* przycisk */}
                                     <div className="flex justify-center">
 
-                                        <NavLink to={{ pathname: '/bookRoom/'+room.id}} state={{room, startDate, endDate, days}}>
+                                        <Link to={{ pathname: '/bookRoom/'+room.id}} state={{room, startDate, endDate, days}}>
                                             <Button variant="filled" endIcon={<FontAwesomeIcon icon={faArrowRight}/>}>
                                                 Wybierz
                                             </Button>
-                                        </NavLink>
+                                        </Link>
                                     </div>
                                 </div>
                             </div>
