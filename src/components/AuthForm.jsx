@@ -32,6 +32,13 @@ export default function AuthForm({ title, passwordRepeatLabel, buttonText, linkT
         if(password.length === 0)
             passwordError = "Hasło nie może pozostać puste";
 
+        if(password.length < 8){
+            passwordError = "Hasło musi zawierac conajmniej 8 znaków"
+            passwordRepeatError = "Hasło musi zawierac conajmniej 8 znaków";
+
+        }
+
+
         if(passwordRepeat.length === 0 && passwordRepeatLabel)
             passwordRepeatError = "Hasło nie może pozostać puste";
         else if(password !== passwordRepeat && passwordRepeatLabel){
@@ -54,7 +61,7 @@ export default function AuthForm({ title, passwordRepeatLabel, buttonText, linkT
     return (
         <>
             <h1 className="font-serif drop-shadow-2xl text-xl mb-5 md:text-2xl">{title}</h1>
-            <div className="flex flex-col justify-center items-center space-y-5 w-fit">
+            <form className="flex flex-col justify-center items-center space-y-5 w-fit">
                     <TextField
                         id="fEmail"
                         label="E-mail"
@@ -119,7 +126,7 @@ export default function AuthForm({ title, passwordRepeatLabel, buttonText, linkT
                         {linkText === 'Zaloguj się' ? 'Zaloguj się' : 'Zarejestruj się'}
                     </Link>
                 </div>
-            </div>
+            </form>
         </>
     );
 }
