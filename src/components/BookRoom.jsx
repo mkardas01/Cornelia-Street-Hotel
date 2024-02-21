@@ -72,7 +72,7 @@ export default function BookRoom( props ) {
                     phone: phone,
                     roomID: parseInt(id),
                     startDate: startDate,
-                    endDate: dendDate
+                    endDate: endDate
                 },
                 {
                     headers: {
@@ -87,6 +87,7 @@ export default function BookRoom( props ) {
             setOpenNotificationBar(true);
 
         } catch (error) {
+            console.log(error);
             setNotificationType("error");
             setOpenNotificationBar(true);
             setNotificationMessage(error?.response?.data?.message ? error.response.data.message : "Przepraszamy wystąpił błąd w trakcie komunikacji z serwerem");
@@ -286,9 +287,9 @@ export default function BookRoom( props ) {
 
                             <div className="pb-5">
                                 <p className="font-semibold flex justify-between mb-5">
-                                    <span>{startDate.format("DD MMM YYYY")}</span>
+                                    <span>{dayjs(startDate).format("DD MMM YYYY")}</span>
                                     <span><FontAwesomeIcon icon={faArrowRight}/></span>
-                                    <span>{endDate.format("DD MMM YYYY")}</span>
+                                    <span>{dayjs(endDate).format("DD MMM YYYY")}</span>
                                 </p>
 
                                 <p className="font-medium text-gray-500">Pokój: <span

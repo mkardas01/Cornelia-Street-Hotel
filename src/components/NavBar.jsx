@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useTransition,useSpring, animated} from "@react-spring/web";
 import PropTypes from 'prop-types';
-import {Link} from "react-router-dom";
+import {Link, useLocation} from "react-router-dom";
 
 
 AnimatedSpan.propTypes = {
@@ -42,9 +42,6 @@ export default function NavBar() {
         { name: 'Zaloguj się', link: '/login' }
     ];
 
-
-
-
     const toggleNavbar = () => {
         setIsOpen(!isOpen);
     };
@@ -66,10 +63,11 @@ export default function NavBar() {
         const handleResizeY = () => {
             let color = window.scrollY >= window.innerHeight-100 ? "#2d2d33" : "transparent";
             setNavBarColor(color);
-
+            console.log('test');
         };
 
         window.addEventListener("scroll", handleResizeY);
+
         return () => window.removeEventListener("scroll", handleResizeY);
 
     }, []);
