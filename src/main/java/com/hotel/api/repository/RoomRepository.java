@@ -1,6 +1,7 @@
 package com.hotel.api.repository;
 
 import com.hotel.api.dto.RoomDTO;
+import com.hotel.api.model.Reservation;
 import com.hotel.api.model.Room;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface RoomRepository extends JpaRepository<Room, Integer> {
@@ -22,5 +24,7 @@ public interface RoomRepository extends JpaRepository<Room, Integer> {
             "WHERE (res.startDate IS NULL OR res.startDate > :dateEnd OR res.endDate < :dateStart)"
     )
     List<Room> getAvailableRooms(@Param("dateStart") LocalDate dateStart, @Param("dateEnd") LocalDate dateEnd);
+
+    Optional<Room> getRoomById(Integer id);
 
 }
