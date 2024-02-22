@@ -1,9 +1,8 @@
-package com.hotel.api.user;
+package com.hotel.api.model.user;
 
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.id.factory.internal.AutoGenerationTypeStrategy;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -29,7 +28,7 @@ public class User implements UserDetails {
     private String email;
 
     @Enumerated(EnumType.STRING)
-    private Role role;
+    private com.hotel.api.model.user.Role role;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
