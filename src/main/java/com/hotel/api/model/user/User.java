@@ -27,6 +27,8 @@ public class User implements UserDetails {
 
     private String email;
 
+    private String password;
+
     @Enumerated(EnumType.STRING)
     private com.hotel.api.model.user.Role role;
 

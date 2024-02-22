@@ -29,7 +29,7 @@ public class SecurityConfig {
                 {
                     try {
 
-                        authorizeRequests.requestMatchers("/**")
+                        authorizeRequests.requestMatchers("api/auth/**", "/api/reservation/reserve/**" ,"/api/room/find")
                                 .permitAll()
                                 .anyRequest()
                                 .authenticated()
