@@ -57,7 +57,10 @@ public class ReservationImpl implements ReservationService{
 
         Room room = roomRepository.getRoomById(roomID).orElseThrow(() -> new ReservationException("Podany pokój nie istnieje"));
 
-        if (reservationRepository.existsByStartDateAfterOrStartDateEqualsOrEndDateBeforeAndRoomId(startDate, startDate, endDate, roomID)) {
+        if (reservationRepository.
+                existsByStartDateAfterOrStartDateEqualsOrEndDateBeforeAndRoomId(
+                        startDate, startDate, endDate, roomID)
+        ) {
 
             Reservation reservation = Reservation.builder()
                     .name(reservationDTO.getName())
