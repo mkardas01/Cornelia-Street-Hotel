@@ -24,20 +24,22 @@ export default function Login_Register(props) {
 
     return (
         <>
-            <div className="flex h-screen">
+            <div className="flex min-h-screen">
                 <motion.div style={{backgroundImage: `url(${mainPic})`, backgroundSize: 'cover', backgroundPosition: 'left', transformOrigin:"top"}}
-                            className="h-full overflow-hidden"
+                            className="min-h-full overflow-hidden"
                             initial={{ opacity: 0, width: 0 }}
                             animate={{ opacity: 1, width:"66%"}}
                             transition={{ duration: 0.8, ease: "easeIn" }}
                 >
                 </motion.div>
-                <div className="flex flex-col justify-center items-center px-8 text-center bg-gray-50 w-3/4 h-full md:w-1/3 ">
+                <div className="flex flex-col justify-center items-center px-8 text-center bg-gray-50 w-3/4 min-h-full py-10 md:w-1/3 ">
                     {type === "login" &&
                         <AnimatedDiv Child={() => AuthForm(
                             {
-                                title: 'Zaloguj się do swojego konta', buttonText: 'Zaloguj się',
-                                linkText: 'Nie masz konta?', linkPath: '/register'
+                                title: 'Zaloguj się do swojego konta',
+                                buttonText: 'Zaloguj się',
+                                linkText: 'Nie masz konta?',
+                                linkPath: '/register'
                             })}
                         />
                     }
