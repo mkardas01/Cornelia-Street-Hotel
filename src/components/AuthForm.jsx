@@ -1,10 +1,18 @@
 import { TextField } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import SendIcon from "@mui/icons-material/Send";
-import { Link } from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {useState} from "react";
+import axios from "axios";
+import NotificationBar from "./NotificationBar.jsx";
+import Cookies from 'js-cookie';
+
 
 export default function AuthForm({ title, passwordRepeatLabel, buttonText, linkText, linkPath }) {
+
+    const navigation = useNavigate();
+
+    const BASE_URL = "http://localhost:8080/api/auth";
 
     const [name, setName] = useState("");
     const [surName, setSurName] = useState("");
@@ -12,11 +20,23 @@ export default function AuthForm({ title, passwordRepeatLabel, buttonText, linkT
     const [password, setPassword] = useState("");
     const [passwordRepeat, setPasswordRepeat] = useState("");
 
+    const [notificationMessage, setNotificationMessage] = useState("");
+    const [notificationType, setNotificationType] = useState("error");
+    const [openNotificationBar, setOpenNotificationBar] = useState(false);
+
     const [nameError, setNameError] = useState("");
     const [surNameError, setSurNameError] = useState("");
     const [emailError, setEmailError] = useState("");
     const [passwordError, setPasswordError] = useState("");
     const [passwordRepeatError, setPasswordRepeatError] = useState("");
+
+    const redirectHome = () => {
+        setTimeout(async () => {
+
+            navigation("/");
+
+        },3000);
+    }
 
     const valid = () => {
         let reEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -46,7 +66,7 @@ export default function AuthForm({ title, passwordRepeatLabel, buttonText, linkT
         else if(password !== passwordRepeat && passwordRepeatLabel){
             passwordRepeatError = passwordError = "Hasła się nie zgadzają";
         }
-        else if(password.length < 8){
+        else if(password.length < 8 && passwordRepeatLabel){
             passwordError = passwordRepeatError = "Hasło musi zawierac conajmniej 8 znaków"
         }
 
@@ -60,13 +80,81 @@ export default function AuthForm({ title, passwordRepeatLabel, buttonText, linkT
         return !(emailError || passwordError || passwordRepeatError);
     }
 
-    const login = () =>{
+
+    const handleRegister = async () =>{
+        try{
+            const response = await axios.post(`${BASE_URL}/register`, {
+                    name: name,
+                    surname: surName,
+                    email: email,
+                    password: password,
+                    passwordRepeat: passwordRepeat
+                }
+            );
+
+            setNotificationType('success');
+            setNotificationMessage('Twoje konto zostało utworzone, za chwile nastąpi przekierowanie');
+            setOpenNotificationBar(true);
+
+
+            const token = response.data.token;
+            Cookies.set('token', token, { expires: 7, secure: true });
+
+            redirectHome();
+
+
+        }catch(error){
+
+            setNotificationType("error");
+            setNotificationMessage(error?.response?.data?.message ? error.response.data.message : "Przepraszamy wystąpił błąd w trakcie komunikacji z serwerem");
+            setOpenNotificationBar(true);
+
+        }
+
+    }
+
+    const handleLogin = async () =>{
+        try{
+            const response = await axios.post(`${BASE_URL}/login`, {
+                    email: email,
+                    password: password
+                }
+            );
+
+            setNotificationType('success');
+            setNotificationMessage('Zostałeś zalogowany, za chwile nastąpi przekierowanie');
+            setOpenNotificationBar(true);
+
+            const token = response.data.token;
+            Cookies.set('token', token, { expires: 1, secure: true });
+
+            redirectHome();
+
+        }catch(error){
+
+            setNotificationType("error");
+            setOpenNotificationBar(true);
+            setNotificationMessage(error?.response?.data?.message ? error.response.data.message : "Przepraszamy wystąpił błąd w trakcie komunikacji z serwerem");
+
+        }
+
+    }
+
+
+    const handleAction = () =>{
         if(valid())
-            console.log('test');
+            if(passwordRepeatLabel)
+                handleRegister()
+            else
+                handleLogin();
+
     }
 
     return (
         <>
+            <NotificationBar type={notificationType} notificationMessage={notificationMessage} open={openNotificationBar} setOpen={setOpenNotificationBar}/>
+
+
             <h1 className="font-serif drop-shadow-2xl text-xl mb-5 md:text-2xl">{title}</h1>
             <form className="flex flex-col justify-center items-center space-y-5 w-fit">
 
@@ -162,7 +250,7 @@ export default function AuthForm({ title, passwordRepeatLabel, buttonText, linkT
                         variant="filled"
                         id="submit"
                         className="col-span-2"
-                        onClick={login}
+                        onClick={handleAction}
                     >
                         <span>{buttonText}</span>
 

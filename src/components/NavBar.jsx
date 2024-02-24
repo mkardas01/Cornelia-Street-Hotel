@@ -44,7 +44,7 @@ export default function NavBar() {
     const options = [
         { name: 'O nas', link: '/login' },
         { name: 'Twoje rezerwacje', link: '/login' },
-        { name: 'Zaloguj się', link: '/login' }
+        { name: 'Moje konto', link: '/login' }
     ];
 
     const toggleNavbar = () => {
@@ -79,8 +79,6 @@ export default function NavBar() {
 
 
     useEffect(() => {
-
-        handleNavBarColor();
 
         window.addEventListener("scroll", handleNavBarColor);
 
