@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { useTransition,useSpring, animated} from "@react-spring/web";
 import PropTypes from 'prop-types';
-import {Link, useLocation} from "react-router-dom";
+import {Link} from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 
 
 AnimatedSpan.propTypes = {
@@ -32,9 +33,13 @@ function AnimatedSpan ({children, action}) {
 
 export default function NavBar() {
 
+    let history = useNavigate();
+
+
     const [isOpen, setIsOpen] = useState(false);
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 820);
     const [navBarColor, setNavBarColor] = useState(window.scrollY > window.innerHeight ? "#2d2d33" : "transparent");
+    const [hiddeNavBar, setHiddeNavBar] = useState(false);
 
     const options = [
         { name: 'O nas', link: '/login' },
@@ -58,19 +63,40 @@ export default function NavBar() {
         config: {duration: 400},
     });
 
+    const handleNavBarColor = () => {
+        let color;
+
+        if (window.location.pathname === "/login" || window.location.pathname === "/register") {
+            setHiddeNavBar(true)
+            color = "transparent"
+        } else {
+            setHiddeNavBar(false)
+            color = (window.scrollY >= window.innerHeight - 100) ? "#2d2d33" : "transparent";
+
+        }
+        setNavBarColor(color);
+    };
+
 
     useEffect(() => {
-        const handleResizeY = () => {
-            let color = window.scrollY >= window.innerHeight-100 ? "#2d2d33" : "transparent";
-            setNavBarColor(color);
-            console.log('test');
+
+        handleNavBarColor();
+
+        window.addEventListener("scroll", handleNavBarColor);
+
+        return () => {
+            window.removeEventListener("scroll", handleNavBarColor);
         };
 
-        window.addEventListener("scroll", handleResizeY);
-
-        return () => window.removeEventListener("scroll", handleResizeY);
-
     }, []);
+
+
+    useEffect(() => {
+
+        handleNavBarColor();
+
+    },[history]);
+
 
 
     useEffect(() => {
@@ -88,7 +114,7 @@ export default function NavBar() {
 
 
     return (
-        <>
+        <div style={{visibility: hiddeNavBar ? 'hidden' : 'visible'}}>
             {isMobile && !isOpen && (
                 <div onClick={toggleNavbar} style={{ backgroundColor: '#2d2d33' }} className="flex flex-col justify-center items-center rounded-full w-12 h-12
                                                                                                     p-10 fixed top-2 left-2 z-10 hover:cursor-pointer">
@@ -120,7 +146,7 @@ export default function NavBar() {
 
             {!isMobile && (
                 <animated.div style={{...AnimatedNavbarColor}} className="text-white h-20 fixed top-0 w-full z-10">
-                    <div className="h-full flex justify-end items-center space-x-6 font-bold mx-8">
+                    <div className="h-full flex justify-end items-center space-x-6 font-bold mx-8" >
                         {options.map((option, index) => (
                             <AnimatedSpan key={index}>
                                 <Link to={{pathname: option.link}}> {option.name} </Link>
@@ -130,6 +156,6 @@ export default function NavBar() {
                 </animated.div>
             )}
 
-        </>
+        </div>
     );
 }
