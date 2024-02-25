@@ -58,7 +58,7 @@ export default function Login_Register(props) {
                 </div>
             </div>
 
-            <BackHome />
+
 
         </>
     );
