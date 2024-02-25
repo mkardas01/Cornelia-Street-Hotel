@@ -1,10 +1,10 @@
 import mainPic from "/assets/bookRoom.jpg";
 import {TextField, Checkbox, FormControlLabel, FormHelperText } from "@mui/material";
 import {useState} from "react";
-import {NavLink} from 'react-router-dom';
 import SendIcon from "@mui/icons-material/Send.js";
 import LoadingButton from "@mui/lab/LoadingButton";
 
+import {BackHome} from "./BackHome.jsx";
 import {motion} from "framer-motion";
 
 import {useLocation, useParams} from 'react-router-dom';
@@ -29,7 +29,7 @@ export default function BookRoom( props ) {
     const startDate = useLocation().state.startDate;
     const endDate = useLocation().state.endDate;
     const days = useLocation().state.days;
-
+    console.log(room, startDate, endDate, days);
     dayjs.locale('pl');
 
     const [name, setName] = useState('');
@@ -71,8 +71,8 @@ export default function BookRoom( props ) {
                     email: email,
                     phone: phone,
                     roomID: parseInt(id),
-                    startDate: startDate.format("YYYY-MM-DD"),
-                    endDate: endDate.format("YYYY-MM-DD")
+                    startDate: startDate,
+                    endDate: endDate
                 },
                 {
                     headers: {
@@ -87,6 +87,7 @@ export default function BookRoom( props ) {
             setOpenNotificationBar(true);
 
         } catch (error) {
+            console.log(error);
             setNotificationType("error");
             setOpenNotificationBar(true);
             setNotificationMessage(error?.response?.data?.message ? error.response.data.message : "Przepraszamy wystąpił błąd w trakcie komunikacji z serwerem");
@@ -227,9 +228,9 @@ export default function BookRoom( props ) {
 
                             <div>
                                 <p className="font-semibold flex justify-between">
-                                    <span>{startDate.format("DD MMM YYYY")}</span>
+                                    <span>{dayjs(startDate).format("DD MMM YYYY")}</span>
                                     <span><FontAwesomeIcon icon={faArrowRight}/></span>
-                                    <span>{endDate.format("DD MMM YYYY")}</span>
+                                    <span>{dayjs(endDate).format("DD MMM YYYY")}</span>
                                 </p>
                             </div>
 
@@ -286,9 +287,9 @@ export default function BookRoom( props ) {
 
                             <div className="pb-5">
                                 <p className="font-semibold flex justify-between mb-5">
-                                    <span>{startDate.format("DD MMM YYYY")}</span>
+                                    <span>{dayjs(startDate).format("DD MMM YYYY")}</span>
                                     <span><FontAwesomeIcon icon={faArrowRight}/></span>
-                                    <span>{endDate.format("DD MMM YYYY")}</span>
+                                    <span>{dayjs(endDate).format("DD MMM YYYY")}</span>
                                 </p>
 
                                 <p className="font-medium text-gray-500">Pokój: <span
@@ -324,14 +325,8 @@ export default function BookRoom( props ) {
                 }
 
             </div>
-            <NavLink to={{pathname: '/'}} >
-                <div style={{backgroundColor: '#2d2d33'}} className="flex flex-col justify-center items-center rounded-full w-12 h-12
-                                                                     p-10 fixed bottom-2 right-2 z-10 hover:cursor-pointer">
-                    <span className="space-y-2 text-5xl" >
-                        <FontAwesomeIcon icon={faArrowLeft} style={{color: "#ffffff"}}/>
-                    </span>
-                </div>
-            </NavLink>
+
+                <BackHome />
 
             </motion.div>
         </>
