@@ -31,25 +31,22 @@ function AnimatedSpan ({children, action}) {
 }
 
 
-export default function NavBar() {
+export default function NavBar(props) {
 
     let history = useNavigate();
 
+    const isLoggedIn = props.isLoggedIn;
 
     const [isOpen, setIsOpen] = useState(false);
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 820);
     const [navBarColor, setNavBarColor] = useState(window.scrollY > window.innerHeight ? "#2d2d33" : "transparent");
     const [hiddeNavBar, setHiddeNavBar] = useState(false);
 
-    const options = [
+    let options = [
         { name: 'O nas', link: '/login' },
         { name: 'Twoje rezerwacje', link: '/login' },
-        { name: 'Moje konto', link: '/login' }
+        { name: isLoggedIn ? 'Wyloguj się' : 'Zaloguj się', link: isLoggedIn ? '/logout' : '/login' }
     ];
-
-    const toggleNavbar = () => {
-        setIsOpen(!isOpen);
-    };
 
     const transition = useTransition(isOpen, {
         from: { x: -100, y: -100, opacity: 0, borderRadius: '100%' }, // initial border radius

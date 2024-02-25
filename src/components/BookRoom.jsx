@@ -18,7 +18,7 @@ import dayjs from "dayjs";
 import "dayjs/locale/pl";
 import NotificationBar from "./NotificationBar.jsx";
 
-export default function BookRoom( props ) {
+export default function BookRoom( ) {
 
     const BASE_URL = "http://localhost:8080/api/";
 
@@ -29,7 +29,7 @@ export default function BookRoom( props ) {
     const startDate = useLocation().state.startDate;
     const endDate = useLocation().state.endDate;
     const days = useLocation().state.days;
-    console.log(room, startDate, endDate, days);
+
     dayjs.locale('pl');
 
     const [name, setName] = useState('');
@@ -326,7 +326,6 @@ export default function BookRoom( props ) {
 
             </div>
 
-                <BackHome />
 
             </motion.div>
         </>
