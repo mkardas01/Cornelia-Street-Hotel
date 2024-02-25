@@ -6,7 +6,7 @@ import com.hotel.api.dto.RegisterRequest;
 import com.hotel.api.model.user.Role;
 import com.hotel.api.model.user.User;
 import com.hotel.api.repository.UserRepository;
-import io.jsonwebtoken.Jwts;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -14,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class AuthenticationImpl implements AuthenticationService{
 
     @Autowired
@@ -32,7 +33,7 @@ public class AuthenticationImpl implements AuthenticationService{
     public AuthenticationRespond register(RegisterRequest request) {
         User user = User.builder()
                 .name(request.getName())
-                .surname(request.getSureName())
+                .surname(request.getSurname())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(Role.USER)
@@ -48,12 +49,13 @@ public class AuthenticationImpl implements AuthenticationService{
     @Override
     public AuthenticationRespond login(AuthenticationRequest request) {
 
-        authenticationManager.authenticate(
+        UsernamePasswordAuthenticationToken userAuth =
                 new UsernamePasswordAuthenticationToken(
-                        request.getEmail(),
-                        request.getPassword()
-                )
-        );
+                    request.getEmail(), request.getPassword());
+
+        System.out.println(userAuth.getName() + " " + userAuth.getCredentials());
+
+        authenticationManager.authenticate(userAuth);
 
         User user = userRepository.findByEmail(request.getEmail()).orElseThrow();
 
