@@ -25,16 +25,7 @@ public class ReservationImpl implements ReservationService{
 
 
     @Autowired
-    private RoomService roomService;
-
-
-    private Boolean isRoomNotReserved(LocalDate startDate, LocalDate endDate, Integer roomID) {
-
-        List<Reservation> reservations = reservationRepository.isRoomNotReserved(startDate, endDate, roomID);
-
-        return reservations.isEmpty();
-
-    }
+    private RoomRepository roomRepository;
 
     @Override
     public NewReservationDTO reserveRoom(NewReservationDTO reservationDTO, Integer roomID) {
@@ -64,9 +55,12 @@ public class ReservationImpl implements ReservationService{
             throw new ReservationDateException("Nie można wyszukać zarezerować pokoju w przeszłości");
 
 
-        Room room = roomService.getRoomByID(roomID).orElseThrow(() -> new ReservationException("Podany pokój nie istnieje"));
+        Room room = roomRepository.getRoomById(roomID).orElseThrow(() -> new ReservationException("Podany pokój nie istnieje"));
 
-        if (this.isRoomNotReserved(startDate, endDate, roomID)) {
+        if (!reservationRepository.
+                existsByStartDateAfterOrStartDateEqualsOrEndDateBeforeAndRoomId(
+                        startDate, startDate, endDate, roomID)
+        ) {
 
             Reservation reservation = Reservation.builder()
                     .name(reservationDTO.getName())
