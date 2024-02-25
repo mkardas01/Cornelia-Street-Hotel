@@ -1,5 +1,6 @@
 package com.hotel.api.dto;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,6 +12,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 
 public class AuthenticationRequest {
+
+    @NotBlank(message = "Email nie może pozostać pusty")
     private String email;
-    private String password;
+
+    @NotBlank(message = "Hasło nie może pozostać puste")
+    String password;
 }
