@@ -33,7 +33,7 @@ export default function AuthForm({ title, passwordRepeatLabel, buttonText, linkT
     const redirectHome = () => {
         setTimeout(async () => {
 
-            navigation("/");
+            window.location.reload();
 
         },3000);
     }
