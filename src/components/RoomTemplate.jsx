@@ -6,7 +6,7 @@ import {Button} from "@mui/material";
 export const RoomTemplate = ({room, days, startDate, endDate, reservation}) => {
     return (
         <>
-            <div key={room.id}
+            <div
                  className="mx-auto flex flex-col justify-center w-3/4 h-fit mt-20 mb-20 md:flex-row  md:max-h-72">
                 {/*img*/}
                 <div className="md:w-1/2">
@@ -22,6 +22,7 @@ export const RoomTemplate = ({room, days, startDate, endDate, reservation}) => {
                         <h1 className="font-serif drop-shadow-2xl w-full text-3xl ">{room.name}</h1>
                         <p className="overflow-hidden line-clamp-3">{room.description}</p>
                     </div>
+                    {reservation &&
                     <div className="flex flex-col h-2/5 justify-between">
                         <div className="flex flex-col">
                                     <span className="grid grid-cols-3 gap-2 text-l p-2 text-center">
@@ -30,7 +31,7 @@ export const RoomTemplate = ({room, days, startDate, endDate, reservation}) => {
                                         <span><FontAwesomeIcon icon={faTag}/> {days * room.price} zł</span>
                                     </span>
                         </div>
-                        {reservation &&
+
 
                             <div className="flex justify-center">
                                 <Link to={{pathname: '/bookRoom/' + room.id}} state={{room, startDate, endDate, days}}>
@@ -40,9 +41,9 @@ export const RoomTemplate = ({room, days, startDate, endDate, reservation}) => {
                                 </Link>
 
                             </div>
-                        }
 
                     </div>
+                    }
                 </div>
             </div>
         </>
