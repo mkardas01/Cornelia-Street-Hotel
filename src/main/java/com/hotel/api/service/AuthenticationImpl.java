@@ -17,6 +17,9 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Service
 @RequiredArgsConstructor
 public class AuthenticationImpl implements AuthenticationService{
@@ -49,7 +52,11 @@ public class AuthenticationImpl implements AuthenticationService{
             throw new DataBaseException("Wystąpił błąd w czasie rejestracji");
         }
 
-        String jwtToken = jwtService.generateToken(user);
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("name", user.getName());
+        claims.put("surname", user.getSurname());
+
+        String jwtToken = jwtService.generateToken(claims, user);
 
         return AuthenticationRespond.builder().token(jwtToken).build();
     }
@@ -72,7 +79,11 @@ public class AuthenticationImpl implements AuthenticationService{
 
         User user = userRepository.findByEmail(request.getEmail()).orElseThrow();
 
-        String jwtToken = jwtService.generateToken(user);
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("name", user.getName());
+        claims.put("surname", user.getSurname());
+
+        String jwtToken = jwtService.generateToken(claims, user);
 
         return AuthenticationRespond.builder().token(jwtToken).build();
     }
