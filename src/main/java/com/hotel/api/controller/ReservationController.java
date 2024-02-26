@@ -8,6 +8,7 @@ import com.hotel.api.model.Reservation;
 import com.hotel.api.model.Room;
 import com.hotel.api.service.ReservationService;
 import com.hotel.api.service.RoomService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/reservation")
@@ -42,9 +40,11 @@ public class ReservationController {
 
     @PostMapping("/getReservations")
     @CrossOrigin
-    public ResponseEntity<?> getUserReservation(){
+    public ResponseEntity<?> getUserReservation(HttpServletRequest request){
 
-        return new ResponseEntity<String >("test", HttpStatus.OK);
+        String token = request.getHeader("Authorization");
+
+        return new ResponseEntity<String >(token, HttpStatus.OK);
     }
 
     @GetMapping("/getAll")
