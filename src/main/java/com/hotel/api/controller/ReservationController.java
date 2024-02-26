@@ -6,6 +6,7 @@ import com.hotel.api.exception.ReservationDateException;
 import com.hotel.api.exception.ReservationException;
 import com.hotel.api.model.Reservation;
 import com.hotel.api.model.Room;
+import com.hotel.api.service.JwtService;
 import com.hotel.api.service.ReservationService;
 import com.hotel.api.service.RoomService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -26,8 +27,6 @@ public class ReservationController {
     @Autowired
     private ReservationService reservationService;
 
-    @Autowired
-    private RoomService roomService;
 
     @PostMapping("/reserve/{roomID}")
     @ResponseBody
@@ -42,9 +41,7 @@ public class ReservationController {
     @CrossOrigin
     public ResponseEntity<?> getUserReservation(HttpServletRequest request){
 
-        String token = request.getHeader("Authorization");
-
-        return new ResponseEntity<String >(token, HttpStatus.OK);
+        return new ResponseEntity<List<Reservation>>(reservationService.getUserReservation(request), HttpStatus.OK);
     }
 
     @GetMapping("/getAll")

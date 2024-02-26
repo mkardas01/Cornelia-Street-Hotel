@@ -18,4 +18,6 @@ public interface ReservationRepository extends JpaRepository<Reservation, Intege
             LocalDate startDate, LocalDate startDate2, LocalDate endDate, int room_id
     );
 
+    Optional<List<Reservation>> getReservationByEmail(String username);
+
 }

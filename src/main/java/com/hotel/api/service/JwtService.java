@@ -21,6 +21,7 @@ public class JwtService implements JwtInterface{
 
     private static final String SECRET_KEY = "95234a6e8a807089c4650c08450a55a3e855a195afde1d810bb58f6b03050672"; //dev only key
 
+
     public String extractUserName(String token) {
 
         return extractClaim(token, Claims::getSubject);
