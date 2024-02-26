@@ -36,13 +36,13 @@ export default function BookRoom( ) {
     const [surname, setSurname] = useState('');
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
-    const [terms, setTerms] = useState('');
+    const [terms, setTerms] = useState(false);
 
     const [nameError, setNameError] = useState('');
     const [surnameError, setSurnameError] = useState('');
     const [emailError, setEmailError] = useState('');
     const [phoneError, setPhoneError] = useState('');
-    const [termsError, setTermsError] = useState('');
+
 
     const [notificationMessage, setNotificationMessage] = useState("");
     const [notificationType, setNotificationType] = useState("error");
@@ -127,7 +127,7 @@ export default function BookRoom( ) {
         setEmailError(emailErrorText);
         setPhoneError(phoneErrorText);
 
-        return !(nameErrorText || surnameErrorText || emailErrorText || phoneErrorText);
+        return !(nameErrorText || surnameErrorText || emailErrorText || phoneErrorText || !terms) ;
     }
 
 
@@ -215,6 +215,7 @@ export default function BookRoom( ) {
                                     required
                                     label="Akceptuje regulamin pobytu"
                                     control={<Checkbox/>}
+                                    onClick={()=>setTerms(!terms)}
                                     labelPlacement="start"
                                     className="justify-self-start"
 
@@ -249,11 +250,6 @@ export default function BookRoom( ) {
                                 <p className="font-medium">{room.price * days} zł </p>
                             </div>
 
-                            <div>
-                                <p className="font-medium text-gray-500 hover:cursor-pointer">Zmień ofertę</p>
-                            </div>
-
-
                             <LoadingButton
                                 endIcon={<SendIcon/>}
                                 onClick={reserveRoom}
@@ -261,7 +257,7 @@ export default function BookRoom( ) {
                                 loadingPosition="end"
                                 variant="filled"
                                 id="submit"
-                                disabled={nameError.length > 0 || surnameError.length > 0 || emailError.length > 0 || phoneError.length > 0}
+                                disabled={nameError.length > 0 || surnameError.length > 0 || emailError.length > 0 || phoneError.length > 0 || !terms}
                                 className="col-span-2"
                             >
                                 <span>Rezerwuj</span>
