@@ -7,6 +7,8 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import {BackHome} from "./BackHome.jsx";
 import {motion} from "framer-motion";
 
+import { jwtDecode } from 'jwt-decode'
+
 import {useLocation, useParams} from 'react-router-dom';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -17,12 +19,16 @@ import axios from 'axios';
 import dayjs from "dayjs";
 import "dayjs/locale/pl";
 import NotificationBar from "./NotificationBar.jsx";
+import Cookies from "js-cookie";
 
 export default function BookRoom( ) {
 
     const BASE_URL = "http://localhost:8080/api/";
 
     const [loading, setLoading] = useState(false);
+
+    let user = Cookies.get("token") ? jwtDecode(Cookies.get("token")) : {};
+
 
     const {id} = useParams();
     const room = useLocation().state.room;
@@ -167,19 +173,21 @@ export default function BookRoom( ) {
                                     }}
                                     label="Imię"
                                     variant="outlined"
+                                    value={user && user.name ? user.name : ""}
                                     required
                                     error={nameError.length > 0}
                                     helperText={nameError}
                                 />
 
                                 <TextField
-                                    id="fSurName"
+                                    id="fSurname"
                                     onChange={(e) => {
                                         setSurname(e.target.value);
                                         setSurnameError('')
                                     }}
                                     label="Nazwisko"
                                     variant="outlined"
+                                    value={user && user.surname ? user.surname : ""}
                                     required
                                     error={surnameError.length > 0}
                                     helperText={surnameError}
@@ -194,6 +202,7 @@ export default function BookRoom( ) {
                                     }}
                                     label="Email"
                                     variant="outlined"
+                                    value={user && user.sub ? user.sub : ""}
                                     required
                                     error={emailError.length > 0}
                                     helperText={emailError}
