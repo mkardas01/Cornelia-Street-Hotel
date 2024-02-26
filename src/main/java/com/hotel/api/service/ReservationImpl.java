@@ -7,6 +7,7 @@ import com.hotel.api.model.Reservation;
 import com.hotel.api.model.Room;
 import com.hotel.api.repository.ReservationRepository;
 import com.hotel.api.repository.RoomRepository;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,9 +24,11 @@ public class ReservationImpl implements ReservationService{
     @Autowired
     private ReservationRepository reservationRepository;
 
-
     @Autowired
     private RoomRepository roomRepository;
+
+    @Autowired
+    private JwtService jwtService;
 
     @Override
     public NewReservationDTO reserveRoom(NewReservationDTO reservationDTO, Integer roomID) {
@@ -91,4 +94,13 @@ public class ReservationImpl implements ReservationService{
 
         return reservationRepository.findAll();
     }
+
+    @Override
+    public List<Reservation> getUserReservation(HttpServletRequest request){
+        String token = request.getHeader("Authorization");
+        String username = jwtService.extractUserName(token.substring(7));
+
+        return reservationRepository.getReservationByEmail(username).orElseThrow();
+    }
+
 }
