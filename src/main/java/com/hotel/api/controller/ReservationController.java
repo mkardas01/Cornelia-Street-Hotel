@@ -9,6 +9,7 @@ import com.hotel.api.model.Room;
 import com.hotel.api.service.ReservationService;
 import com.hotel.api.service.RoomService;
 import jakarta.validation.Valid;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,6 +38,13 @@ public class ReservationController {
 
         return new ResponseEntity<>(reservationService.reserveRoom(reservationDTO, roomID), HttpStatus.OK);
 
+    }
+
+    @PostMapping("/getReservations")
+    @CrossOrigin
+    public ResponseEntity<?> getUserReservation(){
+
+        return new ResponseEntity<String >("test", HttpStatus.OK);
     }
 
     @GetMapping("/getAll")
