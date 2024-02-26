@@ -44,9 +44,9 @@ export default function NavBar(props) {
 
     let options = [
         { name: 'O nas', link: '/login' },
-        { name: 'Twoje rezerwacje', link: '/login' },
+        isLoggedIn ? { name: 'Twoje rezerwacje', link: '/reservation' } : null,
         { name: isLoggedIn ? 'Wyloguj się' : 'Zaloguj się', link: isLoggedIn ? '/logout' : '/login' }
-    ];
+    ].filter(option => option != null);
 
     const transition = useTransition(isOpen, {
         from: { x: -100, y: -100, opacity: 0, borderRadius: '100%' }, // initial border radius
@@ -59,6 +59,10 @@ export default function NavBar(props) {
         backgroundColor: navBarColor,
         config: {duration: 400},
     });
+
+    const toggleNavbar = () => {
+        setIsOpen(!isOpen);
+    }
 
     const handleNavBarColor = () => {
         let color;
