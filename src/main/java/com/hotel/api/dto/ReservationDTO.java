@@ -1,6 +1,7 @@
 package com.hotel.api.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.hotel.api.dto.RoomDTO;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -26,7 +27,7 @@ public class ReservationDTO {
 
     private String reservationNumber;
 
-    private Room room;
+    private RoomDTO room;
 
 }
 

@@ -1,9 +1,11 @@
 package com.hotel.api.service;
 
 import com.hotel.api.dto.NewReservationDTO;
+import com.hotel.api.dto.RoomDTO;
 import com.hotel.api.exception.ReservationDateException;
 import com.hotel.api.exception.ReservationException;
 import com.hotel.api.model.Reservation;
+import com.hotel.api.model.ReservationDTO;
 import com.hotel.api.model.Room;
 import com.hotel.api.repository.ReservationRepository;
 import com.hotel.api.repository.RoomRepository;
@@ -17,6 +19,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class ReservationImpl implements ReservationService{
@@ -29,6 +32,35 @@ public class ReservationImpl implements ReservationService{
 
     @Autowired
     private JwtService jwtService;
+
+    private List<ReservationDTO> mapToReservationDTO(List<Reservation> reservations) {
+        return reservations.stream()
+                .map(reservation -> ReservationDTO.builder()
+                        .id(reservation.getId())
+                        .name(reservation.getName())
+                        .surname(reservation.getSurname())
+                        .email(reservation.getEmail())
+                        .phone(reservation.getPhone())
+                        .startDate(reservation.getStartDate())
+                        .endDate(reservation.getEndDate())
+                        .reservationNumber(reservation.getReservationNumber())
+                        .room(mapToRoomDTO(reservation.getRoom()))
+                        .build())
+                .collect(Collectors.toList());
+    }
+
+    private RoomDTO mapToRoomDTO(Room room) {
+        return RoomDTO.builder()
+                .id(room.getId())
+                .floorNumber(room.getFloorNumber())
+                .number(room.getNumber())
+                .size(room.getSize())
+                .price(room.getPrice())
+                .name(room.getName())
+                .description(room.getDescription())
+                .picPath(room.getPicPath())
+                .build();
+    }
 
     @Override
     public NewReservationDTO reserveRoom(NewReservationDTO reservationDTO, Integer roomID) {
@@ -96,11 +128,14 @@ public class ReservationImpl implements ReservationService{
     }
 
     @Override
-    public List<Reservation> getUserReservation(HttpServletRequest request){
+    public List<ReservationDTO> getUserReservation(HttpServletRequest request){
+        
         String token = request.getHeader("Authorization");
         String username = jwtService.extractUserName(token.substring(7));
 
-        return reservationRepository.getReservationByEmail(username).orElseThrow();
+        List<Reservation> reservations = reservationRepository.getReservationByEmail(username).orElseThrow();
+
+        return mapToReservationDTO(reservations);
     }
 
 }

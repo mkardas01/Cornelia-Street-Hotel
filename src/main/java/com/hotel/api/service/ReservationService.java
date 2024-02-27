@@ -3,6 +3,7 @@ package com.hotel.api.service;
 
 import com.hotel.api.dto.NewReservationDTO;
 import com.hotel.api.model.Reservation;
+import com.hotel.api.model.ReservationDTO;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
 
@@ -17,5 +18,5 @@ public interface ReservationService {
 
     public List<Reservation> getAllReservation();
 
-    public List<Reservation> getUserReservation(HttpServletRequest request);
+    public List<ReservationDTO> getUserReservation(HttpServletRequest request);
 }
