@@ -27,8 +27,6 @@ export default function BookRoom( ) {
 
     const [loading, setLoading] = useState(false);
 
-    let user = Cookies.get("token") ? jwtDecode(Cookies.get("token")) : {};
-
 
     const {id} = useParams();
     const room = useLocation().state.room;
@@ -58,6 +56,13 @@ export default function BookRoom( ) {
     const [bookingResults, setBookingResults] = useState(false);
     const [bookingResultsData, setBookingResultsData] = useState();
 
+    let user = Cookies.get("token") ? jwtDecode(Cookies.get("token")) : {};
+
+    if (user && !name && !surname && !email) {
+        setName(user.name || '');
+        setSurname(user.surname || '');
+        setEmail(user.sub || '');
+    }
 
     const handlePhoneNumber = (e) => {
         const regex = /^[0-9\b]+$/;
