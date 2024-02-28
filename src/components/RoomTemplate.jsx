@@ -23,7 +23,7 @@ export const RoomTemplate = ({room, reservation, days, startDate, endDate, reser
 
     room = reservation ? reservation.room : room;
 
-    days = reservation ? dayjs(reservationData.endDate).diff(dayjs(reservation.startDate), 'day') : days;
+    days = reservation ? dayjs(reservation.endDate).diff(dayjs(reservation.startDate), 'day') : days;
 
     return (
         <>
