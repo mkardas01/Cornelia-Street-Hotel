@@ -9,6 +9,7 @@ import {RoomTemplate} from "./RoomTemplate.jsx";
 import axios from "axios";
 import dayjs from "dayjs";
 import Cookies from 'js-cookie';
+import NotificationBar from "./NotificationBar.jsx";
 
 export default function UserReservation() {
 
@@ -18,17 +19,9 @@ export default function UserReservation() {
 
     const scrollDownDiv = useRef(null);
 
-    const room ={
-        'id': 34,
-        'picPath': 'bookRoom.jpg',
-        'name': 'Floklore',
-        'description': '19 lut. 2024 -> 20 lut.2024',
-        'size': 4,
-        'number': 304,
-        'price': 200,
-        'reservation':false
-    }
-
+    const [notificationMessage, setNotificationMessage] = useState("");
+    const [notificationType, setNotificationType] = useState("error");
+    const [openNotificationBar, setOpenNotificationBar] = useState(false);
 
 
     useEffect( () => {
@@ -45,11 +38,11 @@ export default function UserReservation() {
 
                 setReservationList(response.data);
 
-                console.log(response.data);
-
             } catch (error) {
 
-                console.log(error)
+                setNotificationType('error');
+                setNotificationMessage(error?.response?.data?.message ? error.response.data.message : "Przepraszamy wystąpił błąd w trakcie komunikacji z serwerem");
+                setOpenNotificationBar(true);
 
             }
         }
@@ -62,6 +55,9 @@ export default function UserReservation() {
 
     return (
         <>
+            <NotificationBar type={notificationType} notificationMessage={notificationMessage} open={openNotificationBar} setOpen={setOpenNotificationBar}/>
+
+
             <div className="flex flex-col items-center justify-center w-full h-full">
 
                 <MainPicWithArrow mainPic={mainPic} scrollDownDiv={scrollDownDiv} title="Twoje rezerwacje"/>
@@ -70,9 +66,10 @@ export default function UserReservation() {
                 ref={scrollDownDiv}
                     className="grid grid-cols-1 items-center justify-center backdrop-blur-3xl h-full w-full">
 
-                    {reservationList.length > 0 &&
-                        <RoomTemplate room={room} reservation={reservationList} days={4} reserveRoom={false}/>
-                    }
+                    {reservationList.length > 0 && reservationList.map((reservation) => (
+                        <RoomTemplate key={reservation.id}  reservation={reservation}  reserveRoom={false}/>
+                    ))}
+
 
                     {reservationList.length === 0 &&
 
