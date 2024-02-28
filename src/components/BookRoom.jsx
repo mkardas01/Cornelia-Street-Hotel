@@ -69,7 +69,7 @@ export default function BookRoom( ) {
 
     const handlePhoneNumber = (e) => {
         const regex = /^[0-9\b]+$/;
-        if ((e.target.value === "" || regex.test(e.target.value)) && (phone.length <9 || e.nativeEvent.type === "deleteContentBackward")) {
+        if ((e.target.value === "" || (regex.test(e.target.value) && e.target.value.length <= 9))) {
             setPhone(e.target.value);
             setPhoneError('');
         }
