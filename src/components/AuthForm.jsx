@@ -10,9 +10,9 @@ import Cookies from 'js-cookie';
 
 export default function AuthForm({ title, passwordRepeatLabel, buttonText, linkText, linkPath }) {
 
-    const navigation = useNavigate();
-
     const BASE_URL = "http://localhost:8080/api/auth";
+
+
 
     const [name, setName] = useState("");
     const [surName, setSurName] = useState("");
