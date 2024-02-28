@@ -3,6 +3,7 @@ package com.hotel.api.model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.hotel.api.model.user.User;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -45,6 +46,11 @@ public class Reservation {
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = Room.class)
     @JoinColumn(name = "hotelRoomID")
     private Room room;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = true)
+    @JsonBackReference
+    @JoinColumn(name = "userID", columnDefinition="integer", nullable = true)
+    private User user;
 
 }
 

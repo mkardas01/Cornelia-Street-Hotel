@@ -14,7 +14,7 @@ import java.util.List;
 public interface ReservationService {
 
 
-    public NewReservationDTO reserveRoom(NewReservationDTO reservationDTO, Integer roomID);
+    public NewReservationDTO reserveRoom(NewReservationDTO reservationDTO, Integer roomID, HttpServletRequest request);
 
     public List<Reservation> getAllReservation();
 

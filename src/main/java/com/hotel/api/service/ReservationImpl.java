@@ -7,6 +7,7 @@ import com.hotel.api.exception.ReservationException;
 import com.hotel.api.model.Reservation;
 import com.hotel.api.model.ReservationDTO;
 import com.hotel.api.model.Room;
+import com.hotel.api.model.user.User;
 import com.hotel.api.repository.ReservationRepository;
 import com.hotel.api.repository.RoomRepository;
 import jakarta.servlet.http.HttpServletRequest;
@@ -16,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -62,63 +64,67 @@ public class ReservationImpl implements ReservationService{
                 .build();
     }
 
-    @Override
-    public NewReservationDTO reserveRoom(NewReservationDTO reservationDTO, Integer roomID) {
 
+    @Override
+    public NewReservationDTO reserveRoom(NewReservationDTO reservationDTO, Integer roomID, HttpServletRequest request) {
+        validateReservation(reservationDTO, roomID);
+
+        LocalDate startDate = parseDate(reservationDTO.getStartDate());
+        LocalDate endDate = parseDate(reservationDTO.getEndDate());
+
+        Room room = findRoomById(roomID);
+        checkRoomAvailability(roomID, startDate, endDate);
+        Reservation reservation = createReservation(reservationDTO, startDate, endDate, room);
+
+        reservationDTO.setReservationNumber(reservation.getReservationNumber().toUpperCase());
+
+        return reservationDTO;
+    }
+
+    private void validateReservation(NewReservationDTO reservationDTO, Integer roomID) {
         if (!Objects.equals(reservationDTO.getRoomID(), roomID)) {
             throw new ReservationException("Wystąpił błąd w czasie rezerwacji");
         }
-
-        if(reservationDTO.getPhone().charAt(0) == '0'){
+        if (reservationDTO.getPhone().charAt(0) == '0') {
             throw new ReservationException("Wprowadzono nieprawidłowy numer telefonu");
         }
+    }
 
-        LocalDate startDate;
-        LocalDate endDate;
-
+    private LocalDate parseDate(String dateStr) {
         try {
-            startDate = LocalDate.parse(reservationDTO.getStartDate());
-            endDate = LocalDate.parse(reservationDTO.getEndDate());
-        } catch (Exception e) {
+            return LocalDate.parse(dateStr);
+        } catch (DateTimeParseException e) {
             throw new ReservationDateException("Podano nieprawidłowy format daty");
         }
+    }
 
-        if(startDate.isAfter(endDate))
-            throw new ReservationDateException("Data przyjadu musi być wcześniejsza niż data wyjazdu");
+    private Room findRoomById(Integer roomID) {
+        return roomRepository.getRoomById(roomID)
+                .orElseThrow(() -> new ReservationException("Podany pokój nie istnieje"));
+    }
 
-        else if(endDate.isBefore(LocalDate.now()))
-            throw new ReservationDateException("Nie można wyszukać zarezerować pokoju w przeszłości");
-
-
-        Room room = roomRepository.getRoomById(roomID).orElseThrow(() -> new ReservationException("Podany pokój nie istnieje"));
-
-        if (!reservationRepository.
-                existsByStartDateAfterOrStartDateEqualsOrEndDateBeforeAndRoomId(
-                        startDate, startDate, endDate, roomID)
-        ) {
-
-            Reservation reservation = Reservation.builder()
-                    .name(reservationDTO.getName())
-                    .surname(reservationDTO.getSurname())
-                    .email(reservationDTO.getEmail())
-                    .phone(reservationDTO.getPhone())
-                    .startDate(startDate)
-                    .endDate(endDate)
-                    .reservationNumber(UUID.randomUUID().toString().substring(0, 6))
-                    .room(room)
-                    .build();
-
-            reservation = reservationRepository.save(reservation);
-
-            reservationDTO.setReservationNumber(reservation.getReservationNumber().toUpperCase());
-
-            return reservationDTO;
-
-        } else {
+    private void checkRoomAvailability(Integer roomID, LocalDate startDate, LocalDate endDate) {
+        if (reservationRepository.existsByRoomIdAndEndDateAfterAndStartDateBeforeOrStartDateEqualsAndEndDateAfter(
+                roomID, endDate, startDate, startDate, endDate)) {
             throw new ReservationException("Ten pokój niestety został już zarezerwowany");
         }
-
     }
+
+    private Reservation createReservation(NewReservationDTO reservationDTO, LocalDate startDate, LocalDate endDate, Room room) {
+        Reservation reservation = Reservation.builder()
+                .name(reservationDTO.getName())
+                .surname(reservationDTO.getSurname())
+                .email(reservationDTO.getEmail())
+                .phone(reservationDTO.getPhone())
+                .startDate(startDate)
+                .endDate(endDate)
+                .reservationNumber(UUID.randomUUID().toString().substring(0, 6))
+                .room(room)
+                .build();
+        reservation.setUser(User.builder().id(1).build());
+        return reservationRepository.save(reservation);
+    }
+
 
 
     @Override
