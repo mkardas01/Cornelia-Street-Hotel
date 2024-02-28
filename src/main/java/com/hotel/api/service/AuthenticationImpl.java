@@ -3,15 +3,22 @@ package com.hotel.api.service;
 import com.hotel.api.dto.AuthenticationRequest;
 import com.hotel.api.dto.AuthenticationRespond;
 import com.hotel.api.dto.RegisterRequest;
+import com.hotel.api.exception.DataBaseException;
+import com.hotel.api.exception.UserNotFoundException;
 import com.hotel.api.model.user.Role;
 import com.hotel.api.model.user.User;
 import com.hotel.api.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -39,9 +46,17 @@ public class AuthenticationImpl implements AuthenticationService{
                 .role(Role.USER)
                 .build();
 
-        userRepository.save(user);
+        try {
+            userRepository.save(user);
+        } catch (DataAccessException e) {
+            throw new DataBaseException("Wystąpił błąd w czasie rejestracji");
+        }
 
-        String jwtToken = jwtService.generateToken(user);
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("name", user.getName());
+        claims.put("surname", user.getSurname());
+
+        String jwtToken = jwtService.generateToken(claims, user);
 
         return AuthenticationRespond.builder().token(jwtToken).build();
     }
@@ -53,13 +68,22 @@ public class AuthenticationImpl implements AuthenticationService{
                 new UsernamePasswordAuthenticationToken(
                     request.getEmail(), request.getPassword());
 
-        System.out.println(userAuth.getName() + " " + userAuth.getCredentials());
+        try {
 
-        authenticationManager.authenticate(userAuth);
+            authenticationManager.authenticate(userAuth);
+
+        } catch (AuthenticationException e) {
+
+            throw new UserNotFoundException("Podano nieprawidłowe dane");
+        }
 
         User user = userRepository.findByEmail(request.getEmail()).orElseThrow();
 
-        String jwtToken = jwtService.generateToken(user);
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("name", user.getName());
+        claims.put("surname", user.getSurname());
+
+        String jwtToken = jwtService.generateToken(claims, user);
 
         return AuthenticationRespond.builder().token(jwtToken).build();
     }
