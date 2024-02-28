@@ -10,6 +10,7 @@ import {motion} from "framer-motion";
 import { jwtDecode } from 'jwt-decode'
 
 import {useLocation, useParams} from 'react-router-dom';
+import { useEffect } from 'react';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {faArrowLeft, faArrowRight} from "@fortawesome/free-solid-svg-icons";
@@ -58,15 +59,17 @@ export default function BookRoom( ) {
 
     let user = Cookies.get("token") ? jwtDecode(Cookies.get("token")) : {};
 
-    if (user && !name && !surname && !email) {
-        setName(user.name || '');
-        setSurname(user.surname || '');
-        setEmail(user.sub || '');
-    }
+    useEffect(() => {
+        if (user && !name && !surname && !email) {
+            setName(user.name || '');
+            setSurname(user.surname || '');
+            setEmail(user.sub || '');
+        }
+    }, []);
 
     const handlePhoneNumber = (e) => {
         const regex = /^[0-9\b]+$/;
-        if ((e.target.value === "" || regex.test(e.target.value)) && (phone.length <9 || e.nativeEvent.inputid === "deleteContentBackward")) {
+        if ((e.target.value === "" || regex.test(e.target.value)) && (phone.length <9 || e.nativeEvent.type === "deleteContentBackward")) {
             setPhone(e.target.value);
             setPhoneError('');
         }
@@ -182,6 +185,7 @@ export default function BookRoom( ) {
                                     required
                                     error={nameError.length > 0}
                                     helperText={nameError}
+                                    disabled={Object.keys(user).length === 0 ? false : true}
                                 />
 
                                 <TextField
@@ -196,6 +200,7 @@ export default function BookRoom( ) {
                                     required
                                     error={surnameError.length > 0}
                                     helperText={surnameError}
+                                    disabled={Object.keys(user).length === 0 ? false : true}
                                 />
 
 
@@ -211,6 +216,7 @@ export default function BookRoom( ) {
                                     required
                                     error={emailError.length > 0}
                                     helperText={emailError}
+                                    disabled={Object.keys(user).length === 0 ? false : true}
                                 />
 
                                 <TextField
