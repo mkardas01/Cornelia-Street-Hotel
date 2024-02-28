@@ -19,6 +19,7 @@ import "dayjs/locale/pl";
 import axios from 'axios';
 import NotificationBar from "./NotificationBar.jsx";
 import PropTypes from "prop-types";
+import {MainPicWithArrow} from "./MainPicWithArrow.jsx";
 
 Arrow.propTypes = {
     scrollDown: PropTypes.func.isRequired,
@@ -148,17 +149,8 @@ export default function Home() {
                 transition={{duration: 1, ease: "easeIn"}}
             >
 
-                <div style={{backgroundImage: `url(${mainPic})`, backgroundSize: 'cover',}}
+                <MainPicWithArrow mainPic={mainPic} scrollDownDiv={scrollDownDiv} title="Cornelia Street Hotel"/>
 
-                     className="flex justify-center items-center h-screen">
-
-                    <h1 className="text-white text-center font-serif drop-shadow-2xl p-10 w-full text-6xl md:text-8xl"
-                        style={{backdropFilter: "brightness(60%)"}}>Cornelia Street Hotel</h1>
-
-                    <Arrow scrollDown={() => scrollDown(scrollDownDiv)} />
-
-
-                </div>
 
                 <div ref={scrollDownDiv}>
                     {showDatePicker &&
