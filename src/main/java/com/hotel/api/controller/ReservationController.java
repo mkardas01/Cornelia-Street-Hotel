@@ -32,9 +32,10 @@ public class ReservationController {
     @PostMapping("/reserve/{roomID}")
     @ResponseBody
     @CrossOrigin
-    public ResponseEntity<?> reserveRoom(@PathVariable Integer roomID, @RequestBody @Valid NewReservationDTO reservationDTO) {
+    public ResponseEntity<?> reserveRoom(@PathVariable Integer roomID, @RequestBody @Valid NewReservationDTO reservationDTO
+                                                        , HttpServletRequest request) {
 
-        return new ResponseEntity<>(reservationService.reserveRoom(reservationDTO, roomID), HttpStatus.OK);
+        return new ResponseEntity<>(reservationService.reserveRoom(reservationDTO, roomID, request), HttpStatus.OK);
 
     }
 

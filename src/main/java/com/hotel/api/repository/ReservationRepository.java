@@ -14,9 +14,10 @@ import java.util.Optional;
 @Repository
 public interface ReservationRepository extends JpaRepository<Reservation, Integer> {
 
-    boolean existsByStartDateAfterOrStartDateEqualsOrEndDateBeforeAndRoomId(
-            LocalDate startDate, LocalDate startDate2, LocalDate endDate, int room_id
+    boolean existsByRoomIdAndEndDateAfterAndStartDateBeforeOrStartDateEqualsAndEndDateAfter(
+            int room_id, LocalDate endDate, LocalDate startDate, LocalDate startDate2, LocalDate endDate2
     );
+
 
     Optional<List<Reservation>> getReservationByEmail(String username);
 
