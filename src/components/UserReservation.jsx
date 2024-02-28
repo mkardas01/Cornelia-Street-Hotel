@@ -44,9 +44,13 @@ export default function UserReservation() {
                 );
 
                 setReservationList(response.data);
+
                 console.log(response.data);
+
             } catch (error) {
+
                 console.log(error)
+
             }
         }
 
@@ -67,7 +71,7 @@ export default function UserReservation() {
                     className="grid grid-cols-1 items-center justify-center backdrop-blur-3xl h-full w-full">
 
                     {reservationList.length > 0 &&
-                        <RoomTemplate room={room} days={4} reservation={false}/>
+                        <RoomTemplate room={room} reservation={reservationList} days={4} reserveRoom={false}/>
                     }
 
                     {reservationList.length === 0 &&
