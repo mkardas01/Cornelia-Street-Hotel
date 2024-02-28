@@ -14,7 +14,7 @@ import java.util.Map;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler({BookRoomDateException.class, ReservationException.class, ReservationDateException.class})
+    @ExceptionHandler({BookRoomDateException.class, ReservationException.class, ReservationDateException.class, UserNotFoundException.class})
     public ResponseEntity<ErrorObject> handleException(Exception ex){
         ErrorObject errorObject = new ErrorObject();
 

@@ -17,9 +17,10 @@ import java.util.Objects;
 import java.util.function.Function;
 
 @Service
-public class JwtService {
+public class JwtService implements JwtInterface{
 
     private static final String SECRET_KEY = "95234a6e8a807089c4650c08450a55a3e855a195afde1d810bb58f6b03050672"; //dev only key
+
 
     public String extractUserName(String token) {
 
@@ -40,7 +41,7 @@ public class JwtService {
                 .parser()
                 .setSigningKey(getSignInKey())
                 .build()
-                .parseClaimsJwt(token)
+                .parseClaimsJws(token)
                 .getBody();
 
     }
