@@ -4,12 +4,14 @@ import com.hotel.api.dto.NewReservationDTO;
 import com.hotel.api.dto.RoomDTO;
 import com.hotel.api.exception.ReservationDateException;
 import com.hotel.api.exception.ReservationException;
+import com.hotel.api.exception.UserNotFoundException;
 import com.hotel.api.model.Reservation;
 import com.hotel.api.model.ReservationDTO;
 import com.hotel.api.model.Room;
 import com.hotel.api.model.user.User;
 import com.hotel.api.repository.ReservationRepository;
 import com.hotel.api.repository.RoomRepository;
+import com.hotel.api.repository.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,7 +35,12 @@ public class ReservationImpl implements ReservationService{
     private RoomRepository roomRepository;
 
     @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
     private JwtService jwtService;
+
+
 
     private List<ReservationDTO> mapToReservationDTO(List<Reservation> reservations) {
         return reservations.stream()
@@ -74,7 +81,7 @@ public class ReservationImpl implements ReservationService{
 
         Room room = findRoomById(roomID);
         checkRoomAvailability(roomID, startDate, endDate);
-        Reservation reservation = createReservation(reservationDTO, startDate, endDate, room);
+        Reservation reservation = createReservation(reservationDTO, startDate, endDate, room, request);
 
         reservationDTO.setReservationNumber(reservation.getReservationNumber().toUpperCase());
 
@@ -110,7 +117,7 @@ public class ReservationImpl implements ReservationService{
         }
     }
 
-    private Reservation createReservation(NewReservationDTO reservationDTO, LocalDate startDate, LocalDate endDate, Room room) {
+    private Reservation createReservation(NewReservationDTO reservationDTO, LocalDate startDate, LocalDate endDate, Room room, HttpServletRequest request) {
         Reservation reservation = Reservation.builder()
                 .name(reservationDTO.getName())
                 .surname(reservationDTO.getSurname())
@@ -121,7 +128,14 @@ public class ReservationImpl implements ReservationService{
                 .reservationNumber(UUID.randomUUID().toString().substring(0, 6))
                 .room(room)
                 .build();
-        reservation.setUser(User.builder().id(1).build());
+
+        String token = request.getHeader("Authorization");
+        String username = jwtService.extractUserName(token.substring(7));
+
+        User user = userRepository.findByEmail(username).orElseThrow(() -> new UserNotFoundException("Twoje konto nie istnieje"));
+
+        reservation.setUser(User.builder().id(user.getId()).build());
+
         return reservationRepository.save(reservation);
     }
 
