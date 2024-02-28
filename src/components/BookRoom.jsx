@@ -7,6 +7,8 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import {BackHome} from "./BackHome.jsx";
 import {motion} from "framer-motion";
 
+import { jwtDecode } from 'jwt-decode'
+
 import {useLocation, useParams} from 'react-router-dom';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -17,12 +19,14 @@ import axios from 'axios';
 import dayjs from "dayjs";
 import "dayjs/locale/pl";
 import NotificationBar from "./NotificationBar.jsx";
+import Cookies from "js-cookie";
 
 export default function BookRoom( ) {
 
     const BASE_URL = "http://localhost:8080/api/";
 
     const [loading, setLoading] = useState(false);
+
 
     const {id} = useParams();
     const room = useLocation().state.room;
@@ -36,13 +40,13 @@ export default function BookRoom( ) {
     const [surname, setSurname] = useState('');
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
-    const [terms, setTerms] = useState('');
+    const [terms, setTerms] = useState(false);
 
     const [nameError, setNameError] = useState('');
     const [surnameError, setSurnameError] = useState('');
     const [emailError, setEmailError] = useState('');
     const [phoneError, setPhoneError] = useState('');
-    const [termsError, setTermsError] = useState('');
+
 
     const [notificationMessage, setNotificationMessage] = useState("");
     const [notificationType, setNotificationType] = useState("error");
@@ -52,6 +56,13 @@ export default function BookRoom( ) {
     const [bookingResults, setBookingResults] = useState(false);
     const [bookingResultsData, setBookingResultsData] = useState();
 
+    let user = Cookies.get("token") ? jwtDecode(Cookies.get("token")) : {};
+
+    if (user && !name && !surname && !email) {
+        setName(user.name || '');
+        setSurname(user.surname || '');
+        setEmail(user.sub || '');
+    }
 
     const handlePhoneNumber = (e) => {
         const regex = /^[0-9\b]+$/;
@@ -127,7 +138,7 @@ export default function BookRoom( ) {
         setEmailError(emailErrorText);
         setPhoneError(phoneErrorText);
 
-        return !(nameErrorText || surnameErrorText || emailErrorText || phoneErrorText);
+        return !(nameErrorText || surnameErrorText || emailErrorText || phoneErrorText || !terms) ;
     }
 
 
@@ -167,19 +178,21 @@ export default function BookRoom( ) {
                                     }}
                                     label="Imię"
                                     variant="outlined"
+                                    value={user && user.name ? user.name : ""}
                                     required
                                     error={nameError.length > 0}
                                     helperText={nameError}
                                 />
 
                                 <TextField
-                                    id="fSurName"
+                                    id="fSurname"
                                     onChange={(e) => {
                                         setSurname(e.target.value);
                                         setSurnameError('')
                                     }}
                                     label="Nazwisko"
                                     variant="outlined"
+                                    value={user && user.surname ? user.surname : ""}
                                     required
                                     error={surnameError.length > 0}
                                     helperText={surnameError}
@@ -194,6 +207,7 @@ export default function BookRoom( ) {
                                     }}
                                     label="Email"
                                     variant="outlined"
+                                    value={user && user.sub ? user.sub : ""}
                                     required
                                     error={emailError.length > 0}
                                     helperText={emailError}
@@ -215,6 +229,7 @@ export default function BookRoom( ) {
                                     required
                                     label="Akceptuje regulamin pobytu"
                                     control={<Checkbox/>}
+                                    onClick={()=>setTerms(!terms)}
                                     labelPlacement="start"
                                     className="justify-self-start"
 
@@ -249,11 +264,6 @@ export default function BookRoom( ) {
                                 <p className="font-medium">{room.price * days} zł </p>
                             </div>
 
-                            <div>
-                                <p className="font-medium text-gray-500 hover:cursor-pointer">Zmień ofertę</p>
-                            </div>
-
-
                             <LoadingButton
                                 endIcon={<SendIcon/>}
                                 onClick={reserveRoom}
@@ -261,7 +271,7 @@ export default function BookRoom( ) {
                                 loadingPosition="end"
                                 variant="filled"
                                 id="submit"
-                                disabled={nameError.length > 0 || surnameError.length > 0 || emailError.length > 0 || phoneError.length > 0}
+                                disabled={nameError.length > 0 || surnameError.length > 0 || emailError.length > 0 || phoneError.length > 0 || !terms}
                                 className="col-span-2"
                             >
                                 <span>Rezerwuj</span>

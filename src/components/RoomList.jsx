@@ -33,7 +33,7 @@ export default function RoomList({rooms, setShowRoom, setShowDatePicker, days, s
             {
                 rooms.map(room => (
                         <RoomTemplate key={room.id} room={room} days={days}
-                                      startDate={startDate} endDate={endDate} reservation={true}/>
+                                      startDate={startDate} endDate={endDate} reserveRoom={true}/>
                     ))
             }
 
