@@ -19,6 +19,6 @@ public interface ReservationRepository extends JpaRepository<Reservation, Intege
     );
 
 
-    Optional<List<Reservation>> getReservationByEmail(String username);
+    Optional<List<Reservation>> getReservationByUserId(Integer userID);
 
 }
