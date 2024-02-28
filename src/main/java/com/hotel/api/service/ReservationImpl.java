@@ -130,11 +130,15 @@ public class ReservationImpl implements ReservationService{
                 .build();
 
         String token = request.getHeader("Authorization");
-        String username = jwtService.extractUserName(token.substring(7));
 
-        User user = userRepository.findByEmail(username).orElseThrow(() -> new UserNotFoundException("Twoje konto nie istnieje"));
+        User user = null;
 
-        reservation.setUser(User.builder().id(user.getId()).build());
+        if (token != null) {
+            String username = jwtService.extractUserName(token.substring(7));
+            user = userRepository.findByEmail(username).orElseThrow(() -> new UserNotFoundException("Twoje konto nie istnieje"));
+        }
+
+        reservation.setUser(user);
 
         return reservationRepository.save(reservation);
     }
@@ -153,7 +157,9 @@ public class ReservationImpl implements ReservationService{
         String token = request.getHeader("Authorization");
         String username = jwtService.extractUserName(token.substring(7));
 
-        List<Reservation> reservations = reservationRepository.getReservationByEmail(username).orElseThrow();
+        User user = userRepository.findByEmail(username).orElseThrow(() -> new UserNotFoundException("Twoje konto nie istnieje"));
+
+        List<Reservation> reservations = reservationRepository.getReservationByUserId(user.getId()).orElseThrow(() -> new ReservationException("Błąd w czasie pobierania rezerwacji"));
 
         return mapToReservationDTO(reservations);
     }
