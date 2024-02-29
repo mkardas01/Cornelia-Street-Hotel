@@ -28,7 +28,7 @@ export const RoomTemplate = ({room, reservation, days, startDate, endDate, reser
     return (
         <>
             <div
-                className={`mx-auto flex flex-col justify-center w-3/4 h-fit mt-20 mb-20 md:flex-row ${!reservation ? 'md:max-h-72' : 'md:max-h-96'}`}>
+                className={`mx-auto flex flex-col justify-center w-3/4 h-fit mt-20 mb-20  md:flex-row ${!reservation ? 'md:max-h-72' : 'md:max-h-96'}`}>
                 {/*img*/}
                 <div className="md:w-1/2">
                     <img
@@ -56,7 +56,7 @@ export const RoomTemplate = ({room, reservation, days, startDate, endDate, reser
 
                     </div>
 
-                    <div className={`flex flex-col justify-between ${!reservation ? 'h-2/5' : 'h-fit'}\` `}>
+                    <div className={`flex flex-col justify-between ${!reservation ? 'h-2/5' : ''} `}>
                     <div className={`flex flex-col ${!reserveRoom ? 'justify-end h-full' : ''}`}>
                                     <span className="grid grid-cols-3 gap-2 text-l p-2 text-center">
                                         <span><FontAwesomeIcon icon={faUser}/> {room.size}</span>
@@ -65,16 +65,34 @@ export const RoomTemplate = ({room, reservation, days, startDate, endDate, reser
                                     </span>
                         </div>
 
-                        {reserveRoom &&
-                            <div className="flex justify-center">
+
+                            <div className={`flex justify-center ${reservation ? 'md:pt-7 md:justify-around' : ''}`}>
+                                {reserveRoom &&
                                 <Link to={{pathname: '/bookRoom/' + room.id}} state={{room, startDate, endDate, days}}>
                                     <Button variant="filled" endIcon={<FontAwesomeIcon icon={faArrowRight}/>}>
                                         Wybierz
                                     </Button>
                                 </Link>
+                                }
+
+                                {!reserveRoom &&
+                                    <>
+                                    <Link to={{pathname: '/home/'}}>
+                                        <Button variant="filled" endIcon={<FontAwesomeIcon icon={faArrowRight}/>}>
+                                            Prośba o anulowanie
+                                        </Button>
+                                    </Link>
+
+                                    <Link to={{pathname: '/home/'}}>
+                                        <Button variant="filled" endIcon={<FontAwesomeIcon icon={faArrowRight}/>}>
+                                            Edytuj dane rezerwującego
+                                        </Button>
+                                    </Link>
+                                    </>
+                                }
 
                             </div>
-                        }
+
                     </div>
 
                 </div>
