@@ -57,7 +57,18 @@ export default function BookRoom( ) {
     const [bookingResults, setBookingResults] = useState(false);
     const [bookingResultsData, setBookingResultsData] = useState();
 
-    let user = Cookies.get("token") ? jwtDecode(Cookies.get("token")) : {};
+    const token = Cookies.get('token');
+
+    let user = token ? jwtDecode(Cookies.get("token")) : {};
+
+
+    let headers = {
+        'Content-Type': 'application/json',
+    };
+
+    if (token) {
+        headers['Authorization'] = `Bearer ${token}`;
+    }
 
     useEffect(() => {
         if (user && !name && !surname && !email) {
@@ -69,7 +80,7 @@ export default function BookRoom( ) {
 
     const handlePhoneNumber = (e) => {
         const regex = /^[0-9\b]+$/;
-        if ((e.target.value === "" || regex.test(e.target.value)) && (phone.length <9 || e.nativeEvent.type === "deleteContentBackward")) {
+        if ((e.target.value === "" || (regex.test(e.target.value) && e.target.value.length <= 9))) {
             setPhone(e.target.value);
             setPhoneError('');
         }
@@ -89,9 +100,7 @@ export default function BookRoom( ) {
                     endDate: endDate
                 },
                 {
-                    headers: {
-                        'Content-Type': 'application/json',
-                    }
+                    headers: headers
                 });
 
             setBookingResultsData(response.data);
@@ -101,7 +110,6 @@ export default function BookRoom( ) {
             setOpenNotificationBar(true);
 
         } catch (error) {
-            console.log(error);
             setNotificationType("error");
             setOpenNotificationBar(true);
             setNotificationMessage(error?.response?.data?.message ? error.response.data.message : "Przepraszamy wystąpił błąd w trakcie komunikacji z serwerem");
@@ -181,7 +189,7 @@ export default function BookRoom( ) {
                                     }}
                                     label="Imię"
                                     variant="outlined"
-                                    value={user && user.name ? user.name : ""}
+                                    value={user && user.name ? user.name : name}
                                     required
                                     error={nameError.length > 0}
                                     helperText={nameError}
@@ -196,7 +204,7 @@ export default function BookRoom( ) {
                                     }}
                                     label="Nazwisko"
                                     variant="outlined"
-                                    value={user && user.surname ? user.surname : ""}
+                                    value={user && user.surname ? user.surname : surname}
                                     required
                                     error={surnameError.length > 0}
                                     helperText={surnameError}
@@ -212,7 +220,7 @@ export default function BookRoom( ) {
                                     }}
                                     label="Email"
                                     variant="outlined"
-                                    value={user && user.sub ? user.sub : ""}
+                                    value={user && user.sub ? user.sub : email}
                                     required
                                     error={emailError.length > 0}
                                     helperText={emailError}
