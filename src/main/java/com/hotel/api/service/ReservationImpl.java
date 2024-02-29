@@ -111,13 +111,13 @@ public class ReservationImpl implements ReservationService{
     }
 
     private void checkRoomAvailability(Integer roomID, LocalDate startDate, LocalDate endDate) {
-        if (reservationRepository.existsByRoomIdAndEndDateAfterAndStartDateBeforeOrStartDateEqualsAndEndDateAfter(
-                roomID, endDate, startDate, startDate, endDate)) {
+        if (reservationRepository.existsReservationForRoomInPeriod(roomID, startDate, endDate)) {
             throw new ReservationException("Ten pokój niestety został już zarezerwowany");
         }
     }
 
-    private Reservation createReservation(NewReservationDTO reservationDTO, LocalDate startDate, LocalDate endDate, Room room, HttpServletRequest request) {
+    private Reservation createReservation(NewReservationDTO reservationDTO, LocalDate startDate, LocalDate endDate,
+                                          Room room, HttpServletRequest request) {
         Reservation reservation = Reservation.builder()
                 .name(reservationDTO.getName())
                 .surname(reservationDTO.getSurname())
