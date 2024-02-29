@@ -65,7 +65,7 @@ export default function NavBar(props) {
     const handleNavBarColor = () => {
         let color;
 
-        if (window.location.pathname === "/login" || window.location.pathname === "/register") {
+        if (window.location.pathname === "/login" || window.location.pathname === "/register" || window.location.pathname === "/admin") {
             setHiddeNavBar(true)
             color = "transparent"
         } else {
