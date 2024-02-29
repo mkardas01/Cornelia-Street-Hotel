@@ -42,10 +42,17 @@ export default function App() {
 
     }, []);
 
+    const options = [
+        { name: 'O nas', link: '/login' },
+        isLoggedIn ? { name: 'Twoje rezerwacje', link: '/reservation' } : null,
+        { name: 'Admin', link: '/admin'},
+        { name: isLoggedIn ? 'Wyloguj się' : 'Zaloguj się', link: isLoggedIn ? '/logout' : '/login' }
+    ].filter(option => option != null);
+
     return (
         <React.StrictMode>
             <Router>
-                <NavBar isLoggedIn={isLoggedIn}/>
+                <NavBar isLoggedIn={isLoggedIn} options={options}/>
                 <Routes>
 
                     <Route path="/" element={<Home/>}/>
