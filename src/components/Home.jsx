@@ -98,10 +98,6 @@ export default function Home() {
 
     }, [arrivalDate, departureDate]);
 
-    const scrollDown = (scrollDownDiv) => {
-        scrollDownDiv?.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    };
-
     const getAvailableRooms = async (startDate, endDate) => {
         setLoading(true);
         try {
