@@ -19,7 +19,7 @@ export default function SearchReservation() {
         };
 
     return(
-        <div className="flex flex-col items-center justify-center max-w-6xl">
+        <div className="flex flex-col items-center justify-center max-w-6xl mt-96">
             <div className=" bg-gray-200 p-8 h-fit rounded-3xl">
 
                 <h1 className="pb-4 font-semibold ">Wypełnij te pola na podstawie których chcesz wyszukać rezerwacji</h1>
