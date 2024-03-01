@@ -7,7 +7,7 @@ import dayjs from "dayjs";
 
 
 
-export const RoomTemplate = ({room, reservation, days, startDate, endDate, reserveRoom}) => {
+export const RoomTemplate = ({room, reservation, days, startDate, endDate, renderButtons}) => {
 
     const mapReservationToData = (res) => {
         return [
@@ -42,9 +42,9 @@ export const RoomTemplate = ({room, reservation, days, startDate, endDate, reser
                     <div className={` space-y-2 pb-2 ${!reservation ? 'h-3/5' : 'h-fit'}`}>
                         <h1 className={`font-serif drop-shadow-2xl w-full text-3xl ${reservation ? 'pb-2' : ''}`}>{room.name}</h1>
 
-                        {reserveRoom && <p className="overflow-hidden line-clamp-3">{room.description}</p>}
+                        {!reservation && <p className="overflow-hidden line-clamp-3">{room.description}</p>}
 
-                        {!reserveRoom &&
+                        {reservation &&
 
                             reservationData.map((item, index) => (
                                     <p key={index} className='font-medium text-gray-500'>
@@ -57,7 +57,7 @@ export const RoomTemplate = ({room, reservation, days, startDate, endDate, reser
                     </div>
 
                     <div className={`flex flex-col justify-between ${!reservation ? 'h-2/5' : ''} `}>
-                    <div className={`flex flex-col ${!reserveRoom ? 'justify-end h-full' : ''}`}>
+                    <div className={`flex flex-col ${reservation ? 'justify-end h-full' : ''}`}>
                                     <span className="grid grid-cols-3 gap-2 text-l p-2 text-center">
                                         <span><FontAwesomeIcon icon={faUser}/> {room.size}</span>
                                         <span><FontAwesomeIcon icon={faDoorOpen}/> {room.number}</span>
@@ -67,29 +67,8 @@ export const RoomTemplate = ({room, reservation, days, startDate, endDate, reser
 
 
                             <div className={`flex justify-center ${reservation ? 'md:pt-7 md:justify-around' : ''}`}>
-                                {reserveRoom &&
-                                <Link to={{pathname: '/bookRoom/' + room.id}} state={{room, startDate, endDate, days}}>
-                                    <Button variant="filled" endIcon={<FontAwesomeIcon icon={faArrowRight}/>}>
-                                        Wybierz
-                                    </Button>
-                                </Link>
-                                }
 
-                                {!reserveRoom &&
-                                    <>
-                                    <Link to={{pathname: '/home/'}}>
-                                        <Button variant="filled" endIcon={<FontAwesomeIcon icon={faArrowRight}/>}>
-                                            Prośba o anulowanie
-                                        </Button>
-                                    </Link>
-
-                                    <Link to={{pathname: '/home/'}}>
-                                        <Button variant="filled" endIcon={<FontAwesomeIcon icon={faArrowRight}/>}>
-                                            Edytuj dane rezerwującego
-                                        </Button>
-                                    </Link>
-                                    </>
-                                }
+                                {renderButtons}
 
                             </div>
 

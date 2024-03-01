@@ -1,6 +1,6 @@
 import mainPic from "/assets/reception.png";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faDoorOpen, faTag, faUser} from "@fortawesome/free-solid-svg-icons";
+import {faArrowRight, faDoorOpen, faTag, faUser} from "@fortawesome/free-solid-svg-icons";
 import roomPic from "/assets/bookRoom.jpg";
 import {motion} from "framer-motion";
 import {useEffect, useRef, useState} from "react";
@@ -10,6 +10,27 @@ import axios from "axios";
 import dayjs from "dayjs";
 import Cookies from 'js-cookie';
 import NotificationBar from "./NotificationBar.jsx";
+import {Link} from "react-router-dom";
+import {Button} from "@mui/material";
+
+
+function renderButtons(){
+    return(
+        <>
+            <Link to={{pathname: '/home/'}}>
+                <Button variant="filled" endIcon={<FontAwesomeIcon icon={faArrowRight}/>}>
+                    Prośba o anulowanie
+                </Button>
+            </Link>
+
+            <Link to={{pathname: '/home/'}}>
+                <Button variant="filled" endIcon={<FontAwesomeIcon icon={faArrowRight}/>}>
+                    Edytuj dane rezerwującego
+                </Button>
+            </Link>
+        </>
+    )
+}
 
 export default function UserReservation() {
 
@@ -67,7 +88,7 @@ export default function UserReservation() {
                     className="grid grid-cols-1 items-center justify-center backdrop-blur-3xl h-full w-full">
 
                     {reservationList.length > 0 && reservationList.map((reservation) => (
-                        <RoomTemplate key={reservation.id}  reservation={reservation}  reserveRoom={false}/>
+                        <RoomTemplate key={reservation.id}  reservation={reservation} renderButtons={renderButtons()}/>
                     ))}
 
 
