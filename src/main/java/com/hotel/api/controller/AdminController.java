@@ -1,5 +1,6 @@
 package com.hotel.api.controller;
 
+import com.hotel.api.dto.SearchReservation;
 import com.hotel.api.service.Admin.AdminService;
 import com.hotel.api.service.Reservation.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,13 @@ public class AdminController {
     public ResponseEntity<?> TodaysReservations(){
 
         return new ResponseEntity<>(adminService.todaysReservations(), HttpStatus.OK);
+    }
+
+    @PostMapping("searchReservation")
+    @CrossOrigin
+    public ResponseEntity<?> SearchReservations(@RequestBody SearchReservation searchReservation){
+
+        return new ResponseEntity<>(adminService.searchReservation(searchReservation), HttpStatus.OK);
     }
 
 }

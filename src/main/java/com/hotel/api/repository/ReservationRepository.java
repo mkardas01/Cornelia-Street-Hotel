@@ -24,4 +24,17 @@ public interface ReservationRepository extends JpaRepository<Reservation, Intege
     Optional<List<Reservation>> getReservationByStartDate(LocalDate startDay);
     Optional<List<Reservation>> getReservationByUserId(Integer userID);
 
+    @Query("SELECT r FROM Reservation r " +
+            "WHERE " +
+            "(:reservationNumber is null or r.reservationNumber = :reservationNumber) " +
+            "AND (:email is null or r.email = :email) " +
+            "AND (:surname is null or r.surname = :surname) " +
+            "AND (:startDate is null or r.startDate = :startDate) " +
+            "AND (:endDate is null or r.endDate = :endDate)")
+    Optional<List<Reservation>> getReservation(@Param("reservationNumber") String reservationNumber,
+                                               @Param("email") String email,
+                                               @Param("surname") String surname,
+                                               @Param("startDate") LocalDate startDate,
+                                               @Param("endDate") LocalDate endDate);
+
 }
