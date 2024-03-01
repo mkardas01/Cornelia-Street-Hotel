@@ -20,7 +20,13 @@ export default function AdminPanel(){
                 </div>
 
                 <div className="flex justify-center items-center w-4/5 ml-1/5"
-                     style={{backgroundImage: `url(${mainPic})`, backgroundSize: 'cover', backgroundPosition: 'left', transformOrigin:"top"}}>
+                     style={{
+                            backgroundImage: `url(${mainPic})`,
+                            backgroundSize: 'cover',
+                            backgroundPosition: 'left',
+                            transformOrigin:"top",
+                            backgroundAttachment: 'fixed'
+                        }}>
                     <SearchReservation />
                 </div>
             </div>
