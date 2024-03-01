@@ -52,7 +52,7 @@ export default function App() {
     ].filter(option => option != null);
 
     return (
-        <React.StrictMode>
+        <>
             <Router>
                 <NavBar isLoggedIn={isLoggedIn} options={options}/>
                 <Routes>
@@ -77,7 +77,7 @@ export default function App() {
 
                 </Routes>
             </Router>
-        </React.StrictMode>
+        </>
     )
 }
 

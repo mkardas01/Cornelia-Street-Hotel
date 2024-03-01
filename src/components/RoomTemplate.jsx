@@ -25,8 +25,6 @@ export const RoomTemplate = ({room, reservation, days, startDate, endDate, rende
 
     days = reservation ? dayjs(reservation.endDate).diff(dayjs(reservation.startDate), 'day') : days;
 
-    console.log(room)
-
     return (
         <>
             <div
@@ -35,7 +33,7 @@ export const RoomTemplate = ({room, reservation, days, startDate, endDate, rende
                 <div className="md:w-1/2">
                     <img
                         className="h-64 w-full object-cover rounded-t-3xl md:h-full md:rounded-tr-none md:rounded-l-3xl"
-                        src={'../public/assets/' + room.picPath} alt="image"/>
+                        src={'../assets/' + room.picPath} alt="image"/>
                 </div>
 
                 <div
