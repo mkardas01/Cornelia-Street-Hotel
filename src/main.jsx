@@ -22,6 +22,7 @@ import {ComponentPreviews, useInitial} from "./dev/index.js";
 import UserReservation from "./components/UserReservation.jsx";
 import AdminPanel from "./components/admin/AdminPanel.jsx";
 
+
 let root = ReactDOM.createRoot(document.getElementById('root'));
 
 export default function App() {
