@@ -28,7 +28,7 @@ export default function TodaysReservations() {
     }, []);
 
     return (
-        <div className={`flex flex-col items-center justify-center max-w-6xl ${reservations ? 'mt-24' : 'mt-64'}`}>
+        <div className={`flex flex-col items-center justify-center max-w-6xl ${reservations ? 'mt-24' : ''}`}>
             {reservations.length > 0 ? (
                 reservations.map((reservation, index) => (
                     <RoomTemplate key={index} reservation={reservation} />
