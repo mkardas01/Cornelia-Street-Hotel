@@ -1,4 +1,4 @@
-package com.hotel.api.service;
+package com.hotel.api.service.Reservation;
 
 import com.hotel.api.dto.NewReservationDTO;
 import com.hotel.api.dto.RoomDTO;
@@ -12,10 +12,9 @@ import com.hotel.api.model.user.User;
 import com.hotel.api.repository.ReservationRepository;
 import com.hotel.api.repository.RoomRepository;
 import com.hotel.api.repository.UserRepository;
+import com.hotel.api.service.Jwt.JwtService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;

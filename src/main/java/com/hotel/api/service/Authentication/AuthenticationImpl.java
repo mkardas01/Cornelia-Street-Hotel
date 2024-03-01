@@ -1,4 +1,4 @@
-package com.hotel.api.service;
+package com.hotel.api.service.Authentication;
 
 import com.hotel.api.dto.AuthenticationRequest;
 import com.hotel.api.dto.AuthenticationRespond;
@@ -8,6 +8,7 @@ import com.hotel.api.exception.UserNotFoundException;
 import com.hotel.api.model.user.Role;
 import com.hotel.api.model.user.User;
 import com.hotel.api.repository.UserRepository;
+import com.hotel.api.service.Jwt.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;

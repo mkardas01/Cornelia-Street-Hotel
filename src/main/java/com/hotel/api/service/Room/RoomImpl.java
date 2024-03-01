@@ -1,4 +1,4 @@
-package com.hotel.api.service;
+package com.hotel.api.service.Room;
 
 
 import com.hotel.api.dto.RoomDTO;

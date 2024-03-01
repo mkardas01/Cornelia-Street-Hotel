@@ -1,4 +1,4 @@
-package com.hotel.api.service;
+package com.hotel.api.service.Jwt;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
