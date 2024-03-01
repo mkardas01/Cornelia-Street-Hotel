@@ -2,6 +2,7 @@ package com.hotel.api.repository;
 
 import com.hotel.api.model.Reservation;
 import com.hotel.api.model.Room;
+import org.springframework.cglib.core.Local;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -20,7 +21,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Intege
     boolean existsReservationForRoomInPeriod(int roomId, LocalDate startDate, LocalDate endDate);
 
 
-
+    Optional<List<Reservation>> getReservationByStartDate(LocalDate startDay);
     Optional<List<Reservation>> getReservationByUserId(Integer userID);
 
 }

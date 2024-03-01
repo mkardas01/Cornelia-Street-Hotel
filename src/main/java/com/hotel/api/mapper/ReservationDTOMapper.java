@@ -31,7 +31,7 @@ public class ReservationDTOMapper{
                 .collect(Collectors.toList());
     }
 
-    public RoomDTO mapToRoomDTO(Room room) {
+    private RoomDTO mapToRoomDTO(Room room) {
         return RoomDTO.builder()
                 .id(room.getId())
                 .floorNumber(room.getFloorNumber())
