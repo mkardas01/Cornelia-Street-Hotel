@@ -1,5 +1,6 @@
 package com.hotel.api.service.Admin;
 
+import com.hotel.api.dto.SearchReservation;
 import com.hotel.api.model.Reservation;
 import com.hotel.api.model.ReservationDTO;
 
@@ -10,5 +11,6 @@ public interface AdminService {
 
     public List<ReservationDTO> todaysReservations();
 
+    public List<ReservationDTO> searchReservation(SearchReservation searchReservation);
 
-}
+    }
