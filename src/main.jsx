@@ -65,8 +65,7 @@ export default function App() {
                         <Route path="/register" element={<> <Login_Register type="register"/> <BackHome/> </>}/>
                     </Route>
 
-                    <Route path="/admin" element={<AdminPanel />}/>
-
+                    <Route path="/admin/*" element={<AdminPanel/>}/>
 
                     <Route element={<ProtectedRoute isLoggedIn={isLoggedIn}/>}>
                         <Route path="/logout" element={<Logout/>}/>
