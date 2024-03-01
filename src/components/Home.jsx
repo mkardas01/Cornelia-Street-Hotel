@@ -232,10 +232,11 @@ export default function Home() {
 
                 {!showDatePicker &&
                     <motion.div
-                        className="overflow-hidden origin-center"
+                        className="flex flex-col justify-center items-center overflow-hidden origin-center"
                         initial={{opacity:0, scaleX:0}}
                         animate={{opacity:1, scaleX:1}}
                         transition={{duration: 0.4, ease: "easeIn"}}
+
                     >
                         <RoomList rooms={rooms} showRoom={showRoom} setShowRoom={setShowRoom}
                                   setShowDatePicker={setShowDatePicker} days={days} startDate={arrivalDate.format("YYYY-MM-DD")}
