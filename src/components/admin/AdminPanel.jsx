@@ -1,5 +1,7 @@
 import SearchReservation from "./SearchReservation.jsx";
 import mainPic from "/assets/front.png";
+import TodaysReservations from "./TodaysReservations.jsx";
+import CancelRequest from "./CancelRequest.jsx";
 
 
 export default function AdminPanel(){
@@ -27,7 +29,7 @@ export default function AdminPanel(){
                             transformOrigin:"top",
                             backgroundAttachment: 'fixed'
                         }}>
-                    <SearchReservation />
+                    <CancelRequest />
                 </div>
             </div>
         </>

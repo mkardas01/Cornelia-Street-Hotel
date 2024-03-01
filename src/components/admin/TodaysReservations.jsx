@@ -5,7 +5,7 @@ import {RoomTemplate} from "../RoomTemplate.jsx";
 
 
 
-export default function SearchReservation() {
+export default function TodaysReservations() {
 
     const reservation =
         {
@@ -30,21 +30,7 @@ export default function SearchReservation() {
         };
 
     return(
-        <div className="flex flex-col items-center justify-center max-w-6xl mt-96">
-            <div className=" bg-gray-50 p-8 h-fit rounded-3xl">
-
-                <h1 className="pb-4 font-semibold ">Wypełnij te pola na podstawie których chcesz wyszukać rezerwacji</h1>
-
-                <div className="flex items-center justify-between space-x-5">
-                    <TextField id="outlined-basic" label="Numer rezerwacji" variant="outlined"/>
-                    <TextField id="outlined-basic" label="E-mail" variant="outlined"/>
-                    <TextField id="outlined-basic" label="Nazwisko" variant="outlined"/>
-                    <Button variant="outline" endIcon={<FontAwesomeIcon icon={faSearch}/>}>
-                        Szukaj
-                    </Button>
-                </div>
-
-            </div>
+        <div className="flex flex-col items-center justify-center max-w-6xl mt-64">
 
             <>
                 {[...Array(10)].map((_, index) => (

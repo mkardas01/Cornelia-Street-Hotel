@@ -25,6 +25,8 @@ export const RoomTemplate = ({room, reservation, days, startDate, endDate, rende
 
     days = reservation ? dayjs(reservation.endDate).diff(dayjs(reservation.startDate), 'day') : days;
 
+    console.log(room)
+
     return (
         <>
             <div
@@ -37,7 +39,7 @@ export const RoomTemplate = ({room, reservation, days, startDate, endDate, rende
                 </div>
 
                 <div
-                    className="md:w-1/2 border-2 rounded-b-3xl border-t-0 py-4 px-3 space-y-2 md:border-l-0 md:border-t-2 md:rounded-l-none md:rounded-tr-3xl ">
+                    className="md:w-1/2 bg-gray-50 border-2 rounded-b-3xl border-t-0 py-4 px-3 space-y-2 md:border-l-0 md:border-t-2 md:rounded-l-none md:rounded-tr-3xl ">
                     {/*opis*/}
                     <div className={` space-y-2 pb-2 ${!reservation ? 'h-3/5' : 'h-fit'}`}>
                         <h1 className={`font-serif drop-shadow-2xl w-full text-3xl ${reservation ? 'pb-2' : ''}`}>{room.name}</h1>
