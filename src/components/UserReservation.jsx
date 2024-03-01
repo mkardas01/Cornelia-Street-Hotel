@@ -85,7 +85,7 @@ export default function UserReservation() {
 
                 <div
                 ref={scrollDownDiv}
-                    className="grid grid-cols-1 items-center justify-center backdrop-blur-3xl h-full w-full">
+                    className="flex flex-col justify-center items-center h-full w-full">
 
                     {reservationList.length > 0 && reservationList.map((reservation) => (
                         <RoomTemplate key={reservation.id}  reservation={reservation} renderButtons={renderButtons()}/>

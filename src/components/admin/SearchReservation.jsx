@@ -2,6 +2,10 @@ import {Button, TextField} from "@mui/material";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faSearch} from "@fortawesome/free-solid-svg-icons";
 import {RoomTemplate} from "../RoomTemplate.jsx";
+import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
+import {DatePicker} from "@mui/x-date-pickers";
+import dayjs from "dayjs";
+import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
 
 
 
@@ -30,7 +34,7 @@ export default function SearchReservation() {
         };
 
     return(
-        <div className="flex flex-col items-center justify-center max-w-6xl mt-96">
+        <div className="flex flex-col items-center justify-center max-w-7xl mt-96">
             <div className=" bg-gray-50 p-8 h-fit rounded-3xl">
 
                 <h1 className="pb-4 font-semibold ">Wypełnij te pola na podstawie których chcesz wyszukać rezerwacji</h1>
@@ -39,6 +43,24 @@ export default function SearchReservation() {
                     <TextField id="outlined-basic" label="Numer rezerwacji" variant="outlined"/>
                     <TextField id="outlined-basic" label="E-mail" variant="outlined"/>
                     <TextField id="outlined-basic" label="Nazwisko" variant="outlined"/>
+
+                    <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pl">
+
+                        <DatePicker
+                            label="Dzień przyjazdu"
+                            format="DD/MM/YYYY"
+                            disablePast
+                        />
+
+                        <DatePicker
+                            label="Dzień wyjazdu"
+                            format="DD/MM/YYYY"
+                            disablePast
+                        />
+
+
+                    </LocalizationProvider>
+
                     <Button variant="outline" endIcon={<FontAwesomeIcon icon={faSearch}/>}>
                         Szukaj
                     </Button>
