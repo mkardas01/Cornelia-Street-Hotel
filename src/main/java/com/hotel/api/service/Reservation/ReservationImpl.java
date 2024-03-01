@@ -5,6 +5,7 @@ import com.hotel.api.dto.RoomDTO;
 import com.hotel.api.exception.ReservationDateException;
 import com.hotel.api.exception.ReservationException;
 import com.hotel.api.exception.UserNotFoundException;
+import com.hotel.api.mapper.ReservationDTOMapper;
 import com.hotel.api.model.Reservation;
 import com.hotel.api.model.ReservationDTO;
 import com.hotel.api.model.Room;
@@ -22,7 +23,6 @@ import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 public class ReservationImpl implements ReservationService{
@@ -39,36 +39,7 @@ public class ReservationImpl implements ReservationService{
     @Autowired
     private JwtService jwtService;
 
-
-
-    private List<ReservationDTO> mapToReservationDTO(List<Reservation> reservations) {
-        return reservations.stream()
-                .map(reservation -> ReservationDTO.builder()
-                        .id(reservation.getId())
-                        .name(reservation.getName())
-                        .surname(reservation.getSurname())
-                        .email(reservation.getEmail())
-                        .phone(reservation.getPhone())
-                        .startDate(reservation.getStartDate())
-                        .endDate(reservation.getEndDate())
-                        .reservationNumber(reservation.getReservationNumber())
-                        .room(mapToRoomDTO(reservation.getRoom()))
-                        .build())
-                .collect(Collectors.toList());
-    }
-
-    private RoomDTO mapToRoomDTO(Room room) {
-        return RoomDTO.builder()
-                .id(room.getId())
-                .floorNumber(room.getFloorNumber())
-                .number(room.getNumber())
-                .size(room.getSize())
-                .price(room.getPrice())
-                .name(room.getName())
-                .description(room.getDescription())
-                .picPath(room.getPicPath())
-                .build();
-    }
+    private final ReservationDTOMapper reservationDTOMapper = new ReservationDTOMapper();
 
 
     @Override
@@ -160,7 +131,7 @@ public class ReservationImpl implements ReservationService{
 
         List<Reservation> reservations = reservationRepository.getReservationByUserId(user.getId()).orElseThrow(() -> new ReservationException("Błąd w czasie pobierania rezerwacji"));
 
-        return mapToReservationDTO(reservations);
+        return reservationDTOMapper.mapToReservationDTO(reservations);
     }
 
 }
