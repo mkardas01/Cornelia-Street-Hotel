@@ -2,7 +2,33 @@ import {RoomTemplate} from "../RoomTemplate.jsx";
 import {useEffect, useState} from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
+import {Link} from "react-router-dom";
+import {Button} from "@mui/material";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faArrowRight} from "@fortawesome/free-solid-svg-icons";
 
+function renderButtons(){
+    return(
+        <>
+
+            <Button
+                variant="filled"
+                endIcon={<FontAwesomeIcon icon={faArrowRight}/>}
+            >
+                Anuluj
+
+            </Button>
+
+            <Button
+                variant="filled"
+                endIcon={<FontAwesomeIcon icon={faArrowRight}/>}
+            >
+                Odrzuć prośbę
+
+            </Button>
+        </>
+    )
+}
 
 
 export default function CancelRequest() {
@@ -18,7 +44,7 @@ export default function CancelRequest() {
             const response = await axios.post(`${BASE_URL}/admin/cancelRequests`, {}, {
                 headers: { "Authorization": `Bearer ${token}` }
             });
-            console.log(response.data)
+
             setReservations(response.data);
         } catch (error) {
             console.error('Error fetching today\'s reservations:', error);
@@ -39,7 +65,7 @@ export default function CancelRequest() {
         <div className={`flex flex-col items-center justify-center max-w-6xl ${reservations ? 'mt-24' : ''}`}>
             {reservations.length > 0 ? (
                 reservations.map((reservation, index) => (
-                    <RoomTemplate key={index} reservation={reservation}/>
+                    <RoomTemplate key={index} reservation={reservation} renderButtons={renderButtons()}/>
                 ))
             ) : (
                 <div className="bg-gray-100 flex flex-col justify-center items-center rounded-3xl text-center py-20 ">

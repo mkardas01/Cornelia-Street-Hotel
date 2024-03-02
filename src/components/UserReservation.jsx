@@ -1,31 +1,30 @@
 import mainPic from "/assets/reception.png";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faArrowRight, faDoorOpen, faTag, faUser} from "@fortawesome/free-solid-svg-icons";
-import roomPic from "/assets/bookRoom.jpg";
-import {motion} from "framer-motion";
+import {faArrowRight} from "@fortawesome/free-solid-svg-icons";
 import {useEffect, useRef, useState} from "react";
 import {MainPicWithArrow} from "./MainPicWithArrow.jsx";
 import {RoomTemplate} from "./RoomTemplate.jsx";
 import axios from "axios";
-import dayjs from "dayjs";
 import Cookies from 'js-cookie';
 import NotificationBar from "./NotificationBar.jsx";
 import {Link} from "react-router-dom";
 import {Button} from "@mui/material";
 
 
-function renderButtons(){
+function renderButtons(status){
     return(
         <>
-            <Link to={{pathname: '/home/'}}>
-                <Button variant="filled" endIcon={<FontAwesomeIcon icon={faArrowRight}/>}>
+            <Link
+                to={{pathname: '/home/'}}
+                onClick={status === 'CANCEL_REQUEST' ? event => event.preventDefault() : undefined}
+                className={status === 'CANCEL_REQUEST' ? "hover:cursor-default" : ''}
+                >
+                <Button
+                    variant="filled"
+                    endIcon={<FontAwesomeIcon icon={faArrowRight}/>}
+                    disabled = {status === 'CANCEL_REQUEST'}
+                >
                     Prośba o anulowanie
-                </Button>
-            </Link>
-
-            <Link to={{pathname: '/home/'}}>
-                <Button variant="filled" endIcon={<FontAwesomeIcon icon={faArrowRight}/>}>
-                    Edytuj dane rezerwującego
                 </Button>
             </Link>
         </>
@@ -88,7 +87,7 @@ export default function UserReservation() {
                     className="flex flex-col justify-center items-center h-full w-full">
 
                     {reservationList.length > 0 && reservationList.map((reservation) => (
-                        <RoomTemplate key={reservation.id}  reservation={reservation} renderButtons={renderButtons()}/>
+                        <RoomTemplate key={reservation.id}  reservation={reservation} renderButtons={renderButtons(reservation.status)}/>
                     ))}
 
 

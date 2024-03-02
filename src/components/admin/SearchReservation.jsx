@@ -1,6 +1,6 @@
 import {Button, TextField} from "@mui/material";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faSearch} from "@fortawesome/free-solid-svg-icons";
+import {faArrowRight, faSearch} from "@fortawesome/free-solid-svg-icons";
 import {RoomTemplate} from "../RoomTemplate.jsx";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import {DatePicker} from "@mui/x-date-pickers";
@@ -9,7 +9,7 @@ import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
 import {useEffect, useRef, useState} from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
-
+import MenageButtons from "./MenageButtons.jsx";
 
 
 export default function SearchReservation() {
@@ -136,7 +136,7 @@ export default function SearchReservation() {
                     </div>
                 ) : (
                     reservations.map((reservation, index) => (
-                        <RoomTemplate key={index} reservation={reservation}/>
+                        <RoomTemplate key={index} reservation={reservation} renderButtons={MenageButtons()}/>
                     ))
                 )}
             </div>
