@@ -1,7 +1,5 @@
 package com.hotel.api.repository;
 
-import com.hotel.api.dto.RoomDTO;
-import com.hotel.api.model.Reservation;
 import com.hotel.api.model.Room;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

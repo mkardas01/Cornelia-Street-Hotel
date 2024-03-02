@@ -1,7 +1,7 @@
 package com.hotel.api.controller;
 
 import com.hotel.api.dto.NewReservationDTO;
-import com.hotel.api.model.Reservation;
+import com.hotel.api.model.reservation.Reservation;
 import com.hotel.api.model.ReservationDTO;
 import com.hotel.api.service.Reservation.ReservationService;
 import jakarta.servlet.http.HttpServletRequest;

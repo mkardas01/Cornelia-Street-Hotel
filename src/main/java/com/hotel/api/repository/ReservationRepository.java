@@ -1,8 +1,6 @@
 package com.hotel.api.repository;
 
-import com.hotel.api.model.Reservation;
-import com.hotel.api.model.Room;
-import org.springframework.cglib.core.Local;
+import com.hotel.api.model.reservation.Reservation;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

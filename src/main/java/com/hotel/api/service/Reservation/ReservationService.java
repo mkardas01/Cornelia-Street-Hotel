@@ -2,12 +2,10 @@ package com.hotel.api.service.Reservation;
 
 
 import com.hotel.api.dto.NewReservationDTO;
-import com.hotel.api.model.Reservation;
+import com.hotel.api.model.reservation.Reservation;
 import com.hotel.api.model.ReservationDTO;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.http.ResponseEntity;
 
-import java.time.LocalDate;
 import java.util.List;
 
 

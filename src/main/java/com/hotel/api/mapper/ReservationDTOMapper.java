@@ -1,7 +1,7 @@
 package com.hotel.api.mapper;
 
 import com.hotel.api.dto.RoomDTO;
-import com.hotel.api.model.Reservation;
+import com.hotel.api.model.reservation.Reservation;
 import com.hotel.api.model.ReservationDTO;
 import com.hotel.api.model.Room;
 import lombok.Data;
