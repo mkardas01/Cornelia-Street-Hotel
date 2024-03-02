@@ -1,4 +1,4 @@
-import {RoomTemplate} from "../RoomTemplate.jsx";
+import {RoomTemplate} from "../templates/RoomTemplate.jsx";
 import {useEffect, useState} from "react";
 import axios from "axios";
 import Cookies from "js-cookie";

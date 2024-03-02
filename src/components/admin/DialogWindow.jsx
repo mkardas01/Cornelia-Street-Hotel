@@ -8,7 +8,7 @@ import {
     useMediaQuery,
     useTheme
 } from "@mui/material";
-import ButtonLabels from "./ButtonLabels.jsx";
+import ButtonLabels from "../Variable/ButtonLabels.jsx";
 
 export default function DialogWindow({open, setOpen}) {
 

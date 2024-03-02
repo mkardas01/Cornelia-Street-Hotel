@@ -8,18 +8,18 @@ import '@fontsource/roboto/700.css';
 
 import './index.css'
 
-import NavBar from './components/NavBar'
+import NavBar from './components/templates/NavBar.jsx'
 import Home from './components/Home'
-import BookRoom from "./components/BookRoom.jsx";
-import Login_Register from "./components/Login_Register.jsx";
-import {BackHome} from "./components/BackHome.jsx";
+import BookRoom from "./components/reservation/BookRoom.jsx";
+import Login_Register from "./components/login/Login_Register.jsx";
+import {BackHome} from "./components/templates/BackHome.jsx";
 
 import Cookies from 'js-cookie';
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
-import Logout from "./components/Logout.jsx";
+import Logout from "./components/login/Logout.jsx";
 import {DevSupport} from "@react-buddy/ide-toolbox";
 import {ComponentPreviews, useInitial} from "./dev/index.js";
-import UserReservation from "./components/UserReservation.jsx";
+import UserReservation from "./components/reservation/UserReservation.jsx";
 import AdminPanel from "./components/admin/AdminPanel.jsx";
 
 
