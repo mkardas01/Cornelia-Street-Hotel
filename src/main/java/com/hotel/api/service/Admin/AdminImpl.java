@@ -5,6 +5,7 @@ import com.hotel.api.exception.ReservationDateException;
 import com.hotel.api.mapper.ReservationDTOMapper;
 import com.hotel.api.model.reservation.Reservation;
 import com.hotel.api.model.ReservationDTO;
+import com.hotel.api.model.reservation.Status;
 import com.hotel.api.repository.ReservationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -55,6 +56,14 @@ public class AdminImpl implements AdminService{
                                         .orElseThrow();
 
         return reservationDTOMapper.mapToReservationDTO(reservations);
+    }
+
+    public List<ReservationDTO> cancelRequest(){
+
+        List<Reservation> reservations = reservationRepository.findReservationByStatus(Status.CANCEL_REQUEST).orElseThrow();
+
+        return reservationDTOMapper.mapToReservationDTO(reservations);
+
     }
 
 

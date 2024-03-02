@@ -37,4 +37,14 @@ public class AdminController {
         return new ResponseEntity<>(adminService.searchReservation(searchReservation), HttpStatus.OK);
     }
 
+    @PostMapping("cancelRequests")
+    @CrossOrigin
+    public ResponseEntity<?> CancelRequests(){
+
+
+
+        return new ResponseEntity<>(adminService.cancelRequest(), HttpStatus.OK);
+    }
+
+
 }

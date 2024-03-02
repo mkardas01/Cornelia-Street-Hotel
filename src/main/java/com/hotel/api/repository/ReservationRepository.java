@@ -1,6 +1,7 @@
 package com.hotel.api.repository;
 
 import com.hotel.api.model.reservation.Reservation;
+import com.hotel.api.model.reservation.Status;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -9,6 +10,8 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+
+import static com.hotel.api.model.reservation.Status.ACCEPTED;
 
 @Repository
 public interface ReservationRepository extends JpaRepository<Reservation, Integer> {
@@ -35,4 +38,5 @@ public interface ReservationRepository extends JpaRepository<Reservation, Intege
                                                @Param("startDate") LocalDate startDate,
                                                @Param("endDate") LocalDate endDate);
 
+    Optional<List<Reservation>> findReservationByStatus(Status status);
 }

@@ -11,4 +11,6 @@ public interface AdminService {
 
     public List<ReservationDTO> searchReservation(SearchReservation searchReservation);
 
+    public List<ReservationDTO> cancelRequest();
+
     }
