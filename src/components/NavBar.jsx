@@ -42,11 +42,9 @@ export default function NavBar(props) {
     const [navBarColor, setNavBarColor] = useState(window.scrollY > window.innerHeight ? "#2d2d33" : "transparent");
     const [hiddeNavBar, setHiddeNavBar] = useState(false);
 
-    let options = [
-        { name: 'O nas', link: '/login' },
-        isLoggedIn ? { name: 'Twoje rezerwacje', link: '/reservation' } : null,
-        { name: isLoggedIn ? 'Wyloguj się' : 'Zaloguj się', link: isLoggedIn ? '/logout' : '/login' }
-    ].filter(option => option != null);
+    const options = props.options;
+
+
 
     const transition = useTransition(isOpen, {
         from: { x: -100, y: -100, opacity: 0, borderRadius: '100%' }, // initial border radius

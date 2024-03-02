@@ -20,6 +20,8 @@ import Logout from "./components/Logout.jsx";
 import {DevSupport} from "@react-buddy/ide-toolbox";
 import {ComponentPreviews, useInitial} from "./dev/index.js";
 import UserReservation from "./components/UserReservation.jsx";
+import AdminPanel from "./components/admin/AdminPanel.jsx";
+
 
 let root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -42,10 +44,19 @@ export default function App() {
 
     }, []);
 
+    const options = [
+        { name: 'O nas', link: '/login' },
+        isLoggedIn ? { name: 'Twoje rezerwacje', link: '/reservation' } : null,
+        { name: 'Admin', link: '/admin'},
+        { name: isLoggedIn ? 'Wyloguj się' : 'Zaloguj się', link: isLoggedIn ? '/logout' : '/login' }
+    ].filter(option => option != null);
+
+    
+
     return (
-        <React.StrictMode>
+        <>
             <Router>
-                <NavBar isLoggedIn={isLoggedIn}/>
+                <NavBar isLoggedIn={isLoggedIn} options={options}/>
                 <Routes>
 
                     <Route path="/" element={<Home/>}/>
@@ -56,6 +67,7 @@ export default function App() {
                         <Route path="/register" element={<> <Login_Register type="register"/> <BackHome/> </>}/>
                     </Route>
 
+                    <Route path="/admin/*" element={<AdminPanel/>}/>
 
                     <Route element={<ProtectedRoute isLoggedIn={isLoggedIn}/>}>
                         <Route path="/logout" element={<Logout/>}/>
@@ -67,7 +79,7 @@ export default function App() {
 
                 </Routes>
             </Router>
-        </React.StrictMode>
+        </>
     )
 }
 

@@ -89,7 +89,7 @@ export default function BookRoom( ) {
     const sendReservation = async () => {
         try {
             setLoading(true)
-            console.log(name, surname, email, phone, id, startDate, endDate)
+
             const response = await axios.post(`${BASE_URL}reservation/reserve/${id}`, {
                     name: name,
                     surname: surname,

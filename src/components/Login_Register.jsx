@@ -1,7 +1,6 @@
 import mainPic from "/assets/front.png";
 import { motion } from "framer-motion";
 import AuthForm from "./AuthForm.jsx";
-import {BackHome} from "./BackHome.jsx";
 
 function AnimatedDiv({ Child }) {
     return (
