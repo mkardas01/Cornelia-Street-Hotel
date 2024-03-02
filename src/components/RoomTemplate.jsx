@@ -1,8 +1,7 @@
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowRight, faDoorOpen, faTag, faUser} from "@fortawesome/free-solid-svg-icons";
-import {Link} from "react-router-dom";
-import {Button} from "@mui/material";
 import dayjs from "dayjs";
+import {statusMessages} from "./ReservationStatus.jsx";
 
 
 
@@ -40,6 +39,9 @@ export const RoomTemplate = ({room, reservation, days, startDate, endDate, rende
                     className="md:w-1/2 bg-gray-50 border-2 rounded-b-3xl border-t-0 py-4 px-3 space-y-2 md:border-l-0 md:border-t-2 md:rounded-l-none md:rounded-tr-3xl ">
                     {/*opis*/}
                     <div className={` space-y-2 pb-2 ${!reservation ? 'h-3/5' : 'h-fit'}`}>
+
+                        {reservation && <p className={`text-right font-semibold  ${statusMessages[reservation.status]?.className}`}>{statusMessages[reservation.status].message}</p>}
+
                         <h1 className={`font-serif drop-shadow-2xl w-full text-3xl ${reservation ? 'pb-2' : ''}`}>{room.name}</h1>
 
                         {!reservation && <p className="overflow-hidden line-clamp-3">{room.description}</p>}
