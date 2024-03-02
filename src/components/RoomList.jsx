@@ -24,6 +24,17 @@ RoomList.propTypes = {
     endDate: PropTypes.string.isRequired
 };
 
+function renderButtons(room, startDate, endDate, days){
+    return(
+        <>
+            <Link to={{pathname: '/bookRoom/' + room.id}} state={{room, startDate, endDate, days}}>
+                <Button variant="filled" endIcon={<FontAwesomeIcon icon={faArrowRight}/>}>
+                    Wybierz
+                </Button>
+            </Link>
+        </>
+    )
+}
 
 export default function RoomList({rooms, setShowRoom, setShowDatePicker, days, startDate, endDate}) {
 
@@ -33,7 +44,8 @@ export default function RoomList({rooms, setShowRoom, setShowDatePicker, days, s
             {
                 rooms.map(room => (
                         <RoomTemplate key={room.id} room={room} days={days}
-                                      startDate={startDate} endDate={endDate} reserveRoom={true}/>
+                                      startDate={startDate} endDate={endDate}
+                                      renderButtons={renderButtons(room, startDate, endDate, days)}/>
                     ))
             }
 
