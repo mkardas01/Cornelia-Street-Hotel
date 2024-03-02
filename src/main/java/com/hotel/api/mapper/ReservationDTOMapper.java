@@ -26,6 +26,7 @@ public class ReservationDTOMapper{
                         .startDate(reservation.getStartDate())
                         .endDate(reservation.getEndDate())
                         .reservationNumber(reservation.getReservationNumber())
+                        .status(reservation.getStatus())
                         .room(mapToRoomDTO(reservation.getRoom()))
                         .build())
                 .collect(Collectors.toList());

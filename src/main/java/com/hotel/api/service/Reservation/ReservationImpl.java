@@ -128,7 +128,8 @@ public class ReservationImpl implements ReservationService{
 
         User user = userRepository.findByEmail(username).orElseThrow(() -> new UserNotFoundException("Twoje konto nie istnieje"));
 
-        List<Reservation> reservations = reservationRepository.getReservationByUserId(user.getId()).orElseThrow(() -> new ReservationException("Błąd w czasie pobierania rezerwacji"));
+        List<Reservation> reservations = reservationRepository.getReservationByUserId(
+                user.getId()).orElseThrow(() -> new ReservationException("Błąd w czasie pobierania rezerwacji"));
 
         return reservationDTOMapper.mapToReservationDTO(reservations);
     }
