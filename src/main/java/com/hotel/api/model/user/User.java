@@ -2,7 +2,7 @@ package com.hotel.api.model.user;
 
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.hotel.api.model.Reservation;
+import com.hotel.api.model.reservation.Reservation;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -37,7 +37,7 @@ public class User implements UserDetails {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private com.hotel.api.model.user.Role role;
+    private Role role;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy="user", cascade = CascadeType.REMOVE, orphanRemoval = true)
     @JsonManagedReference

@@ -1,12 +1,11 @@
 package com.hotel.api.service.Reservation;
 
 import com.hotel.api.dto.NewReservationDTO;
-import com.hotel.api.dto.RoomDTO;
 import com.hotel.api.exception.ReservationDateException;
 import com.hotel.api.exception.ReservationException;
 import com.hotel.api.exception.UserNotFoundException;
 import com.hotel.api.mapper.ReservationDTOMapper;
-import com.hotel.api.model.Reservation;
+import com.hotel.api.model.reservation.Reservation;
 import com.hotel.api.model.ReservationDTO;
 import com.hotel.api.model.Room;
 import com.hotel.api.model.user.User;

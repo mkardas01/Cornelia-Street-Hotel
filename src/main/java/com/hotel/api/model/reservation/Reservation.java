@@ -1,8 +1,9 @@
-package com.hotel.api.model;
+package com.hotel.api.model.reservation;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.hotel.api.model.Room;
 import com.hotel.api.model.user.User;
 import jakarta.persistence.*;
 import lombok.*;
@@ -41,6 +42,13 @@ public class Reservation {
 
     @Column(nullable = false)
     private String reservationNumber;
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Status status = Status.ACCEPTED;
+
+    @Column
+    private String status_info;
 
     @ManyToOne(optional = false)
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = Room.class)
