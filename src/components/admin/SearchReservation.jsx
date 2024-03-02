@@ -10,6 +10,7 @@ import {useEffect, useRef, useState} from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import MenageButtons from "./MenageButtons.jsx";
+import DialogWindow from "./DialogWindow.jsx";
 
 
 export default function SearchReservation() {
@@ -24,6 +25,9 @@ export default function SearchReservation() {
 
     const [reservations, setReservations] = useState([]);
     const [searched, setSearched] = useState(false);
+
+    const [open, setOpen] = useState({status: false, action: null});
+
 
     const scrollDownDiv = useRef();
 
@@ -64,86 +68,89 @@ export default function SearchReservation() {
 
 
     return(
-        <div className="flex flex-col items-center justify-center max-w-7xl ">
-            <div className="flex justify-center items-center  h-screen">
-                <div className="sticky top-5 bg-gray-50 p-8 h-fit rounded-3xl">
+        <>
+            <DialogWindow open={open} setOpen={setOpen} />
 
-                    <h1 className="pb-4 font-semibold ">Wypełnij te pola na podstawie których chcesz wyszukać rezerwacji</h1>
+            <div className="flex flex-col items-center justify-center max-w-7xl ">
+                <div className="flex justify-center items-center  h-screen">
+                    <div className="sticky top-5 bg-gray-50 p-8 h-fit rounded-3xl">
 
-                    <div className="flex items-center justify-between space-x-5 ">
-                        <TextField
-                            id="fReservation"
-                            label="Numer rezerwacji"
-                            onChange={(newValue) => setReservationNumber(newValue.target.value)}
-                            variant="outlined"/>
+                        <h1 className="pb-4 font-semibold ">Wypełnij te pola na podstawie których chcesz wyszukać rezerwacji</h1>
 
-                        <TextField
-                            id="fEmail"
-                            label="E-mail"
-                            onChange={(newValue) => setEmail(newValue.target.value)}
-                            variant="outlined"/>
+                        <div className="flex items-center justify-between space-x-5 ">
+                            <TextField
+                                id="fReservation"
+                                label="Numer rezerwacji"
+                                onChange={(newValue) => setReservationNumber(newValue.target.value)}
+                                variant="outlined"/>
 
-                        <TextField
-                            id="fSurname"
-                            label="Nazwisko"
-                            onChange={(newValue) => setSurname(newValue.target.value)}
-                            variant="outlined"/>
+                            <TextField
+                                id="fEmail"
+                                label="E-mail"
+                                onChange={(newValue) => setEmail(newValue.target.value)}
+                                variant="outlined"/>
 
-                        <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pl">
+                            <TextField
+                                id="fSurname"
+                                label="Nazwisko"
+                                onChange={(newValue) => setSurname(newValue.target.value)}
+                                variant="outlined"/>
 
-                            <DatePicker
-                                label="Dzień przyjazdu"
-                                format="DD/MM/YYYY"
-                                onChange={(newValue) => setArrivalDate(newValue)}
+                            <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pl">
 
-                            />
+                                <DatePicker
+                                    label="Dzień przyjazdu"
+                                    format="DD/MM/YYYY"
+                                    onChange={(newValue) => setArrivalDate(newValue)}
 
-                            <DatePicker
-                                label="Dzień wyjazdu"
-                                format="DD/MM/YYYY"
-                                onChange={(newValue) => setDepartureDate(newValue)}
+                                />
 
-                            />
+                                <DatePicker
+                                    label="Dzień wyjazdu"
+                                    format="DD/MM/YYYY"
+                                    onChange={(newValue) => setDepartureDate(newValue)}
+
+                                />
 
 
-                        </LocalizationProvider>
+                            </LocalizationProvider>
 
-                        <Button
-                            variant="outline"
-                            endIcon={<FontAwesomeIcon icon={faSearch}/>}
-                            onClick={searchReservation}
-                        >
-                            Szukaj
-                        </Button>
+                            <Button
+                                variant="outline"
+                                endIcon={<FontAwesomeIcon icon={faSearch}/>}
+                                onClick={searchReservation}
+                            >
+                                Szukaj
+                            </Button>
+
+                        </div>
 
                     </div>
-
                 </div>
-            </div>
 
-            <div className="flex flex-col justify-center items-center" ref={scrollDownDiv}>
-                {searched && reservations.length === 0 ? (
-                    <div className="h-96">
-                        <div
-                            className="bg-gray-100 flex flex-col justify-center items-center rounded-3xl text-center py-20 ">
-                            <div className="space-y-3 px-10 mx-4">
-                                <h1 className="text-5xl font-serif">Nie znaleziono żadnej rezerwacji.</h1>
-                                <h2 style={{color: '#a29010'}} className="text-xl">
-                                    Prosimy o zmiane kryteriów wyszukiwania.
-                                </h2>
+                <div className="flex flex-col justify-center items-center" ref={scrollDownDiv}>
+                    {searched && reservations.length === 0 ? (
+                        <div className="h-96">
+                            <div
+                                className="bg-gray-100 flex flex-col justify-center items-center rounded-3xl text-center py-20 ">
+                                <div className="space-y-3 px-10 mx-4">
+                                    <h1 className="text-5xl font-serif">Nie znaleziono żadnej rezerwacji.</h1>
+                                    <h2 style={{color: '#a29010'}} className="text-xl">
+                                        Prosimy o zmiane kryteriów wyszukiwania.
+                                    </h2>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                ) : (
-                    reservations.map((reservation, index) => (
-                        <RoomTemplate key={index} reservation={reservation} renderButtons={MenageButtons()}/>
-                    ))
-                )}
+                    ) : (
+                        reservations.map((reservation, index) => (
+                            <RoomTemplate key={index} reservation={reservation} renderButtons={MenageButtons(setOpen)}/>
+                        ))
+                    )}
+                </div>
+
+
             </div>
-
-
-        </div>
-
+        </>
     )
 
 }

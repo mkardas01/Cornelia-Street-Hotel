@@ -1,17 +1,23 @@
 import {Button} from "@mui/material";
+import buttonLabels from "./ButtonLabels.jsx";
 
-export default function MenageButtons() {
+export default function MenageButtons(setOpen) {
 
-    const buttonLabels = ['Anuluj', 'Edytuj dane', 'Przybycie', 'Brak przybycia'];
+    const handleClick = (action) => {
+        console.log(action)
+        setOpen({status: true, action: action});
+    };
+
 
     return (
         <div className="grid grid-cols-2 gap-x-5">
-            {buttonLabels.map(label => (
+            {buttonLabels.map((label, index) => (
                 <Button
-                    key={label}
+                    key={index}
                     variant="filled"
+                    onClick={() => handleClick(index)}
                 >
-                    {label}
+                    {label.name}
                 </Button>
             ))}
         </div>
