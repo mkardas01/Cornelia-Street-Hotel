@@ -4,7 +4,7 @@ import {useState} from "react";
 import SendIcon from "@mui/icons-material/Send.js";
 import LoadingButton from "@mui/lab/LoadingButton";
 
-import {BackHome} from "./BackHome.jsx";
+import {BackHome} from "../templates/BackHome.jsx";
 import {motion} from "framer-motion";
 
 import { jwtDecode } from 'jwt-decode'
@@ -19,7 +19,7 @@ import axios from 'axios';
 
 import dayjs from "dayjs";
 import "dayjs/locale/pl";
-import NotificationBar from "./NotificationBar.jsx";
+import NotificationBar from "../templates/NotificationBar.jsx";
 import Cookies from "js-cookie";
 
 export default function BookRoom( ) {

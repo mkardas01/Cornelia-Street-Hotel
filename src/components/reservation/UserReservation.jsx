@@ -2,11 +2,11 @@ import mainPic from "/assets/reception.png";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowRight} from "@fortawesome/free-solid-svg-icons";
 import {useEffect, useRef, useState} from "react";
-import {MainPicWithArrow} from "./MainPicWithArrow.jsx";
-import {RoomTemplate} from "./RoomTemplate.jsx";
+import {MainPicWithArrow} from "../templates/MainPicWithArrow.jsx";
+import {RoomTemplate} from "../templates/RoomTemplate.jsx";
 import axios from "axios";
 import Cookies from 'js-cookie';
-import NotificationBar from "./NotificationBar.jsx";
+import NotificationBar from "../templates/NotificationBar.jsx";
 import {Link} from "react-router-dom";
 import {Button} from "@mui/material";
 

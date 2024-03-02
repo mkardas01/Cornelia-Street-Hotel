@@ -2,7 +2,7 @@ import SearchReservation from "./SearchReservation.jsx";
 import mainPic from "/assets/front.png";
 import TodaysReservations from "./TodaysReservations.jsx";
 import CancelRequest from "./CancelRequest.jsx";
-import {Link} from "react-router-dom";
+import {Link, NavLink} from "react-router-dom";
 import { useLocation } from "react-router-dom";
 
 
@@ -23,12 +23,20 @@ export default function AdminPanel(){
     return(
         <>
             <div className="flex w-full min-h-screen">
-                <div className="sticky top-0 left-0 h-screen flex flex-col justify-center text-left space-y-5 bg-gray-200 px-14 w-1/5">
+
+                <div
+                    className="sticky top-0 left-0 h-screen flex flex-col justify-center text-left space-y-5 bg-gray-200 px-14 w-1/5">
                     {options.map((option, index) => (
-                        <Link to={{ pathname: option.link }} className="text-2xl font-serif w-fit
-                                hover:cursor-pointer hover:text-gray-500 hover:border-b-2 hover:border-gray-500" key={index}>
+                        <NavLink
+                            to={{pathname: option.link}}
+                            className={({ isActive}) =>
+                                `text-2xl font-serif w-fit hover:cursor-pointer hover:text-gray-500 hover:border-b-2 hover:border-gray-500
+                                } ${isActive ? 'text-gray-500 border-b-2 border-gray-500' : ''}`
+                            }
+                            key={index}
+                        >
                             {option.name}
-                        </Link>
+                        </NavLink>
                     ))}
                 </div>
 

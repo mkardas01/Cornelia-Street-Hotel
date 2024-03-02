@@ -1,5 +1,5 @@
 import {Button} from "@mui/material";
-import buttonLabels from "./ButtonLabels.jsx";
+import buttonLabels from "../Variable/ButtonLabels.jsx";
 
 export default function MenageButtons(setOpen) {
 

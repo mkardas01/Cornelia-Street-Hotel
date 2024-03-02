@@ -1,7 +1,7 @@
 import {Button, TextField} from "@mui/material";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowRight, faSearch} from "@fortawesome/free-solid-svg-icons";
-import {RoomTemplate} from "../RoomTemplate.jsx";
+import {RoomTemplate} from "../templates/RoomTemplate.jsx";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import {DatePicker} from "@mui/x-date-pickers";
 import dayjs from "dayjs";

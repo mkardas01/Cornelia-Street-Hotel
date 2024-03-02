@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 
 import mainPic from "/assets/main.jpg";
-import RoomList from './RoomList';
+import RoomList from './templates/RoomList.jsx';
 
 import { motion} from "framer-motion";
 
@@ -17,9 +17,9 @@ import dayjs from "dayjs";
 import "dayjs/locale/pl";
 
 import axios from 'axios';
-import NotificationBar from "./NotificationBar.jsx";
+import NotificationBar from "./templates/NotificationBar.jsx";
 import PropTypes from "prop-types";
-import {MainPicWithArrow} from "./MainPicWithArrow.jsx";
+import {MainPicWithArrow} from "./templates/MainPicWithArrow.jsx";
 
 Arrow.propTypes = {
     scrollDown: PropTypes.func.isRequired,

@@ -1,7 +1,7 @@
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowRight, faDoorOpen, faTag, faUser} from "@fortawesome/free-solid-svg-icons";
 import dayjs from "dayjs";
-import {statusMessages} from "./ReservationStatus.jsx";
+import {statusMessages} from "../Variable/ReservationStatus.jsx";
 
 
 
