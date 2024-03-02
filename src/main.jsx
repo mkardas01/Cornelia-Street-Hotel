@@ -51,6 +51,8 @@ export default function App() {
         { name: isLoggedIn ? 'Wyloguj się' : 'Zaloguj się', link: isLoggedIn ? '/logout' : '/login' }
     ].filter(option => option != null);
 
+    
+
     return (
         <>
             <Router>
