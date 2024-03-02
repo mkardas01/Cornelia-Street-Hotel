@@ -27,7 +27,7 @@ export const RoomTemplate = ({room, reservation, days, startDate, endDate, rende
     return (
         <>
             <div
-                className={`flex flex-col justify-center w-3/4 h-fit mt-20 mb-20  md:flex-row ${!reservation ? 'md:max-h-72' : 'md:max-h-96'}`}>
+                className={`flex flex-col justify-center w-3/4  mt-20 mb-20 max-w-6xl md:flex-row h-fit`}>
                 {/*img*/}
                 <div className="md:w-1/2">
                     <img

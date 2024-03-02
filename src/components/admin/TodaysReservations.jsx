@@ -1,10 +1,11 @@
-import { Button, TextField } from "@mui/material";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { RoomTemplate } from "../RoomTemplate.jsx";
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import axios from "axios";
+import MenageButtons from "./MenageButtons.jsx";
+
+
+
 
 export default function TodaysReservations() {
     const BASE_URL = "http://localhost:8080/api";
@@ -31,7 +32,7 @@ export default function TodaysReservations() {
         <div className={`flex flex-col items-center justify-center max-w-6xl ${reservations ? 'mt-24' : ''}`}>
             {reservations.length > 0 ? (
                 reservations.map((reservation, index) => (
-                    <RoomTemplate key={index} reservation={reservation} />
+                    <RoomTemplate key={index} reservation={reservation} renderButtons={MenageButtons()}/>
                 ))
             ) : (
                 <div className="bg-gray-100 flex flex-col justify-center items-center rounded-3xl text-center py-20 ">
