@@ -4,20 +4,18 @@ import {
     DialogActions,
     DialogContent,
     DialogContentText,
-    DialogTitle,
-    useMediaQuery,
-    useTheme
+    DialogTitle
 } from "@mui/material";
 import ButtonLabels from "../Variable/ButtonLabels.jsx";
 import axios from "axios";
 import Cookies from "js-cookie";
 
-export default function DialogWindow({open, setOpen}) {
+export default function DialogWindow({open, setOpen, reservations, setReservations}) {
 
     const BASE_URL = "http://localhost:8080/api";
 
     const handleClose = () => {
-        setOpen({status: false, action: null, id: null, reservationNumber:null});
+        setOpen({status: false, actionID: null, action:null, reservationId: null, reservationNumber:null});
     };
 
     const handleStatusChange = async () => {
@@ -27,10 +25,19 @@ export default function DialogWindow({open, setOpen}) {
             const response = await axios.post(`${BASE_URL}/admin/changeStatus`,
                 {
                     action: open.action,
-                    id: open.id,
+                    id: parseInt(open.reservationId),
                     reservationNumber: open.reservationNumber
                 },
                 {headers: {"Authorization" : `Bearer ${token}`} })
+
+            const updatedIndex = reservations.findIndex(reservation => reservation.id === response.data.id);
+
+            if (updatedIndex !== -1) {
+                const updatedReservations = [...reservations];
+                updatedReservations[updatedIndex] = response.data;
+                setReservations(updatedReservations);
+            }
+
 
         }catch(error){
             console.log(error)
@@ -49,12 +56,12 @@ export default function DialogWindow({open, setOpen}) {
                 aria-labelledby="responsive-dialog-title"
             >
                 <DialogTitle id="responsive-dialog-title" >
-                    {ButtonLabels[open.action]?.title } <br />
+                    {ButtonLabels[open.actionID]?.title } <br />
                     <p className="font-normal text-sm">{"Rezerwacja: " + open.reservationNumber}</p>
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText>
-                        {ButtonLabels[open.action]?.message}
+                        {ButtonLabels[open.actionID]?.message}
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
