@@ -26,7 +26,8 @@ export default function SearchReservation() {
     const [reservations, setReservations] = useState([]);
     const [searched, setSearched] = useState(false);
 
-    const [open, setOpen] = useState({status: false, action: null, id:null});
+    const [open, setOpen] = useState({status: false, actionID: null, action:null, reservationId: null, reservationNumber:null});
+
     const [actionData, setActionData] = useState();
 
     const scrollDownDiv = useRef();
@@ -34,11 +35,6 @@ export default function SearchReservation() {
     const scrollDown = () =>{
         scrollDownDiv?.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
-
-    useEffect(() => {
-            scrollDown();
-
-    }, [reservations]);
 
     const searchReservation = async () =>{
 
@@ -61,6 +57,10 @@ export default function SearchReservation() {
             setReservations(response.data);
             setSearched(true);
 
+            setTimeout(() => {
+                scrollDown();
+            }, 100);
+
         }catch(error){
             console.log(error);
         }
@@ -69,7 +69,7 @@ export default function SearchReservation() {
 
     return(
         <>
-            <DialogWindow open={open} setOpen={setOpen} actionData={actionData} />
+            <DialogWindow open={open} setOpen={setOpen} reservations={reservations} setReservations={setReservations}/>
 
             <div className="flex flex-col items-center justify-center max-w-7xl ">
                 <div className="flex justify-center items-center  h-screen">
