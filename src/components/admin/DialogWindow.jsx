@@ -9,15 +9,36 @@ import {
     useTheme
 } from "@mui/material";
 import ButtonLabels from "../Variable/ButtonLabels.jsx";
+import axios from "axios";
+import Cookies from "js-cookie";
 
 export default function DialogWindow({open, setOpen}) {
 
-    const theme = useTheme();
-    const fullScreen = useMediaQuery(theme.breakpoints.down('lg'));
+    const BASE_URL = "http://localhost:8080/api";
 
     const handleClose = () => {
-        setOpen({status: false, action: null});
+        setOpen({status: false, action: null, id: null, reservationNumber:null});
     };
+
+    const handleStatusChange = async () => {
+        try{
+            const token = Cookies.get("token");
+
+            const response = await axios.post(`${BASE_URL}/admin/changeStatus`,
+                {
+                    action: open.action,
+                    id: open.id,
+                    reservationNumber: open.reservationNumber
+                },
+                {headers: {"Authorization" : `Bearer ${token}`} })
+
+        }catch(error){
+            console.log(error)
+        }
+        finally {
+            handleClose();
+        }
+    }
 
     return (
         <>
@@ -26,10 +47,10 @@ export default function DialogWindow({open, setOpen}) {
                 open={open.status}
                 onClose={handleClose}
                 aria-labelledby="responsive-dialog-title"
-                className=""
             >
                 <DialogTitle id="responsive-dialog-title" >
-                    {ButtonLabels[open.action]?.title}
+                    {ButtonLabels[open.action]?.title } <br />
+                    <p className="font-normal text-sm">{"Rezerwacja: " + open.reservationNumber}</p>
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText>
@@ -40,7 +61,7 @@ export default function DialogWindow({open, setOpen}) {
                     <Button autoFocus onClick={handleClose}>
                         Odrzuć
                     </Button>
-                    <Button onClick={handleClose} autoFocus>
+                    <Button onClick={handleStatusChange} autoFocus>
                         Potwierdź
                     </Button>
                 </DialogActions>

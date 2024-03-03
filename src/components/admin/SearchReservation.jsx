@@ -26,8 +26,8 @@ export default function SearchReservation() {
     const [reservations, setReservations] = useState([]);
     const [searched, setSearched] = useState(false);
 
-    const [open, setOpen] = useState({status: false, action: null});
-
+    const [open, setOpen] = useState({status: false, action: null, id:null});
+    const [actionData, setActionData] = useState();
 
     const scrollDownDiv = useRef();
 
@@ -69,7 +69,7 @@ export default function SearchReservation() {
 
     return(
         <>
-            <DialogWindow open={open} setOpen={setOpen} />
+            <DialogWindow open={open} setOpen={setOpen} actionData={actionData} />
 
             <div className="flex flex-col items-center justify-center max-w-7xl ">
                 <div className="flex justify-center items-center  h-screen">
@@ -143,7 +143,7 @@ export default function SearchReservation() {
                         </div>
                     ) : (
                         reservations.map((reservation, index) => (
-                            <RoomTemplate key={index} reservation={reservation} renderButtons={MenageButtons(setOpen)}/>
+                            <RoomTemplate key={index} reservation={reservation} renderButtons={MenageButtons(setOpen, reservation.id, reservation.reservationNumber)}/>
                         ))
                     )}
                 </div>

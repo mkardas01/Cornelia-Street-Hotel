@@ -1,11 +1,11 @@
 import {Button} from "@mui/material";
 import buttonLabels from "../Variable/ButtonLabels.jsx";
 
-export default function MenageButtons(setOpen) {
+export default function MenageButtons(setOpen, id, reservationNumber) {
 
-    const handleClick = (action) => {
+    const handleClick = (action, id) => {
         console.log(action)
-        setOpen({status: true, action: action});
+        setOpen({status: true, action: action, id: id, reservationNumber:reservationNumber});
     };
 
 
@@ -15,7 +15,7 @@ export default function MenageButtons(setOpen) {
                 <Button
                     key={index}
                     variant="filled"
-                    onClick={() => handleClick(index)}
+                    onClick={() => handleClick(index, id, reservationNumber)}
                 >
                     {label.name}
                 </Button>
