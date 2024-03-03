@@ -32,6 +32,21 @@ public class ReservationDTOMapper{
                 .collect(Collectors.toList());
     }
 
+    public ReservationDTO mapToReservationDTO(Reservation reservation) {
+        return ReservationDTO.builder()
+                        .id(reservation.getId())
+                        .name(reservation.getName())
+                        .surname(reservation.getSurname())
+                        .email(reservation.getEmail())
+                        .phone(reservation.getPhone())
+                        .startDate(reservation.getStartDate())
+                        .endDate(reservation.getEndDate())
+                        .reservationNumber(reservation.getReservationNumber())
+                        .status(reservation.getStatus())
+                        .room(mapToRoomDTO(reservation.getRoom()))
+                        .build();
+    }
+
     private RoomDTO mapToRoomDTO(Room room) {
         return RoomDTO.builder()
                 .id(room.getId())

@@ -1,5 +1,6 @@
 package com.hotel.api.service.Admin;
 
+import com.hotel.api.dto.ChangeStatusDTO;
 import com.hotel.api.dto.SearchReservation;
 import com.hotel.api.exception.ReservationDateException;
 import com.hotel.api.mapper.ReservationDTOMapper;
@@ -66,5 +67,15 @@ public class AdminImpl implements AdminService{
 
     }
 
+    public ReservationDTO changeStatus(ChangeStatusDTO changeStatusDTO){
+
+        Reservation reservation = reservationRepository.findReservationById(changeStatusDTO.getId());
+
+        reservation.setStatus(Status.valueOf(changeStatusDTO.getAction()));
+
+        reservationRepository.save(reservation);
+
+        return reservationDTOMapper.mapToReservationDTO(reservation);
+    }
 
 }

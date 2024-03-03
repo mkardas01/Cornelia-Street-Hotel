@@ -1,9 +1,11 @@
 package com.hotel.api.controller;
 
+import com.hotel.api.dto.ChangeStatusDTO;
 import com.hotel.api.dto.SearchReservation;
 import com.hotel.api.exception.ReservationDateException;
 import com.hotel.api.service.Admin.AdminService;
 import com.hotel.api.service.Reservation.ReservationService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +25,7 @@ public class AdminController {
 
     @PostMapping("todaysReservations")
     @CrossOrigin
+    @ResponseBody
     public ResponseEntity<?> TodaysReservations(){
 
         return new ResponseEntity<>(adminService.todaysReservations(), HttpStatus.OK);
@@ -30,6 +33,7 @@ public class AdminController {
 
     @PostMapping("searchReservation")
     @CrossOrigin
+    @ResponseBody
     public ResponseEntity<?> SearchReservations(@RequestBody SearchReservation searchReservation){
 
 
@@ -39,11 +43,21 @@ public class AdminController {
 
     @PostMapping("cancelRequests")
     @CrossOrigin
+    @ResponseBody
     public ResponseEntity<?> CancelRequests(){
 
 
 
         return new ResponseEntity<>(adminService.cancelRequest(), HttpStatus.OK);
+    }
+
+
+    @PostMapping("changeStatus")
+    @CrossOrigin
+    @ResponseBody
+    public ResponseEntity<?> ChangeStatus(@Valid @RequestBody ChangeStatusDTO changeStatusDTO){
+
+        return new ResponseEntity<>(adminService.changeStatus(changeStatusDTO), HttpStatus.OK);
     }
 
 
