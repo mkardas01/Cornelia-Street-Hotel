@@ -47,9 +47,6 @@ public class Reservation {
     @Enumerated(EnumType.STRING)
     private Status status = Status.ACCEPTED;
 
-    @Column
-    private String status_info;
-
     @ManyToOne(optional = false)
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = Room.class)
     @JoinColumn(name = "hotelRoomID")

@@ -30,8 +30,9 @@ public interface ReservationRepository extends JpaRepository<Reservation, Intege
             "(:reservationNumber is null or r.reservationNumber = :reservationNumber) " +
             "AND (:email is null or r.email = :email) " +
             "AND (:surname is null or r.surname = :surname) " +
-            "AND (:startDate is null or r.startDate = :startDate) " +
-            "AND (:endDate is null or r.endDate = :endDate)")
+            "AND (:startDate is null or r.startDate >= :startDate) " +
+            "AND (:endDate is null or r.endDate <= :endDate)" +
+            "ORDER BY r.startDate")
     Optional<List<Reservation>> getReservation(@Param("reservationNumber") String reservationNumber,
                                                @Param("email") String email,
                                                @Param("surname") String surname,
