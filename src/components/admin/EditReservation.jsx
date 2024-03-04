@@ -7,20 +7,20 @@ import {TextField} from "@mui/material";
 import dayjs from "dayjs";
 import axios from "axios";
 import Cookies from "js-cookie";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {statusMessages} from "../Variable/ReservationStatus.jsx";
 
 export default function EditReservation(){
 
     const navigate = useNavigate();
+    const data = useLocation().state?.reservation;
 
-    const [reservation, setReservation] = useState(useLocation().state.reservation)
+    const [reservation, setReservation] = useState(data)
 
-
-    const [name, setName] = useState(reservation.name);
-    const [surname, setSurname] = useState(reservation.surname);
-    const [email, setEmail] = useState(reservation.email);
-    const [phone, setPhone] = useState(reservation.phone);
+    const [name, setName] = useState(reservation?.name);
+    const [surname, setSurname] = useState(reservation?.surname);
+    const [email, setEmail] = useState(reservation?.email);
+    const [phone, setPhone] = useState(reservation?.phone);
 
     const [nameError, setNameError] = useState('');
     const [surnameError, setSurnameError] = useState('');
@@ -30,6 +30,12 @@ export default function EditReservation(){
     const [disabled, setDisabled] = useState(false);
 
     const BASE_URL = "http://localhost:8080/api";
+
+    useEffect(() => {
+        if (!reservation) {
+            navigate(-1, { replace: true });
+        }
+    }, [navigate, reservation]);
 
     const editReservation = async () => {
         try{
@@ -189,7 +195,7 @@ export default function EditReservation(){
                                 Zmiana daty rezerwacji jest niemożliwa, należy najpierw anulować rezerwację i dokonać
                                 ponownej rezerwacji w innym terminie.
                             </p>
-                            <p className={`text-right font-semibold m-0  ${statusMessages[reservation.status]?.className}`}>{statusMessages[reservation.status].message}</p>
+                            <p className={`text-right font-semibold m-0  ${statusMessages[reservation?.status]?.className}`}>{statusMessages[reservation?.status]?.message}</p>
 
 
                         </div>
@@ -198,25 +204,25 @@ export default function EditReservation(){
 
                             <div>
                             <p className="font-semibold flex justify-between">
-                                    <span>{dayjs(reservation.startDate).format("DD MMM YYYY")}</span>
+                                    <span>{dayjs(reservation?.startDate).format("DD MMM YYYY")}</span>
                                     <span><FontAwesomeIcon icon={faArrowRight}/></span>
-                                    <span>{dayjs(reservation.endDate).format("DD MMM YYYY")}</span>
+                                    <span>{dayjs(reservation?.endDate).format("DD MMM YYYY")}</span>
                                 </p>
                             </div>
 
                             <div>
                                 <p className="font-medium text-gray-500">Numer rezerwacji:</p>
-                                <p className="font-medium">{reservation.reservationNumber}</p>
+                                <p className="font-medium">{reservation?.reservationNumber}</p>
                             </div>
 
                             <div>
                                 <p className="font-medium text-gray-500">Nr pokoju:</p>
-                                <p className="font-medium">{reservation.room.number}</p>
+                                <p className="font-medium">{reservation?.room?.number}</p>
                             </div>
 
                             <div>
                                 <p className="font-medium text-gray-500">Cena:</p>
-                                <p className="font-medium">{dayjs(reservation.endDate).diff(dayjs(reservation.startDate), 'day') * reservation.room.price} zł </p>
+                                <p className="font-medium">{dayjs(reservation?.endDate).diff(dayjs(reservation?.startDate), 'day') * reservation?.room?.price} zł </p>
                             </div>
 
                             <div className="flex justify-center items-end h-full">
