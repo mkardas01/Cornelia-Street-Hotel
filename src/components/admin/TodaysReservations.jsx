@@ -35,12 +35,12 @@ export default function TodaysReservations() {
 
     return (
         <>
-            <DialogWindow open={open} setOpen={setOpen} />
+            <DialogWindow open={open} setOpen={setOpen} reservations={reservations} setReservations={setReservations}/>
 
             <div className={`flex flex-col items-center justify-center max-w-6xl ${reservations ? 'mt-24' : ''}`}>
                 {reservations.length > 0 ? (
                     reservations.map((reservation, index) => (
-                        <RoomTemplate key={index} reservation={reservation} renderButtons={MenageButtons(setOpen)}/>
+                        <RoomTemplate key={index} reservation={reservation} renderButtons={MenageButtons(setOpen, reservation.id, reservation.reservationNumber, reservation.status)}/>
                     ))
                 ) : (
                     <div className="bg-gray-100 flex flex-col justify-center items-center rounded-3xl text-center py-20 ">
