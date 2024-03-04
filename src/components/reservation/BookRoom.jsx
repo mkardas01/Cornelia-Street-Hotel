@@ -9,7 +9,7 @@ import {motion} from "framer-motion";
 
 import { jwtDecode } from 'jwt-decode'
 
-import {useLocation, useParams} from 'react-router-dom';
+import {useLocation, useNavigate, useParams} from 'react-router-dom';
 import { useEffect } from 'react';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -28,12 +28,14 @@ export default function BookRoom( ) {
 
     const [loading, setLoading] = useState(false);
 
+    const navigate = useNavigate();
+
 
     const {id} = useParams();
-    const room = useLocation().state.room;
-    const startDate = useLocation().state.startDate;
-    const endDate = useLocation().state.endDate;
-    const days = useLocation().state.days;
+    const room = useLocation().state?.room;
+    const startDate = useLocation().state?.startDate;
+    const endDate = useLocation().state?.endDate;
+    const days = useLocation().state?.days;
 
     dayjs.locale('pl');
 
@@ -77,6 +79,12 @@ export default function BookRoom( ) {
             setEmail(user.sub || '');
         }
     }, []);
+
+    useEffect(() => {
+        if (!room) {
+            navigate(-1, { replace: true });
+        }
+    }, [navigate, room]);
 
     const handlePhoneNumber = (e) => {
         const regex = /^[0-9\b]+$/;
@@ -265,17 +273,17 @@ export default function BookRoom( ) {
 
                             <div>
                                 <p className="font-medium text-gray-500">Liczba osób:</p>
-                                <p className="font-medium">{room.size}</p>
+                                <p className="font-medium">{room?.size}</p>
                             </div>
 
                             <div>
                                 <p className="font-medium text-gray-500">Wybrany pokój:</p>
-                                <p className="font-medium">{room.name}</p>
+                                <p className="font-medium">{room?.name}</p>
                             </div>
 
                             <div>
                                 <p className="font-medium text-gray-500">Cena:</p>
-                                <p className="font-medium">{room.price * days} zł </p>
+                                <p className="font-medium">{room?.price * days} zł </p>
                             </div>
 
                             <LoadingButton
@@ -317,28 +325,28 @@ export default function BookRoom( ) {
                                 </p>
 
                                 <p className="font-medium text-gray-500">Pokój: <span
-                                    className="text-black font-medium">{room.name}</span></p>
+                                    className="text-black font-medium">{room?.name}</span></p>
                                 <p className="font-medium text-gray-500">Numer pokoju: <span
-                                    className="text-black font-medium">{room.number}</span></p>
+                                    className="text-black font-medium">{room?.number}</span></p>
                                 <p className="font-medium text-gray-500">Piętro: <span
-                                    className="text-black font-medium">{room.floorNumber}</span></p>
+                                    className="text-black font-medium">{room?.floorNumber}</span></p>
                             </div>
 
 
                             <p className="font-medium text-gray-500">Imię: <span
-                                className="text-black font-medium">{bookingResultsData.name}</span></p>
+                                className="text-black font-medium">{bookingResultsData?.name}</span></p>
 
                             <p className="font-medium text-gray-500">Naziwsko: <span
-                                className="text-black font-medium">{bookingResultsData.surname}</span></p>
+                                className="text-black font-medium">{bookingResultsData?.surname}</span></p>
 
                             <p className="font-medium text-gray-500">E-mail: <span
-                                className="text-black font-medium">{bookingResultsData.email}</span></p>
+                                className="text-black font-medium">{bookingResultsData?.email}</span></p>
 
                             <p className="font-medium text-gray-500">Numer rezerwacji: <span
-                                className="text-black font-medium">{bookingResultsData.reservationNumber}</span></p>
+                                className="text-black font-medium">{bookingResultsData?.reservationNumber}</span></p>
 
                             <p className="font-medium text-gray-500">Telefon: <span
-                                className="text-black font-medium">{bookingResultsData.phone}</span></p>
+                                className="text-black font-medium">{bookingResultsData?.phone}</span></p>
 
                             <h2 className="pt-10 text-sm font-medium text-gray-500">W razie niezgodności podanych
                                 powyżej danych prosimy o kontakt</h2>
