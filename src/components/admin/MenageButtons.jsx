@@ -1,13 +1,30 @@
 import {Button} from "@mui/material";
 import ButtonLabels from "../Variable/ButtonLabels.jsx";
 import {Link} from "react-router-dom";
+import dayjs from "dayjs";
 
-export default function MenageButtons(setOpen, id, reservationNumber, currentStatus) {
+export default function MenageButtons(startDate, setOpen, id, reservationNumber, currentStatus) {
 
     const handleClick = (action) => {
-        console.log(action)
         setOpen({status: true, actionID: action, action:ButtonLabels[action].status, reservationId: id, reservationNumber:reservationNumber});
     };
+
+    const today = dayjs();
+    const disabled = dayjs(startDate).isBefore(today, 'day')
+
+    const ReservationButton = (status, name, index) => {
+
+        return(
+            <Button
+                key={status}
+                variant="filled"
+                onClick={() => handleClick(index)}
+                disabled={disabled}
+            >
+                {name}
+            </Button>
+        )
+    }
 
     console.log(currentStatus)
 
@@ -15,34 +32,25 @@ export default function MenageButtons(setOpen, id, reservationNumber, currentSta
         <div className="grid grid-cols-2 gap-x-5">
             {ButtonLabels.map((label, index) => (
                 (label.status !== "EDIT" && (label.status !== "CANCEL_ACCEPTED" && label.status !== "CANCEL_REJECTED")) ? (
-                    <Button
-                        key={label.status}
-                        variant="filled"
-                        onClick={() => handleClick(index)}
-                    >
-                        {label.name}
-                    </Button>
+                    ReservationButton(label.status, label.name, index)
                 ) : (
                     label.status === "EDIT" ? (
                         <Link
                             key={label.status}
-                            to={{pathname: 'editReservation/' + reservationNumber}}
+                            to={disabled ? undefined : { pathname: 'editReservation/' + reservationNumber }}
                             state={{}}
-                            className="flex justify-center items-center"
+                            className={`flex justify-center items-center ${disabled && 'hover:cursor-default'}`}
                         >
-                            <Button variant="filled">
+                            <Button
+                                variant="filled"
+                                disabled={disabled}
+                            >
                                 {label.name}
                             </Button>
                         </Link>
                     ) : (
                         currentStatus.includes("CANCEL_") &&
-                            <Button
-                                key={label.status}
-                                variant="filled"
-                                onClick={() => handleClick(index)}
-                            >
-                                {label.name}
-                            </Button>
+                            ReservationButton(label.status, label.name, index)
                         )
                     )
                 )

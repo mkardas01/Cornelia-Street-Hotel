@@ -141,7 +141,7 @@ export default function SearchReservation() {
                         </div>
                     ) : (
                         reservations.map((reservation, index) => (
-                            <RoomTemplate key={index} reservation={reservation} renderButtons={MenageButtons(setOpen, reservation.id, reservation.reservationNumber, reservation.status)}/>
+                            <RoomTemplate key={index} reservation={reservation} renderButtons={MenageButtons(reservation.startDate, setOpen, reservation.id, reservation.reservationNumber, reservation.status)}/>
                         ))
                     )}
                 </div>
