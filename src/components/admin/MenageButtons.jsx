@@ -3,7 +3,7 @@ import ButtonLabels from "../Variable/ButtonLabels.jsx";
 import {Link} from "react-router-dom";
 import dayjs from "dayjs";
 
-export default function MenageButtons(startDate, setOpen, id, reservationNumber, currentStatus) {
+export default function MenageButtons(startDate, setOpen, id, reservationNumber, currentStatus, reservation) {
 
     const handleClick = (action) => {
         setOpen({status: true, actionID: action, action:ButtonLabels[action].status, reservationId: id, reservationNumber:reservationNumber});
@@ -37,8 +37,8 @@ export default function MenageButtons(startDate, setOpen, id, reservationNumber,
                     label.status === "EDIT" ? (
                         <Link
                             key={label.status}
-                            to={disabled ? undefined : { pathname: 'editReservation/' + reservationNumber }}
-                            state={{}}
+                            to={disabled ? undefined : { pathname: 'reservation/' + reservationNumber + '/edit' }}
+                            state={{reservation: reservation}}
                             className={`flex justify-center items-center ${disabled && 'hover:cursor-default'}`}
                         >
                             <Button

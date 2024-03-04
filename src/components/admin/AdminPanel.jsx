@@ -4,6 +4,7 @@ import TodaysReservations from "./TodaysReservations.jsx";
 import CancelRequest from "./CancelRequest.jsx";
 import {Link, NavLink} from "react-router-dom";
 import { useLocation } from "react-router-dom";
+import EditReservation from "./EditReservation.jsx";
 
 
 export default function AdminPanel(){
@@ -12,7 +13,7 @@ export default function AdminPanel(){
         { name: 'Dzisiejsze rezerwacje', link: '/admin/todays'},
         { name: 'Wyszukaj rezerwacji', link: '/admin/search'},
         { name: 'Prośby o anulowanie', link: '/admin/cancel'},
-        
+
     ]
 
     const location = useLocation();
@@ -49,7 +50,7 @@ export default function AdminPanel(){
                          backgroundAttachment: 'fixed'
                      }}>
 
-                    {!(option === "search" || option === "todays" || option === "cancel") && (
+                    {!(option === "search" || option === "todays" || option === "cancel" || option === "edit") && (
                         <h1 className="text-white text-center font-serif drop-shadow-2xl p-10 w-full text-6xl md:text-8xl" style={{ backdropFilter: "brightness(60%)" }}>
                             CORNELIA STREET HOTEL
                         </h1>
@@ -58,6 +59,7 @@ export default function AdminPanel(){
                     {option === "search" && <SearchReservation/>}
                     {option === "todays" && <TodaysReservations/>}
                     {option === "cancel" && <CancelRequest/>}
+                    {option === "edit" && <EditReservation />}
 
                 </div>
             </div>
