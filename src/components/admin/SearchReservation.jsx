@@ -28,8 +28,6 @@ export default function SearchReservation() {
 
     const [open, setOpen] = useState({status: false, actionID: null, action:null, reservationId: null, reservationNumber:null});
 
-    const [actionData, setActionData] = useState();
-
     const scrollDownDiv = useRef();
 
     const scrollDown = () =>{
@@ -143,7 +141,7 @@ export default function SearchReservation() {
                         </div>
                     ) : (
                         reservations.map((reservation, index) => (
-                            <RoomTemplate key={index} reservation={reservation} renderButtons={MenageButtons(setOpen, reservation.id, reservation.reservationNumber)}/>
+                            <RoomTemplate key={index} reservation={reservation} renderButtons={MenageButtons(setOpen, reservation.id, reservation.reservationNumber, reservation.status)}/>
                         ))
                     )}
                 </div>
