@@ -56,6 +56,12 @@ export default function App() {
     const [notificationType, setNotificationType] = useState("error");
     const [openNotificationBar, setOpenNotificationBar] = useState(false);
 
+    const notificationProps = {
+        setType: setNotificationType,
+        setNotificationMessage: setNotificationMessage,
+        setNavBarOpen: setOpenNotificationBar
+    };
+
     return (
         <>
             <Router>
@@ -72,8 +78,7 @@ export default function App() {
                         <Route path="/register" element={<> <Login_Register type="register"/> <BackHome/> </>}/>
                     </Route>
 
-                    <Route path="/admin/*" element={<AdminPanel setType={setNotificationType} setNotificationMessage={setNotificationMessage}
-                                                                setNavBarOpen={setOpenNotificationBar} />}/>
+                    <Route path="/admin/*" element={<AdminPanel  {...notificationProps} />}/>
 
                     <Route element={<ProtectedRoute isLoggedIn={isLoggedIn}/>}>
                         <Route path="/logout" element={<Logout/>}/>

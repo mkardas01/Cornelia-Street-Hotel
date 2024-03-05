@@ -22,6 +22,12 @@ export default function AdminPanel({setType, setNotificationMessage, setNavBarOp
     const path = location.pathname;
     const option = path.substring(path.lastIndexOf("/") + 1);
 
+    const notificationProps = {
+        setType: setType,
+        setNotificationMessage: setNotificationMessage,
+        setNavBarOpen: setNavBarOpen
+    };
+
     return(
         <>
             <div className="flex w-full min-h-screen">
@@ -57,17 +63,13 @@ export default function AdminPanel({setType, setNotificationMessage, setNavBarOp
                         </h1>
                     )}
 
-                    {option === "search" && <SearchReservation setType={setType} setNotificationMessage={setNotificationMessage}
-                                                               setNavBarOpen={setNavBarOpen} />}
+                    {option === "search" && <SearchReservation {...notificationProps} />}
 
-                    {option === "todays" && <TodaysReservations setType={setType} setNotificationMessage={setNotificationMessage}
-                                                                setNavBarOpen={setNavBarOpen}/>}
+                    {option === "todays" && <TodaysReservations {...notificationProps}/>}
 
-                    {option === "cancel" && <CancelRequest setType={setType} setNotificationMessage={setNotificationMessage}
-                                                           setNavBarOpen={setNavBarOpen}/>}
+                    {option === "cancel" && <CancelRequest {...notificationProps}/>}
 
-                    {option === "edit" && <EditReservation setType={setType} setNotificationMessage={setNotificationMessage}
-                                                           setNavBarOpen={setNavBarOpen}/>}
+                    {option === "edit" && <EditReservation {...notificationProps}/>}
 
                 </div>
             </div>

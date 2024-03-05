@@ -8,7 +8,7 @@ import DialogWindow from "./DialogWindow.jsx";
 
 
 
-export default function TodaysReservations({setType, setNotificationMessage, setNavBarOpen}) {
+export default function TodaysReservations(props) {
     const BASE_URL = "http://localhost:8080/api";
 
     const [reservations, setReservations] = useState([]);
@@ -25,14 +25,14 @@ export default function TodaysReservations({setType, setNotificationMessage, set
             });
             setReservations(response.data);
 
-            setType("success");
-            setNotificationMessage(`Znaleziona ilośc rezerwacji: ${response.data.length}`)
-            setNavBarOpen(true);
+            props.setType("success");
+            props.setNotificationMessage(`Znaleziona ilośc rezerwacji: ${response.data.length}`)
+            props.setNavBarOpen(true);
 
         } catch (error) {
-            setType("error");
-            setNotificationMessage(error?.response?.data?.message ? error.response.data.message : "Przepraszamy wystąpił błąd w trakcie komunikacji z serwerem");
-            setNavBarOpen(true);
+            props.setType("error");
+            props.setNotificationMessage(error?.response?.data?.message ? error.response.data.message : "Przepraszamy wystąpił błąd w trakcie komunikacji z serwerem");
+            props.setNavBarOpen(true);
         }
     }
 
@@ -43,8 +43,7 @@ export default function TodaysReservations({setType, setNotificationMessage, set
     return (
         <>
             <DialogWindow open={open} setOpen={setOpen} reservations={reservations} setReservations={setReservations}
-                          setType={setType} setNotificationMessage={setNotificationMessage}
-                          setNavBarOpen={setNavBarOpen} />
+                          {...props} />
 
             <div className={`flex flex-col items-center justify-center max-w-6xl ${reservations ? 'mt-24' : ''}`}>
                 {reservations.length > 0 ? (

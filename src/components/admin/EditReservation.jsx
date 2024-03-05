@@ -10,7 +10,7 @@ import Cookies from "js-cookie";
 import {useEffect, useState} from "react";
 import {statusMessages} from "../Variable/ReservationStatus.jsx";
 
-export default function EditReservation({setType, setNotificationMessage, setNavBarOpen}){
+export default function EditReservation(props){
 
     const navigate = useNavigate();
     const data = useLocation().state?.reservation;
@@ -55,9 +55,9 @@ export default function EditReservation({setType, setNotificationMessage, setNav
                 }
             )
 
-            setType("success");
-            setNotificationMessage(`Poprawnie zaaktualizowano rezerwacje o numerze: ${response.data.reservationNumber}`)
-            setNavBarOpen(true);
+            props.setType("success");
+            props.setNotificationMessage(`Poprawnie zaaktualizowano rezerwacje o numerze: ${response.data.reservationNumber}`)
+            props.setNavBarOpen(true);
 
             setReservation(response.data)
             setDisabled(true);
@@ -69,9 +69,9 @@ export default function EditReservation({setType, setNotificationMessage, setNav
 
 
         }catch (error){
-            setType("error");
-            setNotificationMessage(error?.response?.data?.message ? error.response.data.message : "Przepraszamy wystąpił błąd w trakcie komunikacji z serwerem");
-            setNavBarOpen(true);
+            props.setType("error");
+            props.setNotificationMessage(error?.response?.data?.message ? error.response.data.message : "Przepraszamy wystąpił błąd w trakcie komunikacji z serwerem");
+            props.setNavBarOpen(true);
         }
     }
 
