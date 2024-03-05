@@ -8,7 +8,7 @@ import DialogWindow from "./DialogWindow.jsx";
 
 
 
-export default function TodaysReservations() {
+export default function TodaysReservations({setType, setNotificationMessage, setNavBarOpen}) {
     const BASE_URL = "http://localhost:8080/api";
 
     const [reservations, setReservations] = useState([]);
@@ -24,8 +24,15 @@ export default function TodaysReservations() {
                 headers: { "Authorization": `Bearer ${token}` }
             });
             setReservations(response.data);
+
+            setType("success");
+            setNotificationMessage(`Znaleziona ilośc rezerwacji: ${response.data.length}`)
+            setNavBarOpen(true);
+
         } catch (error) {
-            console.error(error);
+            setType("error");
+            setNotificationMessage(error?.response?.data?.message ? error.response.data.message : "Przepraszamy wystąpił błąd w trakcie komunikacji z serwerem");
+            setNavBarOpen(true);
         }
     }
 
@@ -35,7 +42,9 @@ export default function TodaysReservations() {
 
     return (
         <>
-            <DialogWindow open={open} setOpen={setOpen} reservations={reservations} setReservations={setReservations}/>
+            <DialogWindow open={open} setOpen={setOpen} reservations={reservations} setReservations={setReservations}
+                          setType={setType} setNotificationMessage={setNotificationMessage}
+                          setNavBarOpen={setNavBarOpen} />
 
             <div className={`flex flex-col items-center justify-center max-w-6xl ${reservations ? 'mt-24' : ''}`}>
                 {reservations.length > 0 ? (

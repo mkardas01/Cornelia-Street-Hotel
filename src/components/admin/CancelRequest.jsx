@@ -8,31 +8,8 @@ import {faArrowRight} from "@fortawesome/free-solid-svg-icons";
 import DialogWindow from "./DialogWindow.jsx";
 import MenageButtons from "./MenageButtons.jsx";
 
-function renderButtons(){
-    return(
-        <>
 
-            <Button
-                variant="filled"
-                endIcon={<FontAwesomeIcon icon={faArrowRight}/>}
-            >
-                Anuluj
-
-            </Button>
-
-            <Button
-                variant="filled"
-                endIcon={<FontAwesomeIcon icon={faArrowRight}/>}
-            >
-                Odrzuć prośbę
-
-            </Button>
-        </>
-    )
-}
-
-
-export default function CancelRequest() {
+export default function CancelRequest({setType, setNotificationMessage, setNavBarOpen}) {
 
     const BASE_URL = "http://localhost:8080/api";
     const [open, setOpen] = useState({status: false, action: null});
@@ -46,10 +23,16 @@ export default function CancelRequest() {
                 headers: { "Authorization": `Bearer ${token}` }
             });
 
-            setReservations(response.data);
+            setReservations(response.data)
+
+            setType("success");
+            setNotificationMessage(`Znaleziona ilośc rezerwacji: ${response.data.length}`)
+            setNavBarOpen(true);
+
         } catch (error) {
-            console.error('Error fetching today\'s reservations:', error);
-            // Handle error gracefully, e.g., show a message to the user
+            setType("error");
+            setNotificationMessage(error?.response?.data?.message ? error.response.data.message : "Przepraszamy wystąpił błąd w trakcie komunikacji z serwerem");
+            setNavBarOpen(true);
         }
 
     }
@@ -64,7 +47,9 @@ export default function CancelRequest() {
 
     return (
         <>
-            <DialogWindow open={open} setOpen={setOpen} reservations={reservations} setReservations={setReservations}/>
+            <DialogWindow open={open} setOpen={setOpen} reservations={reservations} setReservations={setReservations}
+                          setType={setType} setNotificationMessage={setNotificationMessage}
+                          setNavBarOpen={setNavBarOpen} />
 
             <div className={`flex flex-col items-center justify-center max-w-6xl ${reservations ? 'mt-24' : ''}`}>
                 {reservations.length > 0 ? (

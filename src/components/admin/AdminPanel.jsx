@@ -5,9 +5,11 @@ import CancelRequest from "./CancelRequest.jsx";
 import {Link, NavLink} from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import EditReservation from "./EditReservation.jsx";
+import NotificationBar from "../templates/NotificationBar.jsx";
+import {useState} from "react";
 
 
-export default function AdminPanel(){
+export default function AdminPanel({setType, setNotificationMessage, setNavBarOpen}){
 
     const options = [
         { name: 'Dzisiejsze rezerwacje', link: '/admin/todays'},
@@ -19,7 +21,6 @@ export default function AdminPanel(){
     const location = useLocation();
     const path = location.pathname;
     const option = path.substring(path.lastIndexOf("/") + 1);
-
 
     return(
         <>
@@ -56,10 +57,17 @@ export default function AdminPanel(){
                         </h1>
                     )}
 
-                    {option === "search" && <SearchReservation/>}
-                    {option === "todays" && <TodaysReservations/>}
-                    {option === "cancel" && <CancelRequest/>}
-                    {option === "edit" && <EditReservation />}
+                    {option === "search" && <SearchReservation setType={setType} setNotificationMessage={setNotificationMessage}
+                                                               setNavBarOpen={setNavBarOpen} />}
+
+                    {option === "todays" && <TodaysReservations setType={setType} setNotificationMessage={setNotificationMessage}
+                                                                setNavBarOpen={setNavBarOpen}/>}
+
+                    {option === "cancel" && <CancelRequest setType={setType} setNotificationMessage={setNotificationMessage}
+                                                           setNavBarOpen={setNavBarOpen}/>}
+
+                    {option === "edit" && <EditReservation setType={setType} setNotificationMessage={setNotificationMessage}
+                                                           setNavBarOpen={setNavBarOpen}/>}
 
                 </div>
             </div>
