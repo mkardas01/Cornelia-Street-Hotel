@@ -9,7 +9,7 @@ import axios from "../Variable/axios-instance.jsx";
 import Cookies from "js-cookie";
 import {useEffect, useState} from "react";
 import {statusMessages} from "../Variable/ReservationStatus.jsx";
-
+import {motion} from "framer-motion";
 export default function EditReservation(props){
 
     const navigate = useNavigate();
@@ -120,8 +120,12 @@ export default function EditReservation(props){
 
         return(
             <>
-                <div
-                     className="flex flex-col justify-center items-center bg-cover bg-center w-4/5 h-fit md:h-screen">
+                <motion.div
+                     className="flex flex-col justify-center items-center bg-cover bg-center w-4/5 h-fit md:h-screen"
+                     initial={{opacity: 0}}
+                     animate={{opacity: 1}}
+                     transition={{duration: 0.7, ease: "easeIn"}}
+                >
                     <div
                         className="flex flex-col justify-center items-center my-32 space-y-5 w-full h-fit md:flex-row md:space-x-5 md:space-y-0">
                         <div
@@ -243,7 +247,7 @@ export default function EditReservation(props){
                             </div>
                         </div>
                     </div>
-                </div>
+                </motion.div>
             </>
         )
 }

@@ -7,6 +7,7 @@ import {RoomTemplate} from "../templates/RoomTemplate.jsx";
 import axios from "../Variable/axios-instance.jsx";
 import Cookies from 'js-cookie';
 import {Button} from "@mui/material";
+import { motion} from "framer-motion";
 
 
 function renderButtons(reservationID, status, reservationList, setReservationList, reservationNumber, props){
@@ -102,7 +103,10 @@ export default function UserReservation(props) {
     return (
         <>
 
-            <div className="flex flex-col items-center justify-center w-full h-full">
+            <motion.div className="flex flex-col items-center justify-center w-full h-full"
+                        initial={{opacity: 0}}
+                        animate={{opacity: 1}}
+                        transition={{duration: 1, ease: "easeIn"}}>
 
                 <MainPicWithArrow mainPic={mainPic} scrollDownDiv={scrollDownDiv} title="Twoje rezerwacje"/>
 
@@ -138,7 +142,7 @@ export default function UserReservation(props) {
                         </div>
                     }
                 </div>
-            </div>
+            </motion.div>
         </>
 
     )
