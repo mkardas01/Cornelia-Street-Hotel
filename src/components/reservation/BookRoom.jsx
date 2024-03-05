@@ -18,17 +18,14 @@ import axios from "../Variable/axios-instance.jsx";
 
 import dayjs from "dayjs";
 import "dayjs/locale/pl";
-import NotificationBar from "../templates/NotificationBar.jsx";
 import Cookies from "js-cookie";
+import {isAndroid} from "@mui/x-date-pickers/internals/hooks/useField/useField.utils.js";
 
 export default function BookRoom(props) {
-
-    const BASE_URL = "http://localhost:8080/api/";
 
     const [loading, setLoading] = useState(false);
 
     const navigate = useNavigate();
-
 
     const {id} = useParams();
     const room = useLocation().state?.room;
@@ -67,7 +64,7 @@ export default function BookRoom(props) {
     }
 
     useEffect(() => {
-        if (user && !name && !surname && !email) {
+        if (user && !name && !surname && !email && !props.isAdmin) {
             setName(user.name || '');
             setSurname(user.surname || '');
             setEmail(user.sub || '');
@@ -161,6 +158,7 @@ export default function BookRoom(props) {
             sendReservation();
     }
 
+    console.log(Object.keys(user).length, props.isAdmin)
 
     return (
         <>
@@ -189,11 +187,11 @@ export default function BookRoom(props) {
                                     }}
                                     label="Imię"
                                     variant="outlined"
-                                    value={user && user.name ? user.name : name}
+                                    value={user && user.name && !props.isAdmin ? user.name : name}
                                     required
                                     error={nameError.length > 0}
                                     helperText={nameError}
-                                    disabled={Object.keys(user).length === 0 ? false : true}
+                                    disabled={Object.keys(user).length !== 0 || props.isAdmin ? false : true}
                                 />
 
                                 <TextField
@@ -204,11 +202,11 @@ export default function BookRoom(props) {
                                     }}
                                     label="Nazwisko"
                                     variant="outlined"
-                                    value={user && user.surname ? user.surname : surname}
+                                    value={user && user.surname && !props.isAdmin ? user.surname : surname}
                                     required
                                     error={surnameError.length > 0}
                                     helperText={surnameError}
-                                    disabled={Object.keys(user).length === 0 ? false : true}
+                                    disabled={Object.keys(user).length !== 0 || props.isAdmin ? false : true}
                                 />
 
 
@@ -220,11 +218,11 @@ export default function BookRoom(props) {
                                     }}
                                     label="Email"
                                     variant="outlined"
-                                    value={user && user.sub ? user.sub : email}
+                                    value={user && user.sub && !props.isAdmin ? user.sub : email}
                                     required
                                     error={emailError.length > 0}
                                     helperText={emailError}
-                                    disabled={Object.keys(user).length === 0 ? false : true}
+                                    disabled={Object.keys(user).length !== 0 || props.isAdmin ? false : true}
                                 />
 
                                 <TextField
