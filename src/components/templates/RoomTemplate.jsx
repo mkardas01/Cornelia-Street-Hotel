@@ -27,11 +27,11 @@ export const RoomTemplate = ({room, reservation, days, startDate, endDate, rende
     return (
         <>
             <div
-                className={`flex flex-col justify-center w-3/4  mt-20 mb-20 max-w-6xl md:flex-row h-fit`}>
+                className={`flex flex-col justify-center w-3/4  mt-20 mb-20 max-w-4xl md:flex-row h-fit`}>
                 {/*img*/}
                 <div className="md:w-1/2">
                     <img
-                        className="h-64 w-full object-cover rounded-t-3xl md:h-[26rem]   md:rounded-tr-none md:rounded-l-3xl"
+                        className="h-64 w-full object-cover rounded-t-3xl md:h-full   md:rounded-tr-none md:rounded-l-3xl"
                         src={'../assets/' + room.picPath} alt="image"/>
                 </div>
 
@@ -59,13 +59,13 @@ export const RoomTemplate = ({room, reservation, days, startDate, endDate, rende
                     </div>
 
                     <div className={`flex flex-col justify-between ${!reservation ? 'h-2/5' : ''} `}>
-                    <div className={`flex flex-col ${reservation ? 'justify-end h-full' : ''}`}>
-                                    <span className="grid grid-cols-3 gap-2 text-l p-2 text-center">
-                                        <span><FontAwesomeIcon icon={faUser}/> {room.size}</span>
-                                        <span><FontAwesomeIcon icon={faDoorOpen}/> {room.number}</span>
-                                        <span><FontAwesomeIcon icon={faTag}/> {days * room.price} zł</span>
-                                    </span>
-                        </div>
+                            <div className={`flex flex-col ${reservation ? 'justify-end h-full' : ''}`}>
+                                        <span className="grid grid-cols-3 gap-2 text-l p-2 text-center">
+                                            <span><FontAwesomeIcon icon={faUser}/> {room.size}</span>
+                                            <span><FontAwesomeIcon icon={faDoorOpen}/> {room.number}</span>
+                                            <span><FontAwesomeIcon icon={faTag}/> {days * room.price} zł</span>
+                                        </span>
+                            </div>
 
 
                             <div className={`flex justify-center ${reservation ? 'md:pt-7 md:justify-around' : ''}`}>

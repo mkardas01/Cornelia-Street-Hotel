@@ -10,7 +10,7 @@ import ButtonLabels from "../Variable/ButtonLabels.jsx";
 import axios from "axios";
 import Cookies from "js-cookie";
 
-export default function DialogWindow({open, setOpen, reservations, setReservations}) {
+export default function DialogWindow({open, setOpen, reservations, setReservations,setType, setNotificationMessage, setNavBarOpen }) {
 
     const BASE_URL = "http://localhost:8080/api";
 
@@ -38,9 +38,15 @@ export default function DialogWindow({open, setOpen, reservations, setReservatio
                 setReservations(updatedReservations);
             }
 
+            setType("success");
+            setNotificationMessage(`Wykonano akcję ${ButtonLabels[open.actionID]?.name} na rezerwacji ${open.reservationNumber}`)
+            setNavBarOpen(true);
+
 
         }catch(error){
-            console.log(error)
+            setType("error");
+            setNotificationMessage(error?.response?.data?.message ? error.response.data.message : "Przepraszamy wystąpił błąd w trakcie komunikacji z serwerem");
+            setNavBarOpen(true);
         }
         finally {
             handleClose();
