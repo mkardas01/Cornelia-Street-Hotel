@@ -46,9 +46,8 @@ export default function App() {
     }, []);
 
     const options = [
-        { name: 'O nas', link: '/login' },
         isLoggedIn ? { name: 'Twoje rezerwacje', link: '/reservation' } : null,
-        { name: 'Admin', link: '/admin'},
+        { name: 'Panel rezerwacji', link: '/admin'},
         { name: isLoggedIn ? 'Wyloguj się' : 'Zaloguj się', link: isLoggedIn ? '/logout' : '/login' }
     ].filter(option => option != null);
 
@@ -78,7 +77,7 @@ export default function App() {
                         <Route path="/register" element={<> <Login_Register type="register" {...notificationProps} /> <BackHome/> </>}/>
                     </Route>
 
-                    <Route path="/admin/*" element={<AdminPanel  {...notificationProps} />}/>
+                    <Route path="/admin/*" element={<> <AdminPanel  {...notificationProps} /> <BackHome/> </>} />
 
                     <Route element={<ProtectedRoute isLoggedIn={isLoggedIn}/>}>
                         <Route path="/logout" element={<Logout/>}/>

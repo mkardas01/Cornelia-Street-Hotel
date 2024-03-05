@@ -1,10 +1,9 @@
 import { TextField } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import SendIcon from "@mui/icons-material/Send";
-import {Link, useNavigate} from "react-router-dom";
+import {Link} from "react-router-dom";
 import {useState} from "react";
-import axios from "axios";
-import NotificationBar from "../templates/NotificationBar.jsx";
+import axios from "../Variable/axios-instance.jsx";
 import Cookies from 'js-cookie';
 
 
@@ -77,7 +76,7 @@ export default function AuthForm(props) {
 
     const handleRegister = async () =>{
         try{
-            const response = await axios.post(`${BASE_URL}/register`, {
+            const response = await axios.post(`/register`, {
                     name: name,
                     surname: surName,
                     email: email,
@@ -109,7 +108,7 @@ export default function AuthForm(props) {
 
     const handleLogin = async () =>{
         try{
-            const response = await axios.post(`${BASE_URL}/login`, {
+            const response = await axios.post(`/login`, {
                     email: email,
                     password: password
                 }

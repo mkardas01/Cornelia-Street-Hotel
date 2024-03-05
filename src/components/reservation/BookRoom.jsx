@@ -4,7 +4,6 @@ import {useState} from "react";
 import SendIcon from "@mui/icons-material/Send.js";
 import LoadingButton from "@mui/lab/LoadingButton";
 
-import {BackHome} from "../templates/BackHome.jsx";
 import {motion} from "framer-motion";
 
 import { jwtDecode } from 'jwt-decode'
@@ -13,9 +12,9 @@ import {useLocation, useNavigate, useParams} from 'react-router-dom';
 import { useEffect } from 'react';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {faArrowLeft, faArrowRight} from "@fortawesome/free-solid-svg-icons";
+import {faArrowRight} from "@fortawesome/free-solid-svg-icons";
 
-import axios from 'axios';
+import axios from "../Variable/axios-instance.jsx";
 
 import dayjs from "dayjs";
 import "dayjs/locale/pl";
@@ -93,7 +92,7 @@ export default function BookRoom(props) {
         try {
             setLoading(true)
 
-            const response = await axios.post(`${BASE_URL}reservation/reserve/${id}`, {
+            const response = await axios.post(`/reservation/reserve/${id}`, {
                     name: name,
                     surname: surname,
                     email: email,

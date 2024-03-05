@@ -1,12 +1,9 @@
 import { RoomTemplate } from "../templates/RoomTemplate.jsx";
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
-import axios from "axios";
+import axios from "../Variable/axios-instance.jsx";
 import MenageButtons from "./MenageButtons.jsx";
 import DialogWindow from "./DialogWindow.jsx";
-
-
-
 
 export default function TodaysReservations(props) {
     const BASE_URL = "http://localhost:8080/api";
@@ -20,7 +17,7 @@ export default function TodaysReservations(props) {
 
     const getTodaysReservations = async () => {
         try {
-            const response = await axios.post(`${BASE_URL}/admin/todaysReservations`, {}, {
+            const response = await axios.post(`/admin/todaysReservations`, {}, {
                 headers: { "Authorization": `Bearer ${token}` }
             });
             setReservations(response.data);
