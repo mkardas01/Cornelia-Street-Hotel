@@ -2,11 +2,10 @@ import SearchReservation from "./SearchReservation.jsx";
 import mainPic from "/assets/front.png";
 import TodaysReservations from "./TodaysReservations.jsx";
 import CancelRequest from "./CancelRequest.jsx";
-import {Link, NavLink} from "react-router-dom";
+import {NavLink} from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import EditReservation from "./EditReservation.jsx";
-import NotificationBar from "../templates/NotificationBar.jsx";
-import {useState} from "react";
+import { motion} from "framer-motion";
 
 
 export default function AdminPanel({setType, setNotificationMessage, setNavBarOpen}){
@@ -30,7 +29,10 @@ export default function AdminPanel({setType, setNotificationMessage, setNavBarOp
 
     return(
         <>
-            <div className="flex w-full min-h-screen">
+            <motion.div className="flex w-full min-h-screen"
+                        initial={{opacity: 0}}
+                        animate={{opacity: 1}}
+                        transition={{duration: 0.7, ease: "easeIn"}} >
 
                 <div
                     className="sticky top-0 left-0 h-screen flex flex-col justify-center text-left space-y-5 bg-gray-200 px-14 w-1/5">
@@ -72,7 +74,7 @@ export default function AdminPanel({setType, setNotificationMessage, setNavBarOp
                     {option === "edit" && <EditReservation {...notificationProps}/>}
 
                 </div>
-            </div>
+            </motion.div>
         </>
     )
 

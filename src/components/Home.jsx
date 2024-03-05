@@ -48,7 +48,7 @@ export default function Home(props) {
 
     const [arrivalDate, setArrivalDate] = useState(dayjs());
     const [departureDate, setDepartureDate] = useState(dayjs().add(1, 'day'));
-    const [size, setSize] = useState('');
+    const [size, setSize] = useState(2);
 
     const [rooms, setRooms] = useState([]);
     const [showRoom, setShowRoom] = useState(false);

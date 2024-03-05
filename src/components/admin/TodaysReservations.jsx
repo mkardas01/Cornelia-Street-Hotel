@@ -4,9 +4,8 @@ import Cookies from "js-cookie";
 import axios from "../Variable/axios-instance.jsx";
 import MenageButtons from "./MenageButtons.jsx";
 import DialogWindow from "./DialogWindow.jsx";
-
+import {motion} from "framer-motion";
 export default function TodaysReservations(props) {
-    const BASE_URL = "http://localhost:8080/api";
 
     const [reservations, setReservations] = useState([]);
 
@@ -42,7 +41,11 @@ export default function TodaysReservations(props) {
             <DialogWindow open={open} setOpen={setOpen} reservations={reservations} setReservations={setReservations}
                           {...props} />
 
-            <div className={`flex flex-col items-center justify-center max-w-6xl ${reservations ? 'mt-24' : ''}`}>
+            <motion.div className={`flex flex-col items-center justify-center max-w-6xl ${reservations ? 'mt-24' : ''}`}
+                        initial={{opacity: 0}}
+                        animate={{opacity: 1}}
+                        transition={{duration: 0.7, ease: "easeIn"}}
+            >
                 {reservations.length > 0 ? (
                     reservations.map((reservation, index) => (
                         <RoomTemplate key={index} reservation={reservation} renderButtons={MenageButtons(reservation.startDate, setOpen, reservation.id, reservation.reservationNumber, reservation.status, reservation)}/>
@@ -62,7 +65,7 @@ export default function TodaysReservations(props) {
                         </div>
                     </div>
                 )}
-            </div>
+            </motion.div>
         </>
     );
 

@@ -11,11 +11,10 @@ import axios from "../Variable/axios-instance.jsx";
 import Cookies from "js-cookie";
 import MenageButtons from "./MenageButtons.jsx";
 import DialogWindow from "./DialogWindow.jsx";
-
+import {motion} from "framer-motion";
 
 export default function SearchReservation(props) {
 
-    const BASE_URL = "http://localhost:8080/api";
 
     const [email, setEmail] = useState();
     const [surname, setSurname] = useState();
@@ -76,7 +75,11 @@ export default function SearchReservation(props) {
             <DialogWindow open={open} setOpen={setOpen} reservations={reservations} setReservations={setReservations}
                           {...props} />
 
-            <div className="flex flex-col items-center justify-center max-w-7xl ">
+            <motion.div className="flex flex-col items-center justify-center max-w-7xl "
+                        initial={{opacity: 0}}
+                        animate={{opacity: 1}}
+                        transition={{duration: 0.7, ease: "easeIn"}}
+            >
                 <div className="flex justify-center items-center  h-screen">
                     <div className="sticky top-5 bg-gray-50 p-8 h-fit rounded-3xl">
 
@@ -133,7 +136,11 @@ export default function SearchReservation(props) {
                     </div>
                 </div>
 
-                <div className="flex flex-col justify-center items-center" ref={scrollDownDiv}>
+                <motion.div className="flex flex-col justify-center items-center" ref={scrollDownDiv}
+                            initial={{scaleX: 0}}
+                            animate={{scaleX: 1, originY: 0}}
+                            transition={{delay:0.9, duration: 1, ease: "easeIn"}}
+                >
                     {searched && reservations.length === 0 ? (
                         <div className="h-96">
                             <div
@@ -151,10 +158,10 @@ export default function SearchReservation(props) {
                             <RoomTemplate key={index} reservation={reservation} renderButtons={MenageButtons(reservation.startDate, setOpen, reservation.id, reservation.reservationNumber, reservation.status, reservation)}/>
                         ))
                     )}
-                </div>
+                </motion.div>
 
 
-            </div>
+            </motion.div>
         </>
     )
 
