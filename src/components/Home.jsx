@@ -119,8 +119,8 @@ export default function Home(props) {
 
         } catch (error) {
             props.setType("error");
-            props.setOpenNotificationBar(true);
-            props.setNavBarOpen(error?.response?.data?.message ? error.response.data.message : "Przepraszamy wystąpił błąd w trakcie komunikacji z serwerem");
+            props.setNavBarOpen(true);
+            props.setNotificationMessage(error?.response?.data?.message ? error.response.data.message : "Przepraszamy wystąpił błąd w trakcie komunikacji z serwerem");
 
         } finally {
             setLoading(false);
