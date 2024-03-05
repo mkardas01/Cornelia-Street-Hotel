@@ -12,16 +12,12 @@ import java.util.Optional;
 
 @Repository
 public interface RoomRepository extends JpaRepository<Room, Integer> {
-    @Query("SELECT r.id AS id, r.floorNumber AS floorNumber, r.number AS number, r.size AS size FROM Room r")
-    List<Room> getAllRoomInfos();
 
-    @Query("SELECT " +
-            "r " +
-            "FROM Room r " +
+    @Query("SELECT r FROM Room r " +
             "LEFT JOIN r.reservations res " +
-            "WHERE (res.startDate IS NULL OR res.startDate > :dateEnd OR res.endDate < :dateStart)"
-    )
-    List<Room> getAvailableRooms(@Param("dateStart") LocalDate dateStart, @Param("dateEnd") LocalDate dateEnd);
+            "WHERE (res.startDate IS NULL OR res.endDate < :dateStart OR res.startDate > :dateEnd) AND r.size = :size")
+    List<Room> getAvailableRooms(@Param("dateStart") LocalDate dateStart, @Param("dateEnd") LocalDate dateEnd, @Param("size") Integer size);
+
 
     Optional<Room> getRoomById(Integer id);
 

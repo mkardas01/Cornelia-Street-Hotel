@@ -4,7 +4,7 @@ import com.hotel.api.dto.ChangeStatusDTO;
 import com.hotel.api.dto.EditReservationDTO;
 import com.hotel.api.dto.SearchReservation;
 import com.hotel.api.exception.ReservationDateException;
-import com.hotel.api.mapper.ReservationDTOMapper;
+import com.hotel.api.mapper.Mapper;
 import com.hotel.api.model.reservation.Reservation;
 import com.hotel.api.model.ReservationDTO;
 import com.hotel.api.model.reservation.Status;
@@ -23,7 +23,7 @@ public class AdminImpl implements AdminService{
     @Autowired
     private ReservationRepository reservationRepository;
 
-    private final ReservationDTOMapper reservationDTOMapper = new ReservationDTOMapper();
+    private final Mapper mapper = new Mapper();
 
     private LocalDate parseDate(String dateStr) {
         try {
@@ -39,7 +39,7 @@ public class AdminImpl implements AdminService{
         LocalDate startDate = LocalDate.now();
         List<Reservation> reservations = reservationRepository.getReservationByStartDate(startDate).orElseThrow();
 
-        return reservationDTOMapper.mapToReservationDTO(reservations);
+        return mapper.mapToReservationDTO(reservations);
 
     }
 
@@ -57,14 +57,14 @@ public class AdminImpl implements AdminService{
                                                 endDate)
                                         .orElseThrow();
 
-        return reservationDTOMapper.mapToReservationDTO(reservations);
+        return mapper.mapToReservationDTO(reservations);
     }
 
     public List<ReservationDTO> cancelRequest(){
 
         List<Reservation> reservations = reservationRepository.findReservationByStatus(Status.CANCEL_REQUEST).orElseThrow();
 
-        return reservationDTOMapper.mapToReservationDTO(reservations);
+        return mapper.mapToReservationDTO(reservations);
 
     }
 
@@ -76,7 +76,7 @@ public class AdminImpl implements AdminService{
 
         reservationRepository.save(reservation);
 
-        return reservationDTOMapper.mapToReservationDTO(reservation);
+        return mapper.mapToReservationDTO(reservation);
     }
 
     public ReservationDTO editReservation(EditReservationDTO editReservationDTO){
@@ -91,7 +91,7 @@ public class AdminImpl implements AdminService{
 
         reservationRepository.save(reservation);
 
-        return reservationDTOMapper.mapToReservationDTO(reservation);
+        return mapper.mapToReservationDTO(reservation);
 
     }
 
