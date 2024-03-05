@@ -191,7 +191,7 @@ export default function BookRoom(props) {
                                     required
                                     error={nameError.length > 0}
                                     helperText={nameError}
-                                    disabled={Object.keys(user).length !== 0 || props.isAdmin ? false : true}
+                                    disabled={Object.keys(user).length === 0 || props.isAdmin ? false : true}
                                 />
 
                                 <TextField
@@ -206,7 +206,7 @@ export default function BookRoom(props) {
                                     required
                                     error={surnameError.length > 0}
                                     helperText={surnameError}
-                                    disabled={Object.keys(user).length !== 0 || props.isAdmin ? false : true}
+                                    disabled={Object.keys(user).length === 0 || props.isAdmin ? false : true}
                                 />
 
 
@@ -222,7 +222,7 @@ export default function BookRoom(props) {
                                     required
                                     error={emailError.length > 0}
                                     helperText={emailError}
-                                    disabled={Object.keys(user).length !== 0 || props.isAdmin ? false : true}
+                                    disabled={Object.keys(user).length === 0 || props.isAdmin ? false : true}
                                 />
 
                                 <TextField

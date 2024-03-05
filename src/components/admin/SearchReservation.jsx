@@ -80,12 +80,12 @@ export default function SearchReservation(props) {
                         animate={{opacity: 1}}
                         transition={{duration: 0.7, ease: "easeIn"}}
             >
-                <div className="flex justify-center items-center  h-screen">
+                <div className="flex justify-center items-center h-screen px-10">
                     <div className="sticky top-5 bg-gray-50 p-8 h-fit rounded-3xl">
 
                         <h1 className="pb-4 font-semibold ">Wypełnij te pola na podstawie których chcesz wyszukać rezerwacji</h1>
 
-                        <div className="flex items-center justify-between space-x-5 ">
+                        <div className="grid grid-cols-2 gap-4 md:space-x-1 md:flex md:items-center md:justify-between">
                             <TextField
                                 id="fReservation"
                                 label="Numer rezerwacji"
@@ -109,6 +109,7 @@ export default function SearchReservation(props) {
                                 <DatePicker
                                     label="Dzień przyjazdu"
                                     format="DD/MM/YYYY"
+                                    value={arrivalDate}
                                     onChange={(newValue) => setArrivalDate(newValue)}
 
                                 />
@@ -116,6 +117,7 @@ export default function SearchReservation(props) {
                                 <DatePicker
                                     label="Dzień wyjazdu"
                                     format="DD/MM/YYYY"
+                                    value={departureDate}
                                     onChange={(newValue) => setDepartureDate(newValue)}
 
                                 />
@@ -142,9 +144,9 @@ export default function SearchReservation(props) {
                             transition={{delay:0.9, duration: 1, ease: "easeIn"}}
                 >
                     {searched && reservations.length === 0 ? (
-                        <div className="h-96">
+                        <div className="h-96 px-20 py-20 h-fit">
                             <div
-                                className="bg-gray-100 flex flex-col justify-center items-center rounded-3xl text-center py-20 ">
+                                className="bg-gray-100 flex flex-col justify-center items-center rounded-3xl text-center  py-20 ">
                                 <div className="space-y-3 px-10 mx-4">
                                     <h1 className="text-5xl font-serif">Nie znaleziono żadnej rezerwacji.</h1>
                                     <h2 style={{color: '#a29010'}} className="text-xl">

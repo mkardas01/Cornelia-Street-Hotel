@@ -46,7 +46,7 @@ export default function CancelRequest(props) {
             <DialogWindow open={open} setOpen={setOpen} reservations={reservations} setReservations={setReservations}
                           {...props} />
 
-            <motion.div className={`flex flex-col items-center justify-center max-w-6xl ${reservations ? 'mt-24' : ''}`}
+            <motion.div className={`flex flex-col items-center justify-center px-8 max-w-6xl ${reservations ? 'mt-24' : ''}`}
                         initial={{opacity: 0}}
                         animate={{opacity: 1}}
                         transition={{duration: 0.7, ease: "easeIn"}}
@@ -56,7 +56,7 @@ export default function CancelRequest(props) {
                         <RoomTemplate key={index} reservation={reservation} renderButtons={MenageButtons(reservation.startDate, setOpen, reservation.id, reservation.reservationNumber, reservation.status, reservation)}/>
                     ))
                 ) : (
-                    <div className="bg-gray-100 flex flex-col justify-center items-center rounded-3xl text-center py-20 ">
+                    <div className="bg-gray-100 flex flex-col justify-center items-center rounded-3xl text-center py-20">
                         <div className="space-y-3 px-10 mx-4">
                             <h1 className="text-5xl font-serif">Aktualnie nie ma żadnych próśb o anulowanie rezerwacji.</h1>
                             <h2 style={{color: '#a29010'}} className="text-xl">
