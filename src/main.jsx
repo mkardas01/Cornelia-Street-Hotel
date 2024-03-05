@@ -76,7 +76,7 @@ export default function App() {
                 <Routes>
 
                     <Route path="/" element={<Home {...notificationProps} />}/>
-                    <Route path="/bookRoom/:id" element={<> <BookRoom {...notificationProps} /> <BackHome/> </>}/>
+                    <Route path="/bookRoom/:id" element={<> <BookRoom {...notificationProps} isAdmin={isAdmin} /> <BackHome/> </>}/>
 
                     <Route element={<ProtectedRoute isLoggedIn={!isLoggedIn}/>}>
                         <Route path="/login" element={<> <Login_Register type="login" {...notificationProps} /> <BackHome/> </>}/>
