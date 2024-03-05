@@ -44,7 +44,7 @@ function Arrow({ scrollDown }) {
 }
 
 
-export default function Home() {
+export default function Home(props) {
 
     const [arrivalDate, setArrivalDate] = useState(dayjs());
     const [departureDate, setDepartureDate] = useState(dayjs().add(1, 'day'));
@@ -55,10 +55,6 @@ export default function Home() {
     const [showDatePicker, setShowDatePicker] = useState(true);
 
     const [days, setDays] = useState(0);
-
-    const [notificationMessage, setNotificationMessage] = useState("");
-    const [notificationType, setNotificationType] = useState("error");
-    const [openNotificationBar, setOpenNotificationBar] = useState(false);
 
     const [loading, setLoading] = useState(false);
     const [disableButton, setDisableButton] = useState(false);
@@ -74,20 +70,20 @@ export default function Home() {
 
         if(arrivalDate.isAfter(departureDate)){
 
-            setNotificationMessage("Data przyjazdu musi być wcześniejsza niż data wyjazdu");
-            setNotificationType("error");
-            setOpenNotificationBar(true);
+            props.setNotificationMessage("Data przyjazdu musi być wcześniejsza niż data wyjazdu");
+            props.setType("error");
+            props.setNavBarOpen(true);
             setDisableButton(true);
 
         }else if (arrivalDate.startOf('day').isBefore(dayjs().startOf('day'))) {
-            setNotificationMessage("Data nie może być z przeszłości");
-            setNotificationType("error");
-            setOpenNotificationBar(true);
+            props. setNotificationMessage("Data nie może być z przeszłości");
+            props.setType("error");
+            props.setNavBarOpen(true);
             setDisableButton(true);
         }else if(!arrivalDate.isValid() || !departureDate.isValid()){
-            setNotificationMessage("Wprowadzono niepoprawny format day");
-            setNotificationType("error");
-            setOpenNotificationBar(true);
+            props.setNotificationMessage("Wprowadzono niepoprawny format day");
+            props.setType("error");
+            props.setNavBarOpen(true);
             setDisableButton(true);
         }
         else{
@@ -113,19 +109,19 @@ export default function Home() {
                 setShowRoom(true);
                 setShowDatePicker(false)
                 setDays(dayjs(endDate).diff(startDate, 'days'))
-                setNotificationType("success");
-                setNotificationMessage("Znaleźliśmy dla Państwa ofertę");
-                setOpenNotificationBar(true);
+                props.setType("success");
+                props.setNotificationMessage("Znaleźliśmy dla Państwa ofertę");
+                props.setNavBarOpen(true);
             }else{
-                setNotificationType("error");
-                setNotificationMessage("Brak dostępnych pokoi w tym terminie");
-                setOpenNotificationBar(true);
+                props.setType("error");
+                props.setNotificationMessage("Brak dostępnych pokoi w tym terminie");
+                props.setNavBarOpen(true);
             }
 
         } catch (error) {
-            setNotificationType("error");
-            setOpenNotificationBar(true);
-            setNotificationMessage(error?.response?.data?.message ? error.response.data.message : "Przepraszamy wystąpił błąd w trakcie komunikacji z serwerem");
+            props.setType("error");
+            props.setOpenNotificationBar(true);
+            props.setNavBarOpen(error?.response?.data?.message ? error.response.data.message : "Przepraszamy wystąpił błąd w trakcie komunikacji z serwerem");
 
         } finally {
             setLoading(false);
@@ -135,9 +131,6 @@ export default function Home() {
 
     return (
         <>
-
-            <NotificationBar type={notificationType} notificationMessage={notificationMessage} open={openNotificationBar} setOpen={setOpenNotificationBar}/>
-
 
             <motion.div
                 initial={{opacity: 0}}
