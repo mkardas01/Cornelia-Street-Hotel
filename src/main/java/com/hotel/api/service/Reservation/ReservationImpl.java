@@ -1,9 +1,7 @@
 package com.hotel.api.service.Reservation;
 
 import com.hotel.api.dto.NewReservationDTO;
-import com.hotel.api.exception.ReservationDateException;
-import com.hotel.api.exception.ReservationException;
-import com.hotel.api.exception.UserNotFoundException;
+import com.hotel.api.exception.*;
 import com.hotel.api.mapper.Mapper;
 import com.hotel.api.model.reservation.Reservation;
 import com.hotel.api.model.ReservationDTO;
@@ -111,7 +109,14 @@ public class ReservationImpl implements ReservationService{
 
         reservation.setUser(user);
 
-        return reservationRepository.save(reservation);
+        try {
+            return reservationRepository.save(reservation);
+
+        } catch (Exception e) {
+
+            throw new DataBaseException("Wystąpił błąd w czasie zapisu do bazy danych");
+        }
+
     }
 
     @Override
@@ -123,7 +128,7 @@ public class ReservationImpl implements ReservationService{
         User user = userRepository.findByEmail(username).orElseThrow(() -> new UserNotFoundException("Twoje konto nie istnieje"));
 
         List<Reservation> reservations = reservationRepository.getReservationByUserId(
-                user.getId()).orElseThrow(() -> new ReservationException("Błąd w czasie pobierania rezerwacji"));
+                user.getId()).orElseThrow(() -> new ReservationException("Wystąpił błąd w czasie pobierania rezerwacji"));
 
         return mapper.mapToReservationDTO(reservations);
     }
@@ -145,8 +150,13 @@ public class ReservationImpl implements ReservationService{
 
         reservation.setStatus(Status.CANCEL_REQUEST);
 
-        reservationRepository.save(reservation);
+        try {
+            reservationRepository.save(reservation);
 
+        } catch (Exception e) {
+
+            throw new DataBaseException("Wystąpił błąd w czasie zapisu do bazy danych");
+        }
 
         return mapper.mapToReservationDTO(reservation);
     }
