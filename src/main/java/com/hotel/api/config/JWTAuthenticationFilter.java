@@ -1,6 +1,6 @@
 package com.hotel.api.config;
 
-import com.hotel.api.service.JwtService;
+import com.hotel.api.service.Jwt.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
