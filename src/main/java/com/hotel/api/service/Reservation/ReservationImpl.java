@@ -4,7 +4,7 @@ import com.hotel.api.dto.NewReservationDTO;
 import com.hotel.api.exception.ReservationDateException;
 import com.hotel.api.exception.ReservationException;
 import com.hotel.api.exception.UserNotFoundException;
-import com.hotel.api.mapper.ReservationDTOMapper;
+import com.hotel.api.mapper.Mapper;
 import com.hotel.api.model.reservation.Reservation;
 import com.hotel.api.model.ReservationDTO;
 import com.hotel.api.model.Room;
@@ -39,7 +39,7 @@ public class ReservationImpl implements ReservationService{
     @Autowired
     private JwtService jwtService;
 
-    private final ReservationDTOMapper reservationDTOMapper = new ReservationDTOMapper();
+    private final Mapper mapper = new Mapper();
 
 
     @Override
@@ -125,7 +125,7 @@ public class ReservationImpl implements ReservationService{
         List<Reservation> reservations = reservationRepository.getReservationByUserId(
                 user.getId()).orElseThrow(() -> new ReservationException("Błąd w czasie pobierania rezerwacji"));
 
-        return reservationDTOMapper.mapToReservationDTO(reservations);
+        return mapper.mapToReservationDTO(reservations);
     }
 
 
@@ -148,6 +148,6 @@ public class ReservationImpl implements ReservationService{
         reservationRepository.save(reservation);
 
 
-        return reservationDTOMapper.mapToReservationDTO(reservation);
+        return mapper.mapToReservationDTO(reservation);
     }
 }
