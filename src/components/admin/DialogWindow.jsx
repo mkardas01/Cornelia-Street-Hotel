@@ -4,20 +4,48 @@ import {
     DialogActions,
     DialogContent,
     DialogContentText,
-    DialogTitle,
-    useMediaQuery,
-    useTheme
+    DialogTitle
 } from "@mui/material";
-import ButtonLabels from "./ButtonLabels.jsx";
+import ButtonLabels from "../Variable/ButtonLabels.jsx";
+import axios from "axios";
+import Cookies from "js-cookie";
 
-export default function DialogWindow({open, setOpen}) {
+export default function DialogWindow({open, setOpen, reservations, setReservations}) {
 
-    const theme = useTheme();
-    const fullScreen = useMediaQuery(theme.breakpoints.down('lg'));
+    const BASE_URL = "http://localhost:8080/api";
 
     const handleClose = () => {
-        setOpen({status: false, action: null});
+        setOpen({status: false, actionID: null, action:null, reservationId: null, reservationNumber:null});
     };
+
+    const handleStatusChange = async () => {
+        try{
+            const token = Cookies.get("token");
+
+            const response = await axios.post(`${BASE_URL}/admin/changeStatus`,
+                {
+                    action: open.action,
+                    id: parseInt(open.reservationId),
+                    reservationNumber: open.reservationNumber
+                },
+                {headers: {"Authorization" : `Bearer ${token}`} })
+
+            const updatedIndex = reservations.findIndex(reservation => reservation.id === response.data.id);
+
+            if (updatedIndex !== -1) {
+                const updatedReservations = [...reservations];
+                updatedReservations[updatedIndex] = response.data;
+                setReservations(updatedReservations);
+            }
+
+
+        }catch(error){
+            console.log(error)
+        }
+        finally {
+            handleClose();
+        }
+    }
 
     return (
         <>
@@ -26,21 +54,21 @@ export default function DialogWindow({open, setOpen}) {
                 open={open.status}
                 onClose={handleClose}
                 aria-labelledby="responsive-dialog-title"
-                className=""
             >
                 <DialogTitle id="responsive-dialog-title" >
-                    {ButtonLabels[open.action]?.title}
+                    {ButtonLabels[open.actionID]?.title } <br />
+                    <p className="font-normal text-sm">{"Rezerwacja: " + open.reservationNumber}</p>
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText>
-                        {ButtonLabels[open.action]?.message}
+                        {ButtonLabels[open.actionID]?.message}
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
                     <Button autoFocus onClick={handleClose}>
                         Odrzuć
                     </Button>
-                    <Button onClick={handleClose} autoFocus>
+                    <Button onClick={handleStatusChange} autoFocus>
                         Potwierdź
                     </Button>
                 </DialogActions>

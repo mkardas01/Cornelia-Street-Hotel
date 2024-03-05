@@ -2,8 +2,9 @@ import SearchReservation from "./SearchReservation.jsx";
 import mainPic from "/assets/front.png";
 import TodaysReservations from "./TodaysReservations.jsx";
 import CancelRequest from "./CancelRequest.jsx";
-import {Link} from "react-router-dom";
+import {Link, NavLink} from "react-router-dom";
 import { useLocation } from "react-router-dom";
+import EditReservation from "./EditReservation.jsx";
 
 
 export default function AdminPanel(){
@@ -12,7 +13,7 @@ export default function AdminPanel(){
         { name: 'Dzisiejsze rezerwacje', link: '/admin/todays'},
         { name: 'Wyszukaj rezerwacji', link: '/admin/search'},
         { name: 'Prośby o anulowanie', link: '/admin/cancel'},
-        
+
     ]
 
     const location = useLocation();
@@ -23,12 +24,20 @@ export default function AdminPanel(){
     return(
         <>
             <div className="flex w-full min-h-screen">
-                <div className="sticky top-0 left-0 h-screen flex flex-col justify-center text-left space-y-5 bg-gray-200 px-14 w-1/5">
+
+                <div
+                    className="sticky top-0 left-0 h-screen flex flex-col justify-center text-left space-y-5 bg-gray-200 px-14 w-1/5">
                     {options.map((option, index) => (
-                        <Link to={{ pathname: option.link }} className="text-2xl font-serif w-fit
-                                hover:cursor-pointer hover:text-gray-500 hover:border-b-2 hover:border-gray-500" key={index}>
+                        <NavLink
+                            to={{pathname: option.link}}
+                            className={({ isActive}) =>
+                                `text-2xl font-serif w-fit hover:cursor-pointer hover:text-gray-500 hover:border-b-2 hover:border-gray-500
+                                } ${isActive ? 'text-gray-500 border-b-2 border-gray-500' : ''}`
+                            }
+                            key={index}
+                        >
                             {option.name}
-                        </Link>
+                        </NavLink>
                     ))}
                 </div>
 
@@ -41,7 +50,7 @@ export default function AdminPanel(){
                          backgroundAttachment: 'fixed'
                      }}>
 
-                    {!(option === "search" || option === "todays" || option === "cancel") && (
+                    {!(option === "search" || option === "todays" || option === "cancel" || option === "edit") && (
                         <h1 className="text-white text-center font-serif drop-shadow-2xl p-10 w-full text-6xl md:text-8xl" style={{ backdropFilter: "brightness(60%)" }}>
                             CORNELIA STREET HOTEL
                         </h1>
@@ -50,6 +59,7 @@ export default function AdminPanel(){
                     {option === "search" && <SearchReservation/>}
                     {option === "todays" && <TodaysReservations/>}
                     {option === "cancel" && <CancelRequest/>}
+                    {option === "edit" && <EditReservation />}
 
                 </div>
             </div>

@@ -1,7 +1,7 @@
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowRight, faDoorOpen, faTag, faUser} from "@fortawesome/free-solid-svg-icons";
 import dayjs from "dayjs";
-import {statusMessages} from "./ReservationStatus.jsx";
+import {statusMessages} from "../Variable/ReservationStatus.jsx";
 
 
 
@@ -31,7 +31,7 @@ export const RoomTemplate = ({room, reservation, days, startDate, endDate, rende
                 {/*img*/}
                 <div className="md:w-1/2">
                     <img
-                        className="h-64 w-full object-cover rounded-t-3xl md:h-full md:rounded-tr-none md:rounded-l-3xl"
+                        className="h-64 w-full object-cover rounded-t-3xl md:h-[26rem]   md:rounded-tr-none md:rounded-l-3xl"
                         src={'../assets/' + room.picPath} alt="image"/>
                 </div>
 
