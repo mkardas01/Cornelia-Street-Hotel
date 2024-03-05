@@ -22,7 +22,7 @@ import "dayjs/locale/pl";
 import NotificationBar from "../templates/NotificationBar.jsx";
 import Cookies from "js-cookie";
 
-export default function BookRoom( ) {
+export default function BookRoom(props) {
 
     const BASE_URL = "http://localhost:8080/api/";
 
@@ -49,11 +49,6 @@ export default function BookRoom( ) {
     const [surnameError, setSurnameError] = useState('');
     const [emailError, setEmailError] = useState('');
     const [phoneError, setPhoneError] = useState('');
-
-
-    const [notificationMessage, setNotificationMessage] = useState("");
-    const [notificationType, setNotificationType] = useState("error");
-    const [openNotificationBar, setOpenNotificationBar] = useState(false);
 
 
     const [bookingResults, setBookingResults] = useState(false);
@@ -113,14 +108,14 @@ export default function BookRoom( ) {
 
             setBookingResultsData(response.data);
             setBookingResults(true);
-            setNotificationType("success");
-            setNotificationMessage("Pokój został zarezerwowany");
-            setOpenNotificationBar(true);
+            props.setType("success");
+            props.setNotificationMessage("Pokój został zarezerwowany");
+            props.setNavBarOpen(true);
 
         } catch (error) {
-            setNotificationType("error");
-            setOpenNotificationBar(true);
-            setNotificationMessage(error?.response?.data?.message ? error.response.data.message : "Przepraszamy wystąpił błąd w trakcie komunikacji z serwerem");
+            props.setType("error");
+            props.setNotificationMessage(error?.response?.data?.message ? error.response.data.message : "Przepraszamy wystąpił błąd w trakcie komunikacji z serwerem");
+            props.setNavBarOpen(true);
 
         } finally {
             setLoading(false);
@@ -170,8 +165,6 @@ export default function BookRoom( ) {
 
     return (
         <>
-            <NotificationBar type={notificationType} notificationMessage={notificationMessage}
-                             open={openNotificationBar} setOpen={setOpenNotificationBar}/>
 
             <motion.div
                 initial={{opacity:0}}

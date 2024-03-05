@@ -71,7 +71,7 @@ export default function App() {
                 <Routes>
 
                     <Route path="/" element={<Home/>}/>
-                    <Route path="/bookRoom/:id" element={<> <BookRoom/> <BackHome/> </>}/>
+                    <Route path="/bookRoom/:id" element={<> <BookRoom {...notificationProps} /> <BackHome/> </>}/>
 
                     <Route element={<ProtectedRoute isLoggedIn={!isLoggedIn}/>}>
                         <Route path="/login" element={<> <Login_Register type="login" {...notificationProps} /> <BackHome/> </>}/>
@@ -82,7 +82,7 @@ export default function App() {
 
                     <Route element={<ProtectedRoute isLoggedIn={isLoggedIn}/>}>
                         <Route path="/logout" element={<Logout/>}/>
-                        <Route path="/reservation" element={<> <UserReservation /> <BackHome/> </>} />
+                        <Route path="/reservation" element={<> <UserReservation {...notificationProps}/> <BackHome/> </>} />
                     </Route>
 
 

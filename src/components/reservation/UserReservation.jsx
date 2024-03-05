@@ -63,18 +63,13 @@ function renderButtons(reservationID, status, reservationList, setReservationLis
     )
 }
 
-export default function UserReservation() {
+export default function UserReservation(props) {
 
     const BASE_URL = "http://localhost:8080/api";
 
     const [reservationList, setReservationList] = useState([]);
 
     const scrollDownDiv = useRef(null);
-
-    const [notificationMessage, setNotificationMessage] = useState("");
-    const [notificationType, setNotificationType] = useState("error");
-    const [openNotificationBar, setOpenNotificationBar] = useState(false);
-
 
     useEffect( () => {
 
@@ -89,12 +84,15 @@ export default function UserReservation() {
                 );
 
                 setReservationList(response.data);
+                props.setType('success');
+                props.setNotificationMessage(`Znalezione rezerwacje: ${response.data.length}`);
+                props.setNavBarOpen(true);
 
             } catch (error) {
 
-                setNotificationType('error');
-                setNotificationMessage(error?.response?.data?.message ? error.response.data.message : "Przepraszamy wystąpił błąd w trakcie komunikacji z serwerem");
-                setOpenNotificationBar(true);
+                props.setType('error');
+                props.setNotificationMessage(error?.response?.data?.message ? error.response.data.message : "Przepraszamy wystąpił błąd w trakcie komunikacji z serwerem");
+                props.setNavBarOpen(true);
 
             }
         }
@@ -107,8 +105,6 @@ export default function UserReservation() {
 
     return (
         <>
-            <NotificationBar type={notificationType} notificationMessage={notificationMessage} open={openNotificationBar} setOpen={setOpenNotificationBar}/>
-
 
             <div className="flex flex-col items-center justify-center w-full h-full">
 
