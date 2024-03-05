@@ -38,8 +38,9 @@ export default function Login_Register(props) {
                                 title: 'Zaloguj się do swojego konta',
                                 buttonText: 'Zaloguj się',
                                 linkText: 'Nie masz konta?',
-                                linkPath: '/register'
-                            })}
+                                linkPath: '/register',
+                                notification: props
+                            }) }
                         />
                     }
                     {type === "register" &&
@@ -49,7 +50,8 @@ export default function Login_Register(props) {
                                 passwordRepeatLabel: 'Powtórz hasło',
                                 buttonText: 'Zarejestruj się',
                                 linkText: 'Masz już konto?',
-                                linkPath: '/login'
+                                linkPath: '/login',
+                                notification: props
                             })}
                         />
 

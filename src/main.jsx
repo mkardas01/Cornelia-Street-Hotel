@@ -74,8 +74,8 @@ export default function App() {
                     <Route path="/bookRoom/:id" element={<> <BookRoom/> <BackHome/> </>}/>
 
                     <Route element={<ProtectedRoute isLoggedIn={!isLoggedIn}/>}>
-                        <Route path="/login" element={<> <Login_Register type="login"/> <BackHome/> </>}/>
-                        <Route path="/register" element={<> <Login_Register type="register"/> <BackHome/> </>}/>
+                        <Route path="/login" element={<> <Login_Register type="login" {...notificationProps} /> <BackHome/> </>}/>
+                        <Route path="/register" element={<> <Login_Register type="register" {...notificationProps} /> <BackHome/> </>}/>
                     </Route>
 
                     <Route path="/admin/*" element={<AdminPanel  {...notificationProps} />}/>

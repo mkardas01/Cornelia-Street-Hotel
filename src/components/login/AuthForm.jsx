@@ -8,21 +8,15 @@ import NotificationBar from "../templates/NotificationBar.jsx";
 import Cookies from 'js-cookie';
 
 
-export default function AuthForm({ title, passwordRepeatLabel, buttonText, linkText, linkPath }) {
+export default function AuthForm(props) {
 
     const BASE_URL = "http://localhost:8080/api/auth";
-
-
 
     const [name, setName] = useState("");
     const [surName, setSurName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [passwordRepeat, setPasswordRepeat] = useState("");
-
-    const [notificationMessage, setNotificationMessage] = useState("");
-    const [notificationType, setNotificationType] = useState("error");
-    const [openNotificationBar, setOpenNotificationBar] = useState(false);
 
     const [nameError, setNameError] = useState("");
     const [surNameError, setSurNameError] = useState("");
@@ -63,10 +57,10 @@ export default function AuthForm({ title, passwordRepeatLabel, buttonText, linkT
         if(password.length === 0 && passwordRepeat.length === 0){
             passwordError = passwordRepeatError = "Hasło nie może pozostać puste";
         }
-        else if(password !== passwordRepeat && passwordRepeatLabel){
+        else if(password !== passwordRepeat && props.passwordRepeatLabel){
             passwordRepeatError = passwordError = "Hasła się nie zgadzają";
         }
-        else if(password.length < 8 && passwordRepeatLabel){
+        else if(password.length < 8 && props.passwordRepeatLabel){
             passwordError = passwordRepeatError = "Hasło musi zawierac conajmniej 8 znaków"
         }
 
@@ -92,9 +86,9 @@ export default function AuthForm({ title, passwordRepeatLabel, buttonText, linkT
                 }
             );
 
-            setNotificationType('success');
-            setNotificationMessage('Twoje konto zostało utworzone, za chwile nastąpi przekierowanie');
-            setOpenNotificationBar(true);
+            props.notification.setType('success');
+            props.notification.setNotificationMessage('Twoje konto zostało utworzone, za chwile nastąpi przekierowanie');
+            props.notification.setNavBarOpen(true);
 
 
             const token = response.data.token;
@@ -105,9 +99,9 @@ export default function AuthForm({ title, passwordRepeatLabel, buttonText, linkT
 
         }catch(error){
 
-            setNotificationType("error");
-            setNotificationMessage(error?.response?.data?.message ? error.response.data.message : "Przepraszamy wystąpił błąd w trakcie komunikacji z serwerem");
-            setOpenNotificationBar(true);
+            props.notification.setType("error");
+            props.notification.setNotificationMessage(error?.response?.data?.message ? error.response.data.message : "Przepraszamy wystąpił błąd w trakcie komunikacji z serwerem");
+            props.notification.setNavBarOpen(true);
 
         }
 
@@ -121,9 +115,9 @@ export default function AuthForm({ title, passwordRepeatLabel, buttonText, linkT
                 }
             );
 
-            setNotificationType('success');
-            setNotificationMessage('Zostałeś zalogowany, za chwile nastąpi przekierowanie');
-            setOpenNotificationBar(true);
+            props.notification.setType('success');
+            props.notification.setNotificationMessage('Zostałeś zalogowany, za chwile nastąpi przekierowanie');
+            props.notification.setNavBarOpen(true);
 
             const token = response.data.token;
             Cookies.set('token', token, { expires: 1, secure: true });
@@ -132,9 +126,9 @@ export default function AuthForm({ title, passwordRepeatLabel, buttonText, linkT
 
         }catch(error){
 
-            setNotificationType("error");
-            setOpenNotificationBar(true);
-            setNotificationMessage(error?.response?.data?.message ? error.response.data.message : "Przepraszamy wystąpił błąd w trakcie komunikacji z serwerem");
+            props.notification.setType("error");
+            props.notification. setNotificationMessage(error?.response?.data?.message ? error.response.data.message : "Przepraszamy wystąpił błąd w trakcie komunikacji z serwerem");
+            props.notification.setNavBarOpen(true);
 
         }
 
@@ -143,7 +137,7 @@ export default function AuthForm({ title, passwordRepeatLabel, buttonText, linkT
 
     const handleAction = () =>{
         if(valid())
-            if(passwordRepeatLabel)
+            if(props.passwordRepeatLabel)
                 handleRegister()
             else
                 handleLogin();
@@ -152,13 +146,11 @@ export default function AuthForm({ title, passwordRepeatLabel, buttonText, linkT
 
     return (
         <>
-            <NotificationBar type={notificationType} notificationMessage={notificationMessage} open={openNotificationBar} setOpen={setOpenNotificationBar}/>
 
-
-            <h1 className="font-serif drop-shadow-2xl text-xl mb-5 md:text-2xl">{title}</h1>
+            <h1 className="font-serif drop-shadow-2xl text-xl mb-5 md:text-2xl">{props.title}</h1>
             <form className="flex flex-col justify-center items-center space-y-5 w-fit">
 
-                {passwordRepeatLabel && (
+                {props.passwordRepeatLabel && (
                     <>
                         <TextField
                             id="fName"
@@ -221,11 +213,11 @@ export default function AuthForm({ title, passwordRepeatLabel, buttonText, linkT
                         error={passwordError.length > 0}
                         helperText={passwordError}
                     />
-                    {passwordRepeatLabel &&
+                    {props.passwordRepeatLabel &&
                         <>
                             <TextField
                                 id="fPasswordRepeat"
-                                label={passwordRepeatLabel}
+                                label={props.passwordRepeatLabel}
                                 variant="outlined"
                                 type="password"
                                 fullWidth
@@ -252,14 +244,14 @@ export default function AuthForm({ title, passwordRepeatLabel, buttonText, linkT
                         className="col-span-2"
                         onClick={handleAction}
                     >
-                        <span>{buttonText}</span>
+                        <span>{props.buttonText}</span>
 
                     </LoadingButton>
 
                 <div className="flex flex-col md:flex-row md:space-x-2">
-                    <p className="font-medium">{linkText}</p>
-                    <Link to={{ pathname: linkPath }} className="font-bold hover:cursor-pointer">
-                        {linkText === 'Zaloguj się' ? 'Zaloguj się' : 'Zarejestruj się'}
+                    <p className="font-medium">{props.linkText}</p>
+                    <Link to={{ pathname: props.linkPath }} className="font-bold hover:cursor-pointer">
+                        {props.linkText === 'Zaloguj się' ? 'Zaloguj się' : 'Zarejestruj się'}
                     </Link>
                 </div>
             </form>
