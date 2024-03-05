@@ -33,15 +33,20 @@ public class ReservationController {
 
     @PostMapping("/getReservations")
     @CrossOrigin
+    @ResponseBody
     public ResponseEntity<?> getUserReservation(HttpServletRequest request){
 
         return new ResponseEntity<List<ReservationDTO>>(reservationService.getUserReservation(request), HttpStatus.OK);
     }
 
-    @GetMapping("/getAll")
-    public List<Reservation> getAllReservation(){
+    @PostMapping("/cancelRequest")
+    @CrossOrigin
+    @ResponseBody
+    public ResponseEntity<?> CancelRequest(@RequestBody Map<String, Object> requestBody, HttpServletRequest request){
 
-        return reservationService.getAllReservation();
+        Integer id = (Integer) requestBody.get("id");
 
+        return new ResponseEntity<>(reservationService.cancelRequest(id, request), HttpStatus.OK);
     }
+
 }

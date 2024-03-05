@@ -14,7 +14,7 @@ public interface ReservationService {
 
     public NewReservationDTO reserveRoom(NewReservationDTO reservationDTO, Integer roomID, HttpServletRequest request);
 
-    public List<Reservation> getAllReservation();
-
     public List<ReservationDTO> getUserReservation(HttpServletRequest request);
+
+    public ReservationDTO cancelRequest(Integer id, HttpServletRequest request);
 }

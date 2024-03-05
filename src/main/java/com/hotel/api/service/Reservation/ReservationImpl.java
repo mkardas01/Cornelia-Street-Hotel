@@ -8,6 +8,7 @@ import com.hotel.api.mapper.ReservationDTOMapper;
 import com.hotel.api.model.reservation.Reservation;
 import com.hotel.api.model.ReservationDTO;
 import com.hotel.api.model.Room;
+import com.hotel.api.model.reservation.Status;
 import com.hotel.api.model.user.User;
 import com.hotel.api.repository.ReservationRepository;
 import com.hotel.api.repository.RoomRepository;
@@ -94,8 +95,9 @@ public class ReservationImpl implements ReservationService{
                 .phone(reservationDTO.getPhone())
                 .startDate(startDate)
                 .endDate(endDate)
-                .reservationNumber(UUID.randomUUID().toString().substring(0, 6))
+                .reservationNumber(UUID.randomUUID().toString().substring(0, 6).toUpperCase())
                 .room(room)
+                .status(Status.ACCEPTED)
                 .build();
 
         String token = request.getHeader("Authorization");
@@ -112,14 +114,6 @@ public class ReservationImpl implements ReservationService{
         return reservationRepository.save(reservation);
     }
 
-
-
-    @Override
-    public List<Reservation> getAllReservation() {
-
-        return reservationRepository.findAll();
-    }
-
     @Override
     public List<ReservationDTO> getUserReservation(HttpServletRequest request){
         
@@ -134,4 +128,26 @@ public class ReservationImpl implements ReservationService{
         return reservationDTOMapper.mapToReservationDTO(reservations);
     }
 
+
+    @Override
+    public ReservationDTO cancelRequest(Integer id, HttpServletRequest request) {
+
+        String token = request.getHeader("Authorization");
+        String username = jwtService.extractUserName(token.substring(7));
+
+        User user = userRepository.findByEmail(username).orElseThrow(() -> new UserNotFoundException("Twoje konto nie istnieje"));
+
+        Reservation reservation = reservationRepository.findReservationById(id);
+
+        if(!Objects.equals(reservation.getUser().getId(), user.getId())){
+            throw new ReservationException("Nie jesteś właścicielem tej rezerwacji");
+        }
+
+        reservation.setStatus(Status.CANCEL_REQUEST);
+
+        reservationRepository.save(reservation);
+
+
+        return reservationDTOMapper.mapToReservationDTO(reservation);
+    }
 }
