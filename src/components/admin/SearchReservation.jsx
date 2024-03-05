@@ -1,7 +1,7 @@
 import {Button, TextField} from "@mui/material";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowRight, faSearch} from "@fortawesome/free-solid-svg-icons";
-import {RoomTemplate} from "../RoomTemplate.jsx";
+import {RoomTemplate} from "../templates/RoomTemplate.jsx";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import {DatePicker} from "@mui/x-date-pickers";
 import dayjs from "dayjs";
@@ -26,19 +26,13 @@ export default function SearchReservation() {
     const [reservations, setReservations] = useState([]);
     const [searched, setSearched] = useState(false);
 
-    const [open, setOpen] = useState({status: false, action: null});
-
+    const [open, setOpen] = useState({status: false, actionID: null, action:null, reservationId: null, reservationNumber:null});
 
     const scrollDownDiv = useRef();
 
     const scrollDown = () =>{
         scrollDownDiv?.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
-
-    useEffect(() => {
-            scrollDown();
-
-    }, [reservations]);
 
     const searchReservation = async () =>{
 
@@ -61,6 +55,10 @@ export default function SearchReservation() {
             setReservations(response.data);
             setSearched(true);
 
+            setTimeout(() => {
+                scrollDown();
+            }, 100);
+
         }catch(error){
             console.log(error);
         }
@@ -69,7 +67,7 @@ export default function SearchReservation() {
 
     return(
         <>
-            <DialogWindow open={open} setOpen={setOpen} />
+            <DialogWindow open={open} setOpen={setOpen} reservations={reservations} setReservations={setReservations}/>
 
             <div className="flex flex-col items-center justify-center max-w-7xl ">
                 <div className="flex justify-center items-center  h-screen">
@@ -143,7 +141,7 @@ export default function SearchReservation() {
                         </div>
                     ) : (
                         reservations.map((reservation, index) => (
-                            <RoomTemplate key={index} reservation={reservation} renderButtons={MenageButtons(setOpen)}/>
+                            <RoomTemplate key={index} reservation={reservation} renderButtons={MenageButtons(reservation.startDate, setOpen, reservation.id, reservation.reservationNumber, reservation.status, reservation)}/>
                         ))
                     )}
                 </div>

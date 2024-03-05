@@ -4,7 +4,7 @@ import SendIcon from "@mui/icons-material/Send";
 import {Link, useNavigate} from "react-router-dom";
 import {useState} from "react";
 import axios from "axios";
-import NotificationBar from "./NotificationBar.jsx";
+import NotificationBar from "../templates/NotificationBar.jsx";
 import Cookies from 'js-cookie';
 
 
