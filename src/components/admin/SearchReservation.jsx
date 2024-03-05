@@ -13,7 +13,7 @@ import MenageButtons from "./MenageButtons.jsx";
 import DialogWindow from "./DialogWindow.jsx";
 
 
-export default function SearchReservation() {
+export default function SearchReservation({setType, setNotificationMessage, setNavBarOpen}) {
 
     const BASE_URL = "http://localhost:8080/api";
 
@@ -55,19 +55,27 @@ export default function SearchReservation() {
             setReservations(response.data);
             setSearched(true);
 
+            setType("success");
+            setNotificationMessage(`Znaleziona ilośc rezerwacji: ${response.data.length}`)
+            setNavBarOpen(true);
+
             setTimeout(() => {
                 scrollDown();
             }, 100);
 
         }catch(error){
-            console.log(error);
+            setType("error");
+            setNotificationMessage(error?.response?.data?.message ? error.response.data.message : "Przepraszamy wystąpił błąd w trakcie komunikacji z serwerem");
+            setNavBarOpen(true);
         }
     }
 
 
     return(
         <>
-            <DialogWindow open={open} setOpen={setOpen} reservations={reservations} setReservations={setReservations}/>
+            <DialogWindow open={open} setOpen={setOpen} reservations={reservations} setReservations={setReservations}
+                          setType={setType} setNotificationMessage={setNotificationMessage}
+                          setNavBarOpen={setNavBarOpen} />
 
             <div className="flex flex-col items-center justify-center max-w-7xl ">
                 <div className="flex justify-center items-center  h-screen">

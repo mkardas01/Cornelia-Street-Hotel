@@ -21,6 +21,7 @@ import {DevSupport} from "@react-buddy/ide-toolbox";
 import {ComponentPreviews, useInitial} from "./dev/index.js";
 import UserReservation from "./components/reservation/UserReservation.jsx";
 import AdminPanel from "./components/admin/AdminPanel.jsx";
+import NotificationBar from "./components/templates/NotificationBar.jsx";
 
 
 let root = ReactDOM.createRoot(document.getElementById('root'));
@@ -51,12 +52,16 @@ export default function App() {
         { name: isLoggedIn ? 'Wyloguj się' : 'Zaloguj się', link: isLoggedIn ? '/logout' : '/login' }
     ].filter(option => option != null);
 
-    
+    const [notificationMessage, setNotificationMessage] = useState("");
+    const [notificationType, setNotificationType] = useState("error");
+    const [openNotificationBar, setOpenNotificationBar] = useState(false);
 
     return (
         <>
             <Router>
                 <NavBar isLoggedIn={isLoggedIn} options={options}/>
+                <NotificationBar type={notificationType} notificationMessage={notificationMessage}
+                                 open={openNotificationBar} setOpen={setOpenNotificationBar}/>
                 <Routes>
 
                     <Route path="/" element={<Home/>}/>
@@ -67,7 +72,8 @@ export default function App() {
                         <Route path="/register" element={<> <Login_Register type="register"/> <BackHome/> </>}/>
                     </Route>
 
-                    <Route path="/admin/*" element={<AdminPanel/>}/>
+                    <Route path="/admin/*" element={<AdminPanel setType={setNotificationType} setNotificationMessage={setNotificationMessage}
+                                                                setNavBarOpen={setOpenNotificationBar} />}/>
 
                     <Route element={<ProtectedRoute isLoggedIn={isLoggedIn}/>}>
                         <Route path="/logout" element={<Logout/>}/>

@@ -52,7 +52,6 @@ function renderButtons(reservationID, status, reservationList, setReservationLis
     }
 
     return(
-        <>
             <Button
                 variant="filled"
                 endIcon={<FontAwesomeIcon icon={faArrowRight}/>}
@@ -61,7 +60,6 @@ function renderButtons(reservationID, status, reservationList, setReservationLis
             >
                 Prośba o anulowanie
             </Button>
-        </>
     )
 }
 
