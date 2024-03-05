@@ -29,13 +29,13 @@ export default function AdminPanel({setType, setNotificationMessage, setNavBarOp
 
     return(
         <>
-            <motion.div className="flex w-full min-h-screen"
+            <motion.div className="flex flex-col w-full min-h-screen md:flex-row"
                         initial={{opacity: 0}}
                         animate={{opacity: 1}}
                         transition={{duration: 0.7, ease: "easeIn"}} >
 
                 <div
-                    className="sticky top-0 left-0 h-screen flex flex-col justify-center text-left space-y-5 bg-gray-200 px-14 w-1/5">
+                    className=" flex flex-col justify-center items-center space-y-5 bg-gray-200 px-14 py-14 md:w-1/5 md:h-screen md:text-left md:top-0 md:sticky md:py-0 md:left-0">
                     {options.map((option, index) => (
                         <NavLink
                             to={{pathname: option.link}}
@@ -50,7 +50,7 @@ export default function AdminPanel({setType, setNotificationMessage, setNavBarOp
                     ))}
                 </div>
 
-                <div className="flex justify-center items-center w-4/5 ml-1/5 "
+                <div className="flex justify-center items-center h-fit min-h-screen md:w-4/5 md:ml-1/5 "
                      style={{
                          backgroundImage: `url(${mainPic})`,
                          backgroundSize: 'cover',
