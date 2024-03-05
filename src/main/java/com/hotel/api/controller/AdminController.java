@@ -1,6 +1,7 @@
 package com.hotel.api.controller;
 
 import com.hotel.api.dto.ChangeStatusDTO;
+import com.hotel.api.dto.EditReservationDTO;
 import com.hotel.api.dto.SearchReservation;
 import com.hotel.api.exception.ReservationDateException;
 import com.hotel.api.service.Admin.AdminService;
@@ -59,6 +60,15 @@ public class AdminController {
 
         return new ResponseEntity<>(adminService.changeStatus(changeStatusDTO), HttpStatus.OK);
     }
+
+    @PostMapping("edit")
+    @CrossOrigin
+    @ResponseBody
+    public ResponseEntity<?> Edit(@Valid @RequestBody EditReservationDTO editReservationDTO){
+
+        return new ResponseEntity<>(adminService.editReservation(editReservationDTO), HttpStatus.OK);
+    }
+
 
 
 }
