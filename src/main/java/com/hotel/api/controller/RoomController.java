@@ -1,19 +1,10 @@
 package com.hotel.api.controller;
 
-import com.hotel.api.dto.NewRoomDTO;
-import com.hotel.api.dto.RoomDTO;
-import com.hotel.api.exception.BookRoomDateException;
-import com.hotel.api.model.Room;
-import com.hotel.api.service.RoomService;
+import com.hotel.api.service.Room.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
-import java.time.LocalDate;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/room")

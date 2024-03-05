@@ -1,11 +1,10 @@
 package com.hotel.api.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.hotel.api.model.reservation.Reservation;
 import jakarta.persistence.*;
 import lombok.*;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+
 import java.util.List;
 
 @Entity

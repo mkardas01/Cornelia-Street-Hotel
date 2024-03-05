@@ -31,6 +31,8 @@ public class SecurityConfig {
 
                         authorizeRequests.requestMatchers("api/auth/**", "/api/reservation/reserve/**" ,"/api/room/find")
                                 .permitAll()
+                                .requestMatchers("api/admin/**")
+                                .hasAuthority("ADMIN")
                                 .anyRequest()
                                 .authenticated()
                                 .and()

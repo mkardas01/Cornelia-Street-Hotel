@@ -1,11 +1,10 @@
-package com.hotel.api.service;
+package com.hotel.api.service.Jwt;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +12,6 @@ import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.function.Function;
 
 @Service
@@ -25,6 +23,10 @@ public class JwtService implements JwtInterface{
     public String extractUserName(String token) {
 
         return extractClaim(token, Claims::getSubject);
+    }
+
+    public String extractRole(String token){
+        return extractClaim(token, claims -> claims.get("role", String.class));
     }
 
     private Date extractExpiration(String token) {

@@ -1,4 +1,4 @@
-package com.hotel.api.service;
+package com.hotel.api.service.Authentication;
 
 import com.hotel.api.dto.AuthenticationRequest;
 import com.hotel.api.dto.AuthenticationRespond;
