@@ -3,20 +3,20 @@ package com.hotel.api.service.Authentication;
 import com.hotel.api.dto.AuthenticationRequest;
 import com.hotel.api.dto.AuthenticationRespond;
 import com.hotel.api.dto.RegisterRequest;
-import com.hotel.api.exception.DataBaseException;
-import com.hotel.api.exception.UserNotFoundException;
+import com.hotel.api.exception.*;
 import com.hotel.api.model.user.Role;
 import com.hotel.api.model.user.User;
 import com.hotel.api.repository.UserRepository;
 import com.hotel.api.service.Jwt.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.yaml.snakeyaml.constructor.DuplicateKeyException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -37,6 +37,17 @@ public class AuthenticationImpl implements AuthenticationService{
     @Autowired
     private AuthenticationManager authenticationManager;
 
+    private AuthenticationRespond getAuthenticationRespond(User user) {
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("name", user.getName());
+        claims.put("surname", user.getSurname());
+        claims.put("role", user.getRole());
+
+        String jwtToken = jwtService.generateToken(claims, user);
+
+        return AuthenticationRespond.builder().token(jwtToken).build();
+    }
+
     @Override
     public AuthenticationRespond register(RegisterRequest request) {
         User user = User.builder()
@@ -49,18 +60,17 @@ public class AuthenticationImpl implements AuthenticationService{
 
         try {
             userRepository.save(user);
-        } catch (DataAccessException e) {
-            throw new DataBaseException("Wystąpił błąd w czasie rejestracji");
+        } catch (Exception e) {
+            if(e.toString().contains("Duplicate"))
+                throw new UserAlreadyExists("Użytkownik o podanym adresie e-mail już istnieje");
+            else
+                throw new UserError("Użytkownik o podanym adresie e-mail już istnieje");
         }
 
-        Map<String, Object> claims = new HashMap<>();
-        claims.put("name", user.getName());
-        claims.put("surname", user.getSurname());
-
-        String jwtToken = jwtService.generateToken(claims, user);
-
-        return AuthenticationRespond.builder().token(jwtToken).build();
+        return getAuthenticationRespond(user);
     }
+
+
 
     @Override
     public AuthenticationRespond login(AuthenticationRequest request) {
@@ -80,12 +90,6 @@ public class AuthenticationImpl implements AuthenticationService{
 
         User user = userRepository.findByEmail(request.getEmail()).orElseThrow();
 
-        Map<String, Object> claims = new HashMap<>();
-        claims.put("name", user.getName());
-        claims.put("surname", user.getSurname());
-
-        String jwtToken = jwtService.generateToken(claims, user);
-
-        return AuthenticationRespond.builder().token(jwtToken).build();
+        return getAuthenticationRespond(user);
     }
 }

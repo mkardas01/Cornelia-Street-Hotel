@@ -1,14 +1,13 @@
 package com.hotel.api.service.Reservation;
 
 import com.hotel.api.dto.NewReservationDTO;
-import com.hotel.api.exception.ReservationDateException;
-import com.hotel.api.exception.ReservationException;
-import com.hotel.api.exception.UserNotFoundException;
-import com.hotel.api.mapper.ReservationDTOMapper;
+import com.hotel.api.exception.*;
+import com.hotel.api.mapper.Mapper;
 import com.hotel.api.model.reservation.Reservation;
 import com.hotel.api.model.ReservationDTO;
 import com.hotel.api.model.Room;
 import com.hotel.api.model.reservation.Status;
+import com.hotel.api.model.user.Role;
 import com.hotel.api.model.user.User;
 import com.hotel.api.repository.ReservationRepository;
 import com.hotel.api.repository.RoomRepository;
@@ -39,7 +38,7 @@ public class ReservationImpl implements ReservationService{
     @Autowired
     private JwtService jwtService;
 
-    private final ReservationDTOMapper reservationDTOMapper = new ReservationDTOMapper();
+    private final Mapper mapper = new Mapper();
 
 
     @Override
@@ -88,30 +87,54 @@ public class ReservationImpl implements ReservationService{
 
     private Reservation createReservation(NewReservationDTO reservationDTO, LocalDate startDate, LocalDate endDate,
                                           Room room, HttpServletRequest request) {
+
+        String token = request.getHeader("Authorization");
+        String username = reservationDTO.getEmail();
+        String role = "USER";
+        User user = userRepository.findByEmail(username).orElse(null);
+
+        if (token == null && user != null)
+            throw new UserError("Aby dokonać rezerwacji na ten email, należy się zalogować");
+
+        if (token != null) {
+
+            token = token.substring(7);
+            username = jwtService.extractUserName(token);
+            role = jwtService.extractRole(token);
+
+            if (user == null || (!Objects.equals(username, user.getEmail()) && !Objects.equals(role, "ADMIN")))
+                throw new UserError("Aby dokonać rezerwacji na ten email, należy się zalogować");
+
+            else if (Objects.equals(role, "ADMIN")) {
+                username = reservationDTO.getEmail();
+            }
+
+            user = userRepository.findByEmail(username).orElse(null);
+        }
+
+
         Reservation reservation = Reservation.builder()
                 .name(reservationDTO.getName())
                 .surname(reservationDTO.getSurname())
-                .email(reservationDTO.getEmail())
+                .email(username)
                 .phone(reservationDTO.getPhone())
                 .startDate(startDate)
                 .endDate(endDate)
                 .reservationNumber(UUID.randomUUID().toString().substring(0, 6).toUpperCase())
                 .room(room)
                 .status(Status.ACCEPTED)
+                .user(user)
                 .build();
 
-        String token = request.getHeader("Authorization");
 
-        User user = null;
+        try {
+            return reservationRepository.save(reservation);
 
-        if (token != null) {
-            String username = jwtService.extractUserName(token.substring(7));
-            user = userRepository.findByEmail(username).orElseThrow(() -> new UserNotFoundException("Twoje konto nie istnieje"));
+        } catch (Exception e) {
+
+            throw new DataBaseException("Wystąpił błąd w czasie zapisu do bazy danych");
         }
 
-        reservation.setUser(user);
-
-        return reservationRepository.save(reservation);
     }
 
     @Override
@@ -123,9 +146,9 @@ public class ReservationImpl implements ReservationService{
         User user = userRepository.findByEmail(username).orElseThrow(() -> new UserNotFoundException("Twoje konto nie istnieje"));
 
         List<Reservation> reservations = reservationRepository.getReservationByUserId(
-                user.getId()).orElseThrow(() -> new ReservationException("Błąd w czasie pobierania rezerwacji"));
+                user.getId()).orElseThrow(() -> new ReservationException("Wystąpił błąd w czasie pobierania rezerwacji"));
 
-        return reservationDTOMapper.mapToReservationDTO(reservations);
+        return mapper.mapToReservationDTO(reservations);
     }
 
 
@@ -145,9 +168,14 @@ public class ReservationImpl implements ReservationService{
 
         reservation.setStatus(Status.CANCEL_REQUEST);
 
-        reservationRepository.save(reservation);
+        try {
+            reservationRepository.save(reservation);
 
+        } catch (Exception e) {
 
-        return reservationDTOMapper.mapToReservationDTO(reservation);
+            throw new DataBaseException("Wystąpił błąd w czasie zapisu do bazy danych");
+        }
+
+        return mapper.mapToReservationDTO(reservation);
     }
 }

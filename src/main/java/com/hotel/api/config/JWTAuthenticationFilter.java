@@ -1,5 +1,6 @@
 package com.hotel.api.config;
 
+import com.hotel.api.exception.UserError;
 import com.hotel.api.service.Jwt.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

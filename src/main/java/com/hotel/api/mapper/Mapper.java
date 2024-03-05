@@ -13,7 +13,22 @@ import java.util.stream.Collectors;
 
 @Data
 @NoArgsConstructor
-public class ReservationDTOMapper{
+public class Mapper {
+
+    public List<RoomDTO> mapRoomToRoomDTO(List<Room> rooms) {
+        return rooms.stream()
+                .map(room -> RoomDTO.builder()
+                        .id(room.getId())
+                        .floorNumber(room.getFloorNumber())
+                        .number(room.getNumber())
+                        .size(room.getSize())
+                        .price(room.getPrice())
+                        .name(room.getName())
+                        .description(room.getDescription())
+                        .picPath(room.getPicPath())
+                        .build())
+                .collect(Collectors.toList());
+    }
 
     public List<ReservationDTO> mapToReservationDTO(List<Reservation> reservations) {
         return reservations.stream()

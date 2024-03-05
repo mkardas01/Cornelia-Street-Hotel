@@ -1,5 +1,6 @@
 package com.hotel.api.service.Jwt;
 
+import com.hotel.api.exception.UserError;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -21,8 +22,8 @@ public class JwtService implements JwtInterface{
 
 
     public String extractUserName(String token) {
+            return extractClaim(token, Claims::getSubject);
 
-        return extractClaim(token, Claims::getSubject);
     }
 
     public String extractRole(String token){

@@ -3,8 +3,10 @@ package com.hotel.api.service.Admin;
 import com.hotel.api.dto.ChangeStatusDTO;
 import com.hotel.api.dto.EditReservationDTO;
 import com.hotel.api.dto.SearchReservation;
+import com.hotel.api.exception.DataBaseException;
 import com.hotel.api.exception.ReservationDateException;
-import com.hotel.api.mapper.ReservationDTOMapper;
+import com.hotel.api.exception.ReservationException;
+import com.hotel.api.mapper.Mapper;
 import com.hotel.api.model.reservation.Reservation;
 import com.hotel.api.model.ReservationDTO;
 import com.hotel.api.model.reservation.Status;
@@ -23,7 +25,7 @@ public class AdminImpl implements AdminService{
     @Autowired
     private ReservationRepository reservationRepository;
 
-    private final ReservationDTOMapper reservationDTOMapper = new ReservationDTOMapper();
+    private final Mapper mapper = new Mapper();
 
     private LocalDate parseDate(String dateStr) {
         try {
@@ -37,9 +39,11 @@ public class AdminImpl implements AdminService{
     public List<ReservationDTO> todaysReservations(){
 
         LocalDate startDate = LocalDate.now();
-        List<Reservation> reservations = reservationRepository.getReservationByStartDate(startDate).orElseThrow();
+        List<Reservation> reservations = reservationRepository
+                                        .getReservationByStartDate(startDate)
+                                        .orElseThrow(() -> new ReservationException("Wystąpił błąd w czasie pobierania rezerwacji"));
 
-        return reservationDTOMapper.mapToReservationDTO(reservations);
+        return mapper.mapToReservationDTO(reservations);
 
     }
 
@@ -55,16 +59,18 @@ public class AdminImpl implements AdminService{
                                                 searchReservation.getSurname(),
                                                 startDate,
                                                 endDate)
-                                        .orElseThrow();
+                                        .orElseThrow(() -> new ReservationException("Wystąpił błąd w czasie pobierania rezerwacji"));
 
-        return reservationDTOMapper.mapToReservationDTO(reservations);
+        return mapper.mapToReservationDTO(reservations);
     }
 
     public List<ReservationDTO> cancelRequest(){
 
-        List<Reservation> reservations = reservationRepository.findReservationByStatus(Status.CANCEL_REQUEST).orElseThrow();
+        List<Reservation> reservations = reservationRepository
+                                        .findReservationByStatus(Status.CANCEL_REQUEST)
+                                        .orElseThrow(() -> new ReservationException("Wystąpił błąd w czasie pobierania rezerwacji"));
 
-        return reservationDTOMapper.mapToReservationDTO(reservations);
+        return mapper.mapToReservationDTO(reservations);
 
     }
 
@@ -74,9 +80,15 @@ public class AdminImpl implements AdminService{
 
         reservation.setStatus(Status.valueOf(changeStatusDTO.getAction()));
 
-        reservationRepository.save(reservation);
+        try {
 
-        return reservationDTOMapper.mapToReservationDTO(reservation);
+            reservationRepository.save(reservation);
+
+        }catch(Exception e){
+            throw new DataBaseException("Wystąpił błąd w czasie zapisu do bazy danych");
+        }
+
+        return mapper.mapToReservationDTO(reservation);
     }
 
     public ReservationDTO editReservation(EditReservationDTO editReservationDTO){
@@ -89,9 +101,16 @@ public class AdminImpl implements AdminService{
         reservation.setPhone(editReservationDTO.getPhone());
 
 
-        reservationRepository.save(reservation);
+        try {
 
-        return reservationDTOMapper.mapToReservationDTO(reservation);
+            reservationRepository.save(reservation);
+
+        }catch(Exception e){
+            throw new DataBaseException("Wystąpił błąd w czasie zapisu do bazy danych");
+        }
+
+
+        return mapper.mapToReservationDTO(reservation);
 
     }
 
