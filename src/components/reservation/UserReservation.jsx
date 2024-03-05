@@ -4,16 +4,12 @@ import {faArrowRight} from "@fortawesome/free-solid-svg-icons";
 import {useEffect, useRef, useState} from "react";
 import {MainPicWithArrow} from "../templates/MainPicWithArrow.jsx";
 import {RoomTemplate} from "../templates/RoomTemplate.jsx";
-import axios from "axios";
+import axios from "../Variable/axios-instance.jsx";
 import Cookies from 'js-cookie';
-import NotificationBar from "../templates/NotificationBar.jsx";
-import {Link} from "react-router-dom";
 import {Button} from "@mui/material";
 
 
-function renderButtons(reservationID, status, reservationList, setReservationList){
-
-    const BASE_URL = "http://localhost:8080/api";
+function renderButtons(reservationID, status, reservationList, setReservationList, reservationNumber, props){
 
 
     const sendCancelRequest = async () => {
@@ -21,7 +17,7 @@ function renderButtons(reservationID, status, reservationList, setReservationLis
         try{
             const token = Cookies.get("token");
 
-            const response = await axios.post(`${BASE_URL}/reservation/cancelRequest`,
+            const response = await axios.post(`/reservation/cancelRequest`,
                 {
                     id: parseInt(reservationID)
                 },
@@ -30,23 +26,23 @@ function renderButtons(reservationID, status, reservationList, setReservationLis
                 }
             )
 
-            const updatedReservation = {
-                ...reservationList.find(reservation => reservation.id === reservationID),
-                status: "CANCEL_REQUEST"
-            };
 
             const updatedReservationList = reservationList.map(reservation => {
                 if (reservation.id === reservationID) {
-                    return updatedReservation;
+                    return response.data;
                 }
                 return reservation;
             });
 
             setReservationList(updatedReservationList);
-
+            props.setType("success");
+            props.setNotificationMessage(`Wysłano prośbę o anulowanie rezerwacji o numerze: ${reservationNumber}`);
+            props.setNavBarOpen(true);
 
         }catch(error){
-            console.log(error)
+            props.setType("error");
+            props.setNotificationMessage(error?.response?.data?.message ? error.response.data.message : "Przepraszamy wystąpił błąd w trakcie komunikacji z serwerem");
+            props.setNavBarOpen(true);
         }
 
     }
@@ -115,7 +111,7 @@ export default function UserReservation(props) {
                     className="flex flex-col justify-center items-center h-full w-full">
 
                     {reservationList.length > 0 && reservationList.map((reservation) => (
-                        <RoomTemplate key={reservation.id}  reservation={reservation} renderButtons={renderButtons(reservation.id, reservation.status, reservationList, setReservationList)}/>
+                        <RoomTemplate key={reservation.id}  reservation={reservation} renderButtons={renderButtons(reservation.id, reservation.status, reservationList, setReservationList,reservation.reservationNumber, props)}/>
                     ))}
 
 

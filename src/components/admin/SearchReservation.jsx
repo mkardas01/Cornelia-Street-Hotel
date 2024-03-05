@@ -1,13 +1,13 @@
 import {Button, TextField} from "@mui/material";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faArrowRight, faSearch} from "@fortawesome/free-solid-svg-icons";
+import {faSearch} from "@fortawesome/free-solid-svg-icons";
 import {RoomTemplate} from "../templates/RoomTemplate.jsx";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import {DatePicker} from "@mui/x-date-pickers";
 import dayjs from "dayjs";
 import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
-import {useEffect, useRef, useState} from "react";
-import axios from "axios";
+import {useRef, useState} from "react";
+import axios from "../Variable/axios-instance.jsx";
 import Cookies from "js-cookie";
 import MenageButtons from "./MenageButtons.jsx";
 import DialogWindow from "./DialogWindow.jsx";
@@ -39,7 +39,7 @@ export default function SearchReservation(props) {
         const token = Cookies.get("token");
 
         try{
-            const response = await axios.post(`${BASE_URL}/admin/searchReservation`,
+            const response = await axios.post(`/admin/searchReservation`,
                 {
                     reservationNumber: reservationNumber,
                     email: email,

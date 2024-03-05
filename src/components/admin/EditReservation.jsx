@@ -5,7 +5,7 @@ import SendIcon from "@mui/icons-material/Send";
 import {useLocation, useNavigate,} from "react-router-dom";
 import {TextField} from "@mui/material";
 import dayjs from "dayjs";
-import axios from "axios";
+import axios from "../Variable/axios-instance.jsx";
 import Cookies from "js-cookie";
 import {useEffect, useState} from "react";
 import {statusMessages} from "../Variable/ReservationStatus.jsx";
@@ -29,8 +29,6 @@ export default function EditReservation(props){
 
     const [disabled, setDisabled] = useState(false);
 
-    const BASE_URL = "http://localhost:8080/api";
-
     useEffect(() => {
         if (!reservation) {
             navigate(-1, { replace: true });
@@ -41,7 +39,7 @@ export default function EditReservation(props){
         try{
             const token = Cookies.get("token");
 
-            const response = await axios.post(`${BASE_URL}/admin/edit`,
+            const response = await axios.post(`/admin/edit`,
                 {
                     id: parseInt(reservation.id),
                     name:name,

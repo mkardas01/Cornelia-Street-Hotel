@@ -1,17 +1,13 @@
 import {RoomTemplate} from "../templates/RoomTemplate.jsx";
 import {useEffect, useState} from "react";
-import axios from "axios";
+import axios from "../Variable/axios-instance.jsx";
 import Cookies from "js-cookie";
-import {Button} from "@mui/material";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faArrowRight} from "@fortawesome/free-solid-svg-icons";
 import DialogWindow from "./DialogWindow.jsx";
 import MenageButtons from "./MenageButtons.jsx";
 
 
 export default function CancelRequest(props) {
 
-    const BASE_URL = "http://localhost:8080/api";
     const [open, setOpen] = useState({status: false, action: null});
     const [reservations, setReservations] = useState([]);
     const getReservations = async () => {
@@ -19,7 +15,7 @@ export default function CancelRequest(props) {
         const token = Cookies.get("token");
 
         try {
-            const response = await axios.post(`${BASE_URL}/admin/cancelRequests`, {}, {
+            const response = await axios.post(`/admin/cancelRequests`, {}, {
                 headers: { "Authorization": `Bearer ${token}` }
             });
 

@@ -16,8 +16,7 @@ import SendIcon from '@mui/icons-material/Send';
 import dayjs from "dayjs";
 import "dayjs/locale/pl";
 
-import axios from 'axios';
-import NotificationBar from "./templates/NotificationBar.jsx";
+import axios from "./Variable/axios-instance.jsx";
 import PropTypes from "prop-types";
 import {MainPicWithArrow} from "./templates/MainPicWithArrow.jsx";
 
@@ -61,9 +60,6 @@ export default function Home(props) {
 
     const scrollDownDiv = useRef(null);
 
-
-    const BASE_URL = "http://localhost:8080/api/";
-
     dayjs.locale('pl');
 
     useEffect(() => {
@@ -97,7 +93,7 @@ export default function Home(props) {
     const getAvailableRooms = async (startDate, endDate) => {
         setLoading(true);
         try {
-            const response = await axios.get(`${BASE_URL}room/find`, {
+            const response = await axios.get(`/room/find`, {
                 params: {
                     startDate: dayjs(startDate).format("YYYY-MM-DD"),
                     endDate: dayjs(endDate).format("YYYY-MM-DD")
