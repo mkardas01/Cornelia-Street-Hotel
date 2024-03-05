@@ -2,12 +2,13 @@ import SearchReservation from "./SearchReservation.jsx";
 import mainPic from "/assets/front.png";
 import TodaysReservations from "./TodaysReservations.jsx";
 import CancelRequest from "./CancelRequest.jsx";
-import {Link, NavLink} from "react-router-dom";
+import {NavLink} from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import EditReservation from "./EditReservation.jsx";
+import { motion} from "framer-motion";
 
 
-export default function AdminPanel(){
+export default function AdminPanel({setType, setNotificationMessage, setNavBarOpen}){
 
     const options = [
         { name: 'Dzisiejsze rezerwacje', link: '/admin/todays'},
@@ -20,13 +21,21 @@ export default function AdminPanel(){
     const path = location.pathname;
     const option = path.substring(path.lastIndexOf("/") + 1);
 
+    const notificationProps = {
+        setType: setType,
+        setNotificationMessage: setNotificationMessage,
+        setNavBarOpen: setNavBarOpen
+    };
 
     return(
         <>
-            <div className="flex w-full min-h-screen">
+            <motion.div className="flex flex-col w-full min-h-screen md:flex-row"
+                        initial={{opacity: 0}}
+                        animate={{opacity: 1}}
+                        transition={{duration: 0.7, ease: "easeIn"}} >
 
                 <div
-                    className="sticky top-0 left-0 h-screen flex flex-col justify-center text-left space-y-5 bg-gray-200 px-14 w-1/5">
+                    className=" flex flex-col justify-center items-center space-y-5 bg-gray-200 px-14 py-14 md:w-1/5 md:h-screen md:text-left md:top-0 md:sticky md:py-0 md:left-0">
                     {options.map((option, index) => (
                         <NavLink
                             to={{pathname: option.link}}
@@ -41,7 +50,7 @@ export default function AdminPanel(){
                     ))}
                 </div>
 
-                <div className="flex justify-center items-center w-4/5 ml-1/5 "
+                <div className="flex justify-center items-center h-fit min-h-screen md:w-4/5 md:ml-1/5 "
                      style={{
                          backgroundImage: `url(${mainPic})`,
                          backgroundSize: 'cover',
@@ -56,13 +65,16 @@ export default function AdminPanel(){
                         </h1>
                     )}
 
-                    {option === "search" && <SearchReservation/>}
-                    {option === "todays" && <TodaysReservations/>}
-                    {option === "cancel" && <CancelRequest/>}
-                    {option === "edit" && <EditReservation />}
+                    {option === "search" && <SearchReservation {...notificationProps} />}
+
+                    {option === "todays" && <TodaysReservations {...notificationProps}/>}
+
+                    {option === "cancel" && <CancelRequest {...notificationProps}/>}
+
+                    {option === "edit" && <EditReservation {...notificationProps}/>}
 
                 </div>
-            </div>
+            </motion.div>
         </>
     )
 

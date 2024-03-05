@@ -126,13 +126,13 @@ export default function NavBar(props) {
 
             {isMobile && transition(
                 (styles, item) => item &&
-                    <animated.div style={{ ...styles, backgroundColor: '#2d2d33' }} className="text-white h-52 fixed top-0 w-full z-10">
+                    <animated.div style={{ ...styles, backgroundColor: '#2d2d33' }} className="text-white h-fit fixed top-0 w-full z-10">
                         <div className="mx-8 space-y-4 p-4 pb-8 md:hidden">
                             <span className="flex justify-start text-2xl hover:cursor-pointer w-fit " onClick={toggleNavbar}> x </span>
                             <div className="flex flex-col justify-center items-center space-y-4 font-bold">
                                 {options.map((option, index) => (
                                     <AnimatedSpan key={index} action={toggleNavbar}>
-                                        {option.name}
+                                        <Link to={{pathname: option.link}}> {option.name} </Link>
                                     </AnimatedSpan>
                                 ))}
                             </div>

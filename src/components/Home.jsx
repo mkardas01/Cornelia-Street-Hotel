@@ -16,10 +16,10 @@ import SendIcon from '@mui/icons-material/Send';
 import dayjs from "dayjs";
 import "dayjs/locale/pl";
 
-import axios from 'axios';
-import NotificationBar from "./templates/NotificationBar.jsx";
+import axios from "./Variable/axios-instance.jsx";
 import PropTypes from "prop-types";
 import {MainPicWithArrow} from "./templates/MainPicWithArrow.jsx";
+import {Box, FormControl, InputLabel, MenuItem, Select} from "@mui/material";
 
 Arrow.propTypes = {
     scrollDown: PropTypes.func.isRequired,
@@ -44,10 +44,11 @@ function Arrow({ scrollDown }) {
 }
 
 
-export default function Home() {
+export default function Home(props) {
 
     const [arrivalDate, setArrivalDate] = useState(dayjs());
     const [departureDate, setDepartureDate] = useState(dayjs().add(1, 'day'));
+    const [size, setSize] = useState(2);
 
     const [rooms, setRooms] = useState([]);
     const [showRoom, setShowRoom] = useState(false);
@@ -56,17 +57,10 @@ export default function Home() {
 
     const [days, setDays] = useState(0);
 
-    const [notificationMessage, setNotificationMessage] = useState("");
-    const [notificationType, setNotificationType] = useState("error");
-    const [openNotificationBar, setOpenNotificationBar] = useState(false);
-
     const [loading, setLoading] = useState(false);
     const [disableButton, setDisableButton] = useState(false);
 
     const scrollDownDiv = useRef(null);
-
-
-    const BASE_URL = "http://localhost:8080/api/";
 
     dayjs.locale('pl');
 
@@ -74,20 +68,20 @@ export default function Home() {
 
         if(arrivalDate.isAfter(departureDate)){
 
-            setNotificationMessage("Data przyjazdu musi być wcześniejsza niż data wyjazdu");
-            setNotificationType("error");
-            setOpenNotificationBar(true);
+            props.setNotificationMessage("Data przyjazdu musi być wcześniejsza niż data wyjazdu");
+            props.setType("error");
+            props.setNavBarOpen(true);
             setDisableButton(true);
 
         }else if (arrivalDate.startOf('day').isBefore(dayjs().startOf('day'))) {
-            setNotificationMessage("Data nie może być z przeszłości");
-            setNotificationType("error");
-            setOpenNotificationBar(true);
+            props. setNotificationMessage("Data nie może być z przeszłości");
+            props.setType("error");
+            props.setNavBarOpen(true);
             setDisableButton(true);
         }else if(!arrivalDate.isValid() || !departureDate.isValid()){
-            setNotificationMessage("Wprowadzono niepoprawny format day");
-            setNotificationType("error");
-            setOpenNotificationBar(true);
+            props.setNotificationMessage("Wprowadzono niepoprawny format day");
+            props.setType("error");
+            props.setNavBarOpen(true);
             setDisableButton(true);
         }
         else{
@@ -101,10 +95,11 @@ export default function Home() {
     const getAvailableRooms = async (startDate, endDate) => {
         setLoading(true);
         try {
-            const response = await axios.get(`${BASE_URL}room/find`, {
+            const response = await axios.get(`/room/find`, {
                 params: {
                     startDate: dayjs(startDate).format("YYYY-MM-DD"),
-                    endDate: dayjs(endDate).format("YYYY-MM-DD")
+                    endDate: dayjs(endDate).format("YYYY-MM-DD"),
+                    size: size
                 }
             });
 
@@ -113,31 +108,27 @@ export default function Home() {
                 setShowRoom(true);
                 setShowDatePicker(false)
                 setDays(dayjs(endDate).diff(startDate, 'days'))
-                setNotificationType("success");
-                setNotificationMessage("Znaleźliśmy dla Państwa ofertę");
-                setOpenNotificationBar(true);
+                props.setType("success");
+                props.setNotificationMessage("Znaleźliśmy dla Państwa ofertę");
+                props.setNavBarOpen(true);
             }else{
-                setNotificationType("error");
-                setNotificationMessage("Brak dostępnych pokoi w tym terminie");
-                setOpenNotificationBar(true);
+                props.setType("error");
+                props.setNotificationMessage("Brak dostępnych pokoi w tym terminie");
+                props.setNavBarOpen(true);
             }
 
         } catch (error) {
-            setNotificationType("error");
-            setOpenNotificationBar(true);
-            setNotificationMessage(error?.response?.data?.message ? error.response.data.message : "Przepraszamy wystąpił błąd w trakcie komunikacji z serwerem");
+            props.setType("error");
+            props.setOpenNotificationBar(true);
+            props.setNavBarOpen(error?.response?.data?.message ? error.response.data.message : "Przepraszamy wystąpił błąd w trakcie komunikacji z serwerem");
 
         } finally {
             setLoading(false);
         }
     }
 
-
     return (
         <>
-
-            <NotificationBar type={notificationType} notificationMessage={notificationMessage} open={openNotificationBar} setOpen={setOpenNotificationBar}/>
-
 
             <motion.div
                 initial={{opacity: 0}}
@@ -208,6 +199,26 @@ export default function Home() {
 
 
                                         </LocalizationProvider>
+
+
+
+                                        <Box sx={{ minWidth: 160 }}>
+                                            <FormControl fullWidth>
+                                                <InputLabel id="size-label">Rozmiar pokoju</InputLabel>
+                                                <Select
+                                                    labelId="size-label"
+                                                    id="fSize"
+                                                    value={size}
+                                                    label="Rozmiar pokoju"
+                                                    onChange={(e) => setSize(parseInt(e.target.value))}
+                                                >
+                                                    <MenuItem value={1}>1</MenuItem>
+                                                    <MenuItem value={2}>2</MenuItem>
+                                                    <MenuItem value={3}>3</MenuItem>
+                                                    <MenuItem value={4}>4</MenuItem>
+                                                </Select>
+                                            </FormControl>
+                                        </Box>
 
 
                                         <LoadingButton

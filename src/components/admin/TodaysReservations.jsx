@@ -1,15 +1,11 @@
 import { RoomTemplate } from "../templates/RoomTemplate.jsx";
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
-import axios from "axios";
+import axios from "../Variable/axios-instance.jsx";
 import MenageButtons from "./MenageButtons.jsx";
 import DialogWindow from "./DialogWindow.jsx";
-
-
-
-
-export default function TodaysReservations() {
-    const BASE_URL = "http://localhost:8080/api";
+import {motion} from "framer-motion";
+export default function TodaysReservations(props) {
 
     const [reservations, setReservations] = useState([]);
 
@@ -20,12 +16,19 @@ export default function TodaysReservations() {
 
     const getTodaysReservations = async () => {
         try {
-            const response = await axios.post(`${BASE_URL}/admin/todaysReservations`, {}, {
+            const response = await axios.post(`/admin/todaysReservations`, {}, {
                 headers: { "Authorization": `Bearer ${token}` }
             });
             setReservations(response.data);
+
+            props.setType("success");
+            props.setNotificationMessage(`Znaleziona ilośc rezerwacji: ${response.data.length}`)
+            props.setNavBarOpen(true);
+
         } catch (error) {
-            console.error(error);
+            props.setType("error");
+            props.setNotificationMessage(error?.response?.data?.message ? error.response.data.message : "Przepraszamy wystąpił błąd w trakcie komunikacji z serwerem");
+            props.setNavBarOpen(true);
         }
     }
 
@@ -35,9 +38,14 @@ export default function TodaysReservations() {
 
     return (
         <>
-            <DialogWindow open={open} setOpen={setOpen} reservations={reservations} setReservations={setReservations}/>
+            <DialogWindow open={open} setOpen={setOpen} reservations={reservations} setReservations={setReservations}
+                          {...props} />
 
-            <div className={`flex flex-col items-center justify-center max-w-6xl ${reservations ? 'mt-24' : ''}`}>
+            <motion.div className={`flex flex-col items-center justify-center max-w-6xl ${reservations ? 'mt-24' : ''}`}
+                        initial={{opacity: 0}}
+                        animate={{opacity: 1}}
+                        transition={{duration: 0.7, ease: "easeIn"}}
+            >
                 {reservations.length > 0 ? (
                     reservations.map((reservation, index) => (
                         <RoomTemplate key={index} reservation={reservation} renderButtons={MenageButtons(reservation.startDate, setOpen, reservation.id, reservation.reservationNumber, reservation.status, reservation)}/>
@@ -57,7 +65,7 @@ export default function TodaysReservations() {
                         </div>
                     </div>
                 )}
-            </div>
+            </motion.div>
         </>
     );
 

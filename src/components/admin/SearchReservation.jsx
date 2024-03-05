@@ -1,21 +1,20 @@
 import {Button, TextField} from "@mui/material";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faArrowRight, faSearch} from "@fortawesome/free-solid-svg-icons";
+import {faSearch} from "@fortawesome/free-solid-svg-icons";
 import {RoomTemplate} from "../templates/RoomTemplate.jsx";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import {DatePicker} from "@mui/x-date-pickers";
 import dayjs from "dayjs";
 import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
-import {useEffect, useRef, useState} from "react";
-import axios from "axios";
+import {useRef, useState} from "react";
+import axios from "../Variable/axios-instance.jsx";
 import Cookies from "js-cookie";
 import MenageButtons from "./MenageButtons.jsx";
 import DialogWindow from "./DialogWindow.jsx";
+import {motion} from "framer-motion";
 
+export default function SearchReservation(props) {
 
-export default function SearchReservation() {
-
-    const BASE_URL = "http://localhost:8080/api";
 
     const [email, setEmail] = useState();
     const [surname, setSurname] = useState();
@@ -39,7 +38,7 @@ export default function SearchReservation() {
         const token = Cookies.get("token");
 
         try{
-            const response = await axios.post(`${BASE_URL}/admin/searchReservation`,
+            const response = await axios.post(`/admin/searchReservation`,
                 {
                     reservationNumber: reservationNumber,
                     email: email,
@@ -55,27 +54,38 @@ export default function SearchReservation() {
             setReservations(response.data);
             setSearched(true);
 
+            props.setType("success");
+            props.setNotificationMessage(`Znaleziona ilośc rezerwacji: ${response.data.length}`)
+            props.setNavBarOpen(true);
+
             setTimeout(() => {
                 scrollDown();
             }, 100);
 
         }catch(error){
-            console.log(error);
+            props.setType("error");
+            props.setNotificationMessage(error?.response?.data?.message ? error.response.data.message : "Przepraszamy wystąpił błąd w trakcie komunikacji z serwerem");
+            props.setNavBarOpen(true);
         }
     }
 
 
     return(
         <>
-            <DialogWindow open={open} setOpen={setOpen} reservations={reservations} setReservations={setReservations}/>
+            <DialogWindow open={open} setOpen={setOpen} reservations={reservations} setReservations={setReservations}
+                          {...props} />
 
-            <div className="flex flex-col items-center justify-center max-w-7xl ">
-                <div className="flex justify-center items-center  h-screen">
+            <motion.div className="flex flex-col items-center justify-center max-w-7xl "
+                        initial={{opacity: 0}}
+                        animate={{opacity: 1}}
+                        transition={{duration: 0.7, ease: "easeIn"}}
+            >
+                <div className="flex justify-center items-center h-screen px-10">
                     <div className="sticky top-5 bg-gray-50 p-8 h-fit rounded-3xl">
 
                         <h1 className="pb-4 font-semibold ">Wypełnij te pola na podstawie których chcesz wyszukać rezerwacji</h1>
 
-                        <div className="flex items-center justify-between space-x-5 ">
+                        <div className="grid grid-cols-2 gap-4 md:space-x-1 md:flex md:items-center md:justify-between">
                             <TextField
                                 id="fReservation"
                                 label="Numer rezerwacji"
@@ -99,6 +109,7 @@ export default function SearchReservation() {
                                 <DatePicker
                                     label="Dzień przyjazdu"
                                     format="DD/MM/YYYY"
+                                    value={arrivalDate}
                                     onChange={(newValue) => setArrivalDate(newValue)}
 
                                 />
@@ -106,6 +117,7 @@ export default function SearchReservation() {
                                 <DatePicker
                                     label="Dzień wyjazdu"
                                     format="DD/MM/YYYY"
+                                    value={departureDate}
                                     onChange={(newValue) => setDepartureDate(newValue)}
 
                                 />
@@ -126,11 +138,15 @@ export default function SearchReservation() {
                     </div>
                 </div>
 
-                <div className="flex flex-col justify-center items-center" ref={scrollDownDiv}>
+                <motion.div className="flex flex-col justify-center items-center" ref={scrollDownDiv}
+                            initial={{scaleX: 0}}
+                            animate={{scaleX: 1, originY: 0}}
+                            transition={{delay:0.9, duration: 1, ease: "easeIn"}}
+                >
                     {searched && reservations.length === 0 ? (
-                        <div className="h-96">
+                        <div className="h-96 px-20 py-20 h-fit">
                             <div
-                                className="bg-gray-100 flex flex-col justify-center items-center rounded-3xl text-center py-20 ">
+                                className="bg-gray-100 flex flex-col justify-center items-center rounded-3xl text-center  py-20 ">
                                 <div className="space-y-3 px-10 mx-4">
                                     <h1 className="text-5xl font-serif">Nie znaleziono żadnej rezerwacji.</h1>
                                     <h2 style={{color: '#a29010'}} className="text-xl">
@@ -144,10 +160,10 @@ export default function SearchReservation() {
                             <RoomTemplate key={index} reservation={reservation} renderButtons={MenageButtons(reservation.startDate, setOpen, reservation.id, reservation.reservationNumber, reservation.status, reservation)}/>
                         ))
                     )}
-                </div>
+                </motion.div>
 
 
-            </div>
+            </motion.div>
         </>
     )
 

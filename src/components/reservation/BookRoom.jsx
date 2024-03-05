@@ -4,7 +4,6 @@ import {useState} from "react";
 import SendIcon from "@mui/icons-material/Send.js";
 import LoadingButton from "@mui/lab/LoadingButton";
 
-import {BackHome} from "../templates/BackHome.jsx";
 import {motion} from "framer-motion";
 
 import { jwtDecode } from 'jwt-decode'
@@ -13,23 +12,20 @@ import {useLocation, useNavigate, useParams} from 'react-router-dom';
 import { useEffect } from 'react';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {faArrowLeft, faArrowRight} from "@fortawesome/free-solid-svg-icons";
+import {faArrowRight} from "@fortawesome/free-solid-svg-icons";
 
-import axios from 'axios';
+import axios from "../Variable/axios-instance.jsx";
 
 import dayjs from "dayjs";
 import "dayjs/locale/pl";
-import NotificationBar from "../templates/NotificationBar.jsx";
 import Cookies from "js-cookie";
+import {isAndroid} from "@mui/x-date-pickers/internals/hooks/useField/useField.utils.js";
 
-export default function BookRoom( ) {
-
-    const BASE_URL = "http://localhost:8080/api/";
+export default function BookRoom(props) {
 
     const [loading, setLoading] = useState(false);
 
     const navigate = useNavigate();
-
 
     const {id} = useParams();
     const room = useLocation().state?.room;
@@ -51,11 +47,6 @@ export default function BookRoom( ) {
     const [phoneError, setPhoneError] = useState('');
 
 
-    const [notificationMessage, setNotificationMessage] = useState("");
-    const [notificationType, setNotificationType] = useState("error");
-    const [openNotificationBar, setOpenNotificationBar] = useState(false);
-
-
     const [bookingResults, setBookingResults] = useState(false);
     const [bookingResultsData, setBookingResultsData] = useState();
 
@@ -73,7 +64,7 @@ export default function BookRoom( ) {
     }
 
     useEffect(() => {
-        if (user && !name && !surname && !email) {
+        if (user && !name && !surname && !email && !props.isAdmin) {
             setName(user.name || '');
             setSurname(user.surname || '');
             setEmail(user.sub || '');
@@ -98,7 +89,7 @@ export default function BookRoom( ) {
         try {
             setLoading(true)
 
-            const response = await axios.post(`${BASE_URL}reservation/reserve/${id}`, {
+            const response = await axios.post(`/reservation/reserve/${id}`, {
                     name: name,
                     surname: surname,
                     email: email,
@@ -113,14 +104,14 @@ export default function BookRoom( ) {
 
             setBookingResultsData(response.data);
             setBookingResults(true);
-            setNotificationType("success");
-            setNotificationMessage("Pokój został zarezerwowany");
-            setOpenNotificationBar(true);
+            props.setType("success");
+            props.setNotificationMessage("Pokój został zarezerwowany");
+            props.setNavBarOpen(true);
 
         } catch (error) {
-            setNotificationType("error");
-            setOpenNotificationBar(true);
-            setNotificationMessage(error?.response?.data?.message ? error.response.data.message : "Przepraszamy wystąpił błąd w trakcie komunikacji z serwerem");
+            props.setType("error");
+            props.setNotificationMessage(error?.response?.data?.message ? error.response.data.message : "Przepraszamy wystąpił błąd w trakcie komunikacji z serwerem");
+            props.setNavBarOpen(true);
 
         } finally {
             setLoading(false);
@@ -167,11 +158,10 @@ export default function BookRoom( ) {
             sendReservation();
     }
 
+    console.log(Object.keys(user).length, props.isAdmin)
 
     return (
         <>
-            <NotificationBar type={notificationType} notificationMessage={notificationMessage}
-                             open={openNotificationBar} setOpen={setOpenNotificationBar}/>
 
             <motion.div
                 initial={{opacity:0}}
@@ -197,11 +187,11 @@ export default function BookRoom( ) {
                                     }}
                                     label="Imię"
                                     variant="outlined"
-                                    value={user && user.name ? user.name : name}
+                                    value={user && user.name && !props.isAdmin ? user.name : name}
                                     required
                                     error={nameError.length > 0}
                                     helperText={nameError}
-                                    disabled={Object.keys(user).length === 0 ? false : true}
+                                    disabled={Object.keys(user).length === 0 || props.isAdmin ? false : true}
                                 />
 
                                 <TextField
@@ -212,11 +202,11 @@ export default function BookRoom( ) {
                                     }}
                                     label="Nazwisko"
                                     variant="outlined"
-                                    value={user && user.surname ? user.surname : surname}
+                                    value={user && user.surname && !props.isAdmin ? user.surname : surname}
                                     required
                                     error={surnameError.length > 0}
                                     helperText={surnameError}
-                                    disabled={Object.keys(user).length === 0 ? false : true}
+                                    disabled={Object.keys(user).length === 0 || props.isAdmin ? false : true}
                                 />
 
 
@@ -228,11 +218,11 @@ export default function BookRoom( ) {
                                     }}
                                     label="Email"
                                     variant="outlined"
-                                    value={user && user.sub ? user.sub : email}
+                                    value={user && user.sub && !props.isAdmin ? user.sub : email}
                                     required
                                     error={emailError.length > 0}
                                     helperText={emailError}
-                                    disabled={Object.keys(user).length === 0 ? false : true}
+                                    disabled={Object.keys(user).length === 0 || props.isAdmin ? false : true}
                                 />
 
                                 <TextField

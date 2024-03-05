@@ -5,12 +5,12 @@ import SendIcon from "@mui/icons-material/Send";
 import {useLocation, useNavigate,} from "react-router-dom";
 import {TextField} from "@mui/material";
 import dayjs from "dayjs";
-import axios from "axios";
+import axios from "../Variable/axios-instance.jsx";
 import Cookies from "js-cookie";
 import {useEffect, useState} from "react";
 import {statusMessages} from "../Variable/ReservationStatus.jsx";
-
-export default function EditReservation(){
+import {motion} from "framer-motion";
+export default function EditReservation(props){
 
     const navigate = useNavigate();
     const data = useLocation().state?.reservation;
@@ -29,8 +29,6 @@ export default function EditReservation(){
 
     const [disabled, setDisabled] = useState(false);
 
-    const BASE_URL = "http://localhost:8080/api";
-
     useEffect(() => {
         if (!reservation) {
             navigate(-1, { replace: true });
@@ -41,7 +39,7 @@ export default function EditReservation(){
         try{
             const token = Cookies.get("token");
 
-            const response = await axios.post(`${BASE_URL}/admin/edit`,
+            const response = await axios.post(`/admin/edit`,
                 {
                     id: parseInt(reservation.id),
                     name:name,
@@ -55,7 +53,9 @@ export default function EditReservation(){
                 }
             )
 
-            console.log(response);
+            props.setType("success");
+            props.setNotificationMessage(`Poprawnie zaaktualizowano rezerwacje o numerze: ${response.data.reservationNumber}`)
+            props.setNavBarOpen(true);
 
             setReservation(response.data)
             setDisabled(true);
@@ -67,7 +67,9 @@ export default function EditReservation(){
 
 
         }catch (error){
-            console.log(error)
+            props.setType("error");
+            props.setNotificationMessage(error?.response?.data?.message ? error.response.data.message : "Przepraszamy wystąpił błąd w trakcie komunikacji z serwerem");
+            props.setNavBarOpen(true);
         }
     }
 
@@ -118,8 +120,12 @@ export default function EditReservation(){
 
         return(
             <>
-                <div
-                     className="flex flex-col justify-center items-center bg-cover bg-center w-4/5 h-fit md:h-screen">
+                <motion.div
+                     className="flex flex-col justify-center items-center bg-cover bg-center w-4/5 h-fit md:h-screen"
+                     initial={{opacity: 0}}
+                     animate={{opacity: 1}}
+                     transition={{duration: 0.7, ease: "easeIn"}}
+                >
                     <div
                         className="flex flex-col justify-center items-center my-32 space-y-5 w-full h-fit md:flex-row md:space-x-5 md:space-y-0">
                         <div
@@ -241,7 +247,7 @@ export default function EditReservation(){
                             </div>
                         </div>
                     </div>
-                </div>
+                </motion.div>
             </>
         )
 }
