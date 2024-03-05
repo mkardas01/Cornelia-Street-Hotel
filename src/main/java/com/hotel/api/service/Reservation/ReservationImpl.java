@@ -7,6 +7,7 @@ import com.hotel.api.model.reservation.Reservation;
 import com.hotel.api.model.ReservationDTO;
 import com.hotel.api.model.Room;
 import com.hotel.api.model.reservation.Status;
+import com.hotel.api.model.user.Role;
 import com.hotel.api.model.user.User;
 import com.hotel.api.repository.ReservationRepository;
 import com.hotel.api.repository.RoomRepository;
@@ -86,28 +87,45 @@ public class ReservationImpl implements ReservationService{
 
     private Reservation createReservation(NewReservationDTO reservationDTO, LocalDate startDate, LocalDate endDate,
                                           Room room, HttpServletRequest request) {
+
+        String token = request.getHeader("Authorization");
+        String username = reservationDTO.getEmail();
+        String role = "USER";
+        User user = userRepository.findByEmail(username).orElse(null);
+
+        if (token == null && user != null)
+            throw new UserError("Aby dokonać rezerwacji na ten email, należy się zalogować");
+
+        if (token != null) {
+
+            token = token.substring(7);
+            username = jwtService.extractUserName(token);
+            role = jwtService.extractRole(token);
+
+            if (user == null || (!Objects.equals(username, user.getEmail()) && !Objects.equals(role, "ADMIN")))
+                throw new UserError("Aby dokonać rezerwacji na ten email, należy się zalogować");
+
+            else if (Objects.equals(role, "ADMIN")) {
+                username = reservationDTO.getEmail();
+            }
+
+            user = userRepository.findByEmail(username).orElse(null);
+        }
+
+
         Reservation reservation = Reservation.builder()
                 .name(reservationDTO.getName())
                 .surname(reservationDTO.getSurname())
-                .email(reservationDTO.getEmail())
+                .email(username)
                 .phone(reservationDTO.getPhone())
                 .startDate(startDate)
                 .endDate(endDate)
                 .reservationNumber(UUID.randomUUID().toString().substring(0, 6).toUpperCase())
                 .room(room)
                 .status(Status.ACCEPTED)
+                .user(user)
                 .build();
 
-        String token = request.getHeader("Authorization");
-
-        User user = null;
-
-        if (token != null) {
-            String username = jwtService.extractUserName(token.substring(7));
-            user = userRepository.findByEmail(username).orElseThrow(() -> new UserNotFoundException("Twoje konto nie istnieje"));
-        }
-
-        reservation.setUser(user);
 
         try {
             return reservationRepository.save(reservation);

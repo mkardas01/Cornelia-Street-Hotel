@@ -26,6 +26,10 @@ public class JwtService implements JwtInterface{
 
     }
 
+    public String extractRole(String token){
+        return extractClaim(token, claims -> claims.get("role", String.class));
+    }
+
     private Date extractExpiration(String token) {
         return extractClaim(token, Claims::getExpiration);
     }
