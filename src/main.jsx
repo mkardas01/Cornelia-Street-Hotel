@@ -70,7 +70,7 @@ export default function App() {
                                  open={openNotificationBar} setOpen={setOpenNotificationBar}/>
                 <Routes>
 
-                    <Route path="/" element={<Home/>}/>
+                    <Route path="/" element={<Home {...notificationProps} />}/>
                     <Route path="/bookRoom/:id" element={<> <BookRoom {...notificationProps} /> <BackHome/> </>}/>
 
                     <Route element={<ProtectedRoute isLoggedIn={!isLoggedIn}/>}>
