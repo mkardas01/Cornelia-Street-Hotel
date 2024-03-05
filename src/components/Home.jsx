@@ -19,6 +19,7 @@ import "dayjs/locale/pl";
 import axios from "./Variable/axios-instance.jsx";
 import PropTypes from "prop-types";
 import {MainPicWithArrow} from "./templates/MainPicWithArrow.jsx";
+import {Box, FormControl, InputLabel, MenuItem, Select} from "@mui/material";
 
 Arrow.propTypes = {
     scrollDown: PropTypes.func.isRequired,
@@ -47,6 +48,7 @@ export default function Home(props) {
 
     const [arrivalDate, setArrivalDate] = useState(dayjs());
     const [departureDate, setDepartureDate] = useState(dayjs().add(1, 'day'));
+    const [size, setSize] = useState('');
 
     const [rooms, setRooms] = useState([]);
     const [showRoom, setShowRoom] = useState(false);
@@ -96,7 +98,8 @@ export default function Home(props) {
             const response = await axios.get(`/room/find`, {
                 params: {
                     startDate: dayjs(startDate).format("YYYY-MM-DD"),
-                    endDate: dayjs(endDate).format("YYYY-MM-DD")
+                    endDate: dayjs(endDate).format("YYYY-MM-DD"),
+                    size: size
                 }
             });
 
@@ -123,7 +126,6 @@ export default function Home(props) {
             setLoading(false);
         }
     }
-
 
     return (
         <>
@@ -197,6 +199,26 @@ export default function Home(props) {
 
 
                                         </LocalizationProvider>
+
+
+
+                                        <Box sx={{ minWidth: 160 }}>
+                                            <FormControl fullWidth>
+                                                <InputLabel id="size-label">Rozmiar pokoju</InputLabel>
+                                                <Select
+                                                    labelId="size-label"
+                                                    id="fSize"
+                                                    value={size}
+                                                    label="Rozmiar pokoju"
+                                                    onChange={(e) => setSize(parseInt(e.target.value))}
+                                                >
+                                                    <MenuItem value={1}>1</MenuItem>
+                                                    <MenuItem value={2}>2</MenuItem>
+                                                    <MenuItem value={3}>3</MenuItem>
+                                                    <MenuItem value={4}>4</MenuItem>
+                                                </Select>
+                                            </FormControl>
+                                        </Box>
 
 
                                         <LoadingButton

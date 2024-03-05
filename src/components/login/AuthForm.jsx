@@ -9,8 +9,6 @@ import Cookies from 'js-cookie';
 
 export default function AuthForm(props) {
 
-    const BASE_URL = "http://localhost:8080/api/auth";
-
     const [name, setName] = useState("");
     const [surName, setSurName] = useState("");
     const [email, setEmail] = useState("");
@@ -76,7 +74,7 @@ export default function AuthForm(props) {
 
     const handleRegister = async () =>{
         try{
-            const response = await axios.post(`/register`, {
+            const response = await axios.post(`/auth/register`, {
                     name: name,
                     surname: surName,
                     email: email,
@@ -108,7 +106,7 @@ export default function AuthForm(props) {
 
     const handleLogin = async () =>{
         try{
-            const response = await axios.post(`/login`, {
+            const response = await axios.post(`/auth/login`, {
                     email: email,
                     password: password
                 }
