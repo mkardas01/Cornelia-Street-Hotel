@@ -41,6 +41,7 @@ public class AuthenticationImpl implements AuthenticationService{
         Map<String, Object> claims = new HashMap<>();
         claims.put("name", user.getName());
         claims.put("surname", user.getSurname());
+        claims.put("role", user.getRole());
 
         String jwtToken = jwtService.generateToken(claims, user);
 
