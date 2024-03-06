@@ -5,6 +5,7 @@ import com.hotel.api.dto.RoomDTO;
 import com.hotel.api.exception.BookRoomDateException;
 import com.hotel.api.mapper.Mapper;
 import com.hotel.api.model.Room;
+import com.hotel.api.model.reservation.Status;
 import com.hotel.api.repository.RoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -43,7 +44,7 @@ public class RoomImpl implements RoomService {
         else if(startDateLocal.isBefore(LocalDate.now()))
             throw new BookRoomDateException("Nie można wyszukać ofert z przeszłości");
 
-        return mapper.mapRoomToRoomDTO(roomRepository.getAvailableRooms(startDateLocal, endDateLocal, size));
+        return mapper.mapRoomToRoomDTO(roomRepository.getAvailableRooms(startDateLocal, endDateLocal, size, Status.CANCELED, Status.CANCEL_ACCEPTED, Status.NOT_ARRIVED));
 
 
     }
