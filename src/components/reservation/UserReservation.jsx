@@ -62,8 +62,6 @@ function renderButtons(reservationID, status, reservationList, setReservationLis
 
 export default function UserReservation(props) {
 
-    const BASE_URL = "http://localhost:8080/api";
-
     const [reservationList, setReservationList] = useState([]);
 
     const scrollDownDiv = useRef(null);
