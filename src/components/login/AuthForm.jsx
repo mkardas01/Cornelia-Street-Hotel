@@ -26,12 +26,11 @@ export default function AuthForm(props) {
     const redirectHome = () => {
         setTimeout(async () => {
 
-            window.location.reload();
+            window.location.href = "/";
 
         },3000);
     }
 
-    console.log(props.linkText)
 
     const valid = () => {
         let reEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
