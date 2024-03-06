@@ -21,6 +21,8 @@ export default function AuthForm(props) {
     const [passwordError, setPasswordError] = useState("");
     const [passwordRepeatError, setPasswordRepeatError] = useState("");
 
+    const [loading, setLoading] = useState(false)
+
     const redirectHome = () => {
         setTimeout(async () => {
 
@@ -28,6 +30,8 @@ export default function AuthForm(props) {
 
         },3000);
     }
+
+    console.log(props.linkText)
 
     const valid = () => {
         let reEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -74,6 +78,7 @@ export default function AuthForm(props) {
 
     const handleRegister = async () =>{
         try{
+            setLoading(true)
             const response = await axios.post(`/auth/register`, {
                     name: name,
                     surname: surName,
@@ -100,12 +105,15 @@ export default function AuthForm(props) {
             props.notification.setNotificationMessage(error?.response?.data?.message ? error.response.data.message : "Przepraszamy wystąpił błąd w trakcie komunikacji z serwerem");
             props.notification.setNavBarOpen(true);
 
+        }finally {
+            setLoading(false)
         }
 
     }
 
     const handleLogin = async () =>{
         try{
+            setLoading(true)
             const response = await axios.post(`/auth/login`, {
                     email: email,
                     password: password
@@ -127,6 +135,8 @@ export default function AuthForm(props) {
             props.notification. setNotificationMessage(error?.response?.data?.message ? error.response.data.message : "Przepraszamy wystąpił błąd w trakcie komunikacji z serwerem");
             props.notification.setNavBarOpen(true);
 
+        }finally {
+            setLoading(false)
         }
 
     }
@@ -236,6 +246,7 @@ export default function AuthForm(props) {
                     <LoadingButton
                         endIcon={<SendIcon />}
                         loadingPosition="end"
+                        loading={loading}
                         variant="filled"
                         id="submit"
                         className="col-span-2"
@@ -248,7 +259,7 @@ export default function AuthForm(props) {
                 <div className="flex flex-col md:flex-row md:space-x-2">
                     <p className="font-medium">{props.linkText}</p>
                     <Link to={{ pathname: props.linkPath }} className="font-bold hover:cursor-pointer">
-                        {props.linkText === 'Zaloguj się' ? 'Zaloguj się' : 'Zarejestruj się'}
+                        {props.buttonText}
                     </Link>
                 </div>
             </form>
