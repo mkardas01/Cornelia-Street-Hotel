@@ -71,7 +71,7 @@ export default function UserReservation(props) {
         const token = Cookies.get('token');
         const getReservations = async () => {
             try {
-                const response = await axios.post(`${BASE_URL}/reservation/getReservations`,
+                const response = await axios.post(`/reservation/getReservations`,
                     {},
                     {
                         headers: {"Authorization" : `Bearer ${token}`}
