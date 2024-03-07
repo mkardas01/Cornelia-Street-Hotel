@@ -18,14 +18,15 @@ public interface RoomRepository extends JpaRepository<Room, Integer> {
             "LEFT JOIN r.reservations res " +
             "WHERE ((res.startDate IS NULL OR res.endDate < :dateStart OR res.startDate > :dateEnd) " +
             "AND r.size = :size) " +
-            "OR (res.status IN (:canceledStatus, :cancelAcceptedStatus, :notArrivedStatus) " +
-            "AND res.startDate BETWEEN :dateStart AND :dateEnd AND res.endDate BETWEEN :dateStart AND :dateEnd)")
+            "OR ((res.status IN (:canceledStatus, :cancelAcceptedStatus, :notArrivedStatus) " +
+            "AND res.startDate <= :dateEnd AND res.endDate >= :dateStart))")
     List<Room> getAvailableRooms(@Param("dateStart") LocalDate dateStart,
                                  @Param("dateEnd") LocalDate dateEnd,
                                  @Param("size") Integer size,
                                  @Param("canceledStatus") Status canceledStatus,
                                  @Param("cancelAcceptedStatus") Status cancelAcceptedStatus,
                                  @Param("notArrivedStatus") Status notArrivedStatus);
+
 
 
     Optional<Room> getRoomById(Integer id);
