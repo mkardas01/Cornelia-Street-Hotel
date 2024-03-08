@@ -1,0 +1,389 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="c99b8a01-6d18-4999-8cae-6fb3729cb729" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/api/src/test/java/com/hotel/api/service/Reservation/ReservationImplTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/src/main/java/com/hotel/api/service/Reservation/ReservationImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/main/java/com/hotel/api/service/Reservation/ReservationImpl.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <task path="$PROJECT_DIR$">
+          <activation />
+        </task>
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="api" type="f1a62948:ProjectNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="api" type="f1a62948:ProjectNode" />
+                <item name="Dependencies" type="6de06a37:ExternalSystemViewDefaultContributor$MyDependenciesNode" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Class" />
+        <option value="JUnit5 Test Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Merge.Settings">
+    <option name="BRANCH" value="main" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/api" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;mkardas01&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">
+    <option name="selectedUrlAndAccountId">
+      <UrlAndAccount>
+        <option name="accountId" value="0c57f9de-086c-4a03-90a3-e61b1b2b1239" />
+        <option name="url" value="https://github.com/mkardas01/HotelBookingApp.git" />
+      </UrlAndAccount>
+    </option>
+  </component>
+  <component name="KubernetesApiProvider">{
+  &quot;isMigrated&quot;: true
+}</component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 5
+}</component>
+  <component name="ProjectId" id="2c6W9caJzFUHeuaYvXrasMyrY1N" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Downloaded.Files.Path.Enabled": "false",
+    "Gradle.Build api.executor": "Run",
+    "Gradle.ReservationControllerTest.executor": "Run",
+    "Gradle.ReservationImplTest.executor": "Run",
+    "Gradle.ReservationImplTest.testFindRoomById.executor": "Run",
+    "Gradle.ReservationImplTest.testFindRoomByIdValid.executor": "Run",
+    "Gradle.ReservationImplTest.testParseDateInValid.executor": "Run",
+    "Gradle.ReservationImplTest.testReserveRoom.executor": "Run",
+    "Gradle.ReservationImplTest.testReserveRoomExists.executor": "Run",
+    "Gradle.ReservationImplTest.testReserveRoomInValidDate2.executor": "Run",
+    "Gradle.ReservationImplTest.testReserveRoomRoomAvailabilityFail.executor": "Run",
+    "Gradle.ReservationImplTest.testReserveRoomRoomDoesntExist.executor": "Run",
+    "Gradle.ReservationImplTest.testReserveRoomRoomExists.executor": "Run",
+    "Gradle.ReservationImplTest.testReserveRoom_Success.executor": "Run",
+    "Gradle.ReservationImplTest.testValidReservationInvalidPhoneNumber.executor": "Run",
+    "Gradle.RoomControllerTest.executor": "Run",
+    "Gradle.RoomImplTest.executor": "Run",
+    "Gradle.RoomImplTest.testGetAvailableRooms_StartDateInPast_ThrowsException.executor": "Run",
+    "Gradle.RoomImplTest.testGetAvailableRooms_ValidDates_ReturnsListOfRooms.executor": "Run",
+    "Gradle.RoomReservationTest.testReserveRoom.executor": "Run",
+    "Gradle.api [dependencies].executor": "Run",
+    "JPA.DatabaseSchemaImportDialog": "d03b12ed-a0c5-45d0-856c-c512aa795a76",
+    "Repository.Attach.Annotations": "false",
+    "Repository.Attach.JavaDocs": "false",
+    "Repository.Attach.Sources": "false",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "Spring Boot.ApiApplication.executor": "Run",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
+    "extract.method.default.visibility": "private",
+    "git-widget-placeholder": "api",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "D:/HotelBooking/api/src/main/resources",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\HotelBooking\api\src\main\resources" />
+    </key>
+    <key name="CreateTestDialog.Recents.Supers">
+      <recent name="" />
+    </key>
+    <key name="CreateBuilderDialog.RecentsKey">
+      <recent name="com.hotel.api.model" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\HotelBooking\api\src\main\resources" />
+      <recent name="D:\HotelBooking\api\src\main\resources\keystore" />
+      <recent name="D:\HotelBooking\api\src\main\resources\certyfikaty" />
+      <recent name="D:\HotelBooking\api\src\main\java\com\hotel\api" />
+    </key>
+    <key name="ExtractSuperBase.RECENT_KEYS">
+      <recent name="com.hotel.api.exception" />
+    </key>
+    <key name="CreateTestDialog.RecentsKey">
+      <recent name="com.hotel.api.service.Reservation" />
+      <recent name="com.hotel.api.controller" />
+      <recent name="com.hotel.api.service.Room" />
+    </key>
+    <key name="ImportMappingsDialog.RecentPackages">
+      <recent name="" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Gradle.ReservationImplTest">
+    <configuration name="ReservationImplTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;com.hotel.api.service.Reservation.ReservationImplTest&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>true</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration name="ReservationImplTest.testReserveRoomExists" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;com.hotel.api.service.Reservation.ReservationImplTest.testReserveRoomExists&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>true</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration name="ReservationImplTest.testReserveRoomRoomAvailabilityFail" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;com.hotel.api.service.Reservation.ReservationImplTest.testReserveRoomRoomAvailabilityFail&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>true</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration name="ReservationImplTest.testReserveRoomRoomDoesntExist" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="--scan" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;com.hotel.api.service.Reservation.ReservationImplTest.testReserveRoomRoomDoesntExist&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>true</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration name="ReservationImplTest.testReserveRoomRoomExists" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;com.hotel.api.service.Reservation.ReservationImplTest.testReserveRoomRoomExists&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>true</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration name="ApiApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="api.main" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.hotel.api.ApiApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Gradle.ReservationImplTest" />
+        <item itemvalue="Gradle.ReservationImplTest.testReserveRoomRoomAvailabilityFail" />
+        <item itemvalue="Gradle.ReservationImplTest.testReserveRoomRoomDoesntExist" />
+        <item itemvalue="Gradle.ReservationImplTest.testReserveRoomExists" />
+        <item itemvalue="Gradle.ReservationImplTest.testReserveRoomRoomExists" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="jdk-21.0.1-openjdk-21.0.1-3183f394aec4-7d648f2c" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="c99b8a01-6d18-4999-8cae-6fb3729cb729" name="Changes" comment="" />
+      <created>1707432359795</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1707432359795</updated>
+      <workItem from="1707432361080" duration="22729000" />
+      <workItem from="1707762804461" duration="2549000" />
+      <workItem from="1707765366220" duration="16071000" />
+      <workItem from="1707913927362" duration="12897000" />
+      <workItem from="1708016490809" duration="11527000" />
+      <workItem from="1708085866126" duration="2103000" />
+      <workItem from="1708184884026" duration="14063000" />
+      <workItem from="1708260913682" duration="11891000" />
+      <workItem from="1708883526771" duration="3179000" />
+      <workItem from="1708977620911" duration="119000" />
+      <workItem from="1708977768430" duration="10757000" />
+      <workItem from="1709050210469" duration="1780000" />
+      <workItem from="1709074766454" duration="43000" />
+      <workItem from="1709129749377" duration="10339000" />
+      <workItem from="1709194299882" duration="1892000" />
+      <workItem from="1709301979982" duration="1274000" />
+      <workItem from="1709318983266" duration="7847000" />
+      <workItem from="1709394153737" duration="6643000" />
+      <workItem from="1709462510114" duration="4151000" />
+      <workItem from="1709500486076" duration="3406000" />
+      <workItem from="1709562940432" duration="11116000" />
+      <workItem from="1709627727450" duration="26054000" />
+      <workItem from="1709742367982" duration="6048000" />
+      <workItem from="1709755047943" duration="1639000" />
+      <workItem from="1709756966470" duration="366000" />
+      <workItem from="1709757391494" duration="735000" />
+      <workItem from="1709758181484" duration="10000" />
+      <workItem from="1709812582852" duration="35000" />
+      <workItem from="1709826631167" duration="8323000" />
+      <workItem from="1709841647068" duration="7164000" />
+      <workItem from="1709911042041" duration="249000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.lang.StackOverflowError" package="java.lang" />
+          <option name="timeStamp" value="2" />
+        </breakpoint>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="com.hotel.api.exception.UserError" package="com.hotel.api.exception" />
+          <option name="timeStamp" value="12" />
+        </breakpoint>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="io.jsonwebtoken.MalformedJwtException" package="io.jsonwebtoken" />
+          <option name="timeStamp" value="13" />
+        </breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>

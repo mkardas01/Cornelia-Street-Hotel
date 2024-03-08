@@ -43,6 +43,7 @@ public class ReservationImpl implements ReservationService{
 
     @Override
     public NewReservationDTO reserveRoom(NewReservationDTO reservationDTO, Integer roomID, HttpServletRequest request) {
+
         validateReservation(reservationDTO, roomID);
 
         LocalDate startDate = parseDate(reservationDTO.getStartDate());
