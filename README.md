@@ -5,7 +5,7 @@ The **Cornelia Street Hotel** is a system for reserving hotel rooms. It allows u
 
 ## Demo
 
-  - **User**:
+- **User**:
   - Email: ewa@wp.pl
   - Password: test12345
 
@@ -13,9 +13,9 @@ The **Cornelia Street Hotel** is a system for reserving hotel rooms. It allows u
   - Email: nowak@wp.pl
   - Password: test12345
 
-  The app will be accessible at http://cornelia-street-hotel.ct8.pl/
-  
 
+The app will be accessible at http://cornelia-street-hotel.ct8.pl/
+  
 
 ## License
 
