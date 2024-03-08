@@ -62,6 +62,8 @@ function renderButtons(reservationID, status, reservationList, setReservationLis
 
 export default function UserReservation(props) {
 
+    const BASE_URL = "http://localhost:8080/api";
+
     const [reservationList, setReservationList] = useState([]);
 
     const scrollDownDiv = useRef(null);
@@ -71,7 +73,7 @@ export default function UserReservation(props) {
         const token = Cookies.get('token');
         const getReservations = async () => {
             try {
-                const response = await axios.post(`/reservation/getReservations`,
+                const response = await axios.post(`${BASE_URL}/reservation/getReservations`,
                     {},
                     {
                         headers: {"Authorization" : `Bearer ${token}`}
