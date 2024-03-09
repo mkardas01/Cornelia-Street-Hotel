@@ -14,7 +14,7 @@ The **Cornelia Street Hotel** is a system for reserving hotel rooms. It allows u
   - Password: test12345
 
 
-The app will be accessible at http://cornelia-street-hotel.ct8.pl/
+The app will be accessible at http://cornelia-street-hotel.ct8.pl/ (obsługuje tylko HTTP)
   
 
 ## License
