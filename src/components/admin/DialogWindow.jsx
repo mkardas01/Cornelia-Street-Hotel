@@ -7,7 +7,7 @@ import {
     DialogTitle
 } from "@mui/material";
 import ButtonLabels from "../Variable/ButtonLabels.jsx";
-import axios from "axios";
+import axios from "../Variable/axios-instance.jsx";
 import Cookies from "js-cookie";
 
 export default function DialogWindow({open, setOpen, reservations, setReservations,setType, setNotificationMessage, setNavBarOpen }) {
