@@ -11,9 +11,6 @@ import axios from "axios";
 import Cookies from "js-cookie";
 
 export default function DialogWindow({open, setOpen, reservations, setReservations,setType, setNotificationMessage, setNavBarOpen }) {
-
-    const BASE_URL = "http://localhost:8080/api";
-
     const handleClose = () => {
         setOpen({status: false, actionID: null, action:null, reservationId: null, reservationNumber:null});
     };
@@ -22,7 +19,7 @@ export default function DialogWindow({open, setOpen, reservations, setReservatio
         try{
             const token = Cookies.get("token");
 
-            const response = await axios.post(`${BASE_URL}/admin/changeStatus`,
+            const response = await axios.post(`/admin/changeStatus`,
                 {
                     action: open.action,
                     id: parseInt(open.reservationId),
