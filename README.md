@@ -1,8 +1,23 @@
-# React + Vite
+# Cornelia Street Hotel
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+The **Cornelia Street Hotel** is a system for reserving hotel rooms. It allows users to browse available rooms, make reservations, and manage their bookings. The backend is built using **Java Spring Boot**, while the frontend is developed in **React**. Data is stored in a **MySQL** database.
 
-Currently, two official plugins are available:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Demo
+
+- **User**:
+  - Email: ewa@wp.pl
+  - Password: test12345
+
+- **Admin**:
+  - Email: nowak@wp.pl
+  - Password: test12345
+
+
+The app will be accessible at http://cornelia-street-hotel.ct8.pl/
+  
+
+## License
+
+This project is available under the MIT License. See the LICENSE file for details.
+
